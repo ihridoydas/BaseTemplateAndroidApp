@@ -1,0 +1,13 @@
+apply plugin: "io.gitlab.arturbosch.detekt"
+
+detekt {
+    config.setFrom(files("${rootProject.projectDir}/config/detekt/detekt.yml"))
+
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+        txt.required.set(true)
+        sarif.required.set(true)
+        md.required.set(true)
+    }
+}

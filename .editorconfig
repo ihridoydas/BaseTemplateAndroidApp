@@ -1,0 +1,19 @@
+root = true
+[*.{kt,kts}]
+max_line_length = 140
+indent_size = 4
+insert_final_newline = true
+ij_kotlin_allow_trailing_comma = true
+ij_kotlin_allow_trailing_comma_on_call_site = true
+ktlint_function_naming_ignore_when_annotated_with=Composable
+ktlint_standard_multiline-expression-wrapping = disabled
+ktlint_standard_string-template-indent = disabled
+
+# https://pinterest.github.io/ktlint/1.1.0/faq/
+
+# ktlint_standard = disabled # Disable all rules from the `standard` rule set provided by KtLint
+# ktlint_standard_final-newline = enabled # Enables the `final-newline` rule in the `standard` rule set provided by KtLint
+# ktlint_experimental = enabled # Enable rules marked as experimental for all rule sets that are enabled
+# ktlint_standard_some-experimental-rule = disabled # Disables the (experimental) `some-experimental-rule` in the `standard` rule set provided by KtLint
+# ktlint_custom-rule-set = enabled # Enable all rules in the `custom-rule-set` rule set (not provided by KtLint)
+# ktlint_custom-rule-set_custom-rule = disabled # Disables the `custom-rule` rule in the `custom-rule-set` rule set (not provided by KtLint)
