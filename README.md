@@ -16,13 +16,6 @@ To setup this repository to your needs, open the [setup.gradle](buildscripts/set
 and tweak the `renameConfig` block to your needs. After that, you can run the `renameTemplate` 
 gradle task to have the app module's package name and relevant strings replaced.
 
-### Cleanup
-
-After [this PR](https://github.com/AdamMc331/AndroidAppTemplate/pull/44), running the renameTemplate
-task should do all the necessary cleanup like deleting the setup file and test workflow so you can 
-go ahead and commit the renamed files and be on your way. If you encounter any problems with the setup
-workflow, please report a new [issue](https://github.com/AdamMc331/AndroidAppTemplate/issues).
-
 ## What's Included
 
 A number of third party dependencies are included in this template. They are also documented inside the [documentation folder](/documentation). The files inside this documentation folder are written in such a way that you can keep them in your real project, to let team members read up on why dependencies are included and how they work.
