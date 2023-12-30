@@ -22,7 +22,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           # Only write to the cache for builds on the 'development' branch
-          cache-read-only: ${{ github.ref != 'refs/heads/development' }}
+          cache-read-only: ${{ github.ref != 'refs/heads/develop' }}
 
       - name: Build Project
         run: ./gradlew assemble
