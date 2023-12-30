@@ -15,7 +15,6 @@ plugins {
     alias(libs.plugins.ksp) apply false
     id(libs.plugins.sortDependencies.get().pluginId).version(libs.versions.sortDependencies).apply(false)
     alias(libs.plugins.kotlinter) apply false
-//    id("com.squareup.sort-dependencies").version(libs.versions.sortDependencies).apply(false)
 }
 
 buildscript {
