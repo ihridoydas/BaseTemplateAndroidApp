@@ -44,6 +44,7 @@ detektGradlePlugin = "1.23.4"
 leakCanary = "2.12"
 ktlint = "1.0.1"
 kotlinter = "4.0.0"
+dokkaVersion = '1.9.10'
 
 [libraries]
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -102,6 +103,7 @@ spotless = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", v
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 javax-inject = { group = "javax.inject", name = "javax.inject", version = "1" }
 square-leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakCanary" }
+dokkaDocumentation= {module = "org.jetbrains.dokka:android-documentation-plugin", version.ref = "dokkaVersion"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidApplication" }
@@ -118,5 +120,6 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufGradlePlugin" }
 androidLibrary = { id = "com.android.library", version.ref = "androidApplication" }
+dokka= {id = "org.jetbrains.dokka", version.ref = "dokkaVersion"}
 
 

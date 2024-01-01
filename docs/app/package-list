@@ -1,0 +1,8 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:template////PointingToDeclaration/app/template/index.html
+$dokka.location:template//Greeting/#kotlin.String/PointingToDeclaration/app/template/-greeting.html
+$dokka.location:template/MainActivity///PointingToDeclaration/app/template/-main-activity/index.html
+$dokka.location:template/MainActivity/MainActivity/#/PointingToDeclaration/app/template/-main-activity/-main-activity.html
+template
+

@@ -14,5 +14,6 @@ spotless {
         ktlint()
         indentWithSpaces()
         endWithNewline()
+        licenseHeaderFile (rootProject.file("spotless/copyright.kt"))
     }
 }
