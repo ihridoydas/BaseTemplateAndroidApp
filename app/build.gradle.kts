@@ -75,6 +75,8 @@ dependencies {
     implementation(libs.square.retrofit)
     implementation(libs.square.retrofit.converter.moshi)
     implementation(libs.timber)
+    //Module
+    implementation(projects.theme)
 
     // Test
     debugImplementation(platform(libs.compose.bom))

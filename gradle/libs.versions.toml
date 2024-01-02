@@ -2,7 +2,6 @@
 androidApplication = "8.5.0"
 kotlinAndroid = "1.9.20"
 kotlinJvm = "1.8.10"
-androidLibrary = "8.2.0"
 kotlinSerialization = "1.9.21"
 protobufGradlePlugin = "0.9.4"
 timber = "5.0.1"
@@ -107,7 +106,6 @@ square-leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", ver
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidApplication" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinAndroid" }
-android-library = { id = "com.android.library", version.ref = "androidLibrary" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
@@ -119,5 +117,6 @@ sortDependencies = { id = "com.squareup.sort-dependencies",  version.ref = "sort
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufGradlePlugin" }
+androidLibrary = { id = "com.android.library", version.ref = "androidApplication" }
 
 
