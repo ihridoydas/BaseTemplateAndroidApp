@@ -15,8 +15,33 @@
     </style>
 
     <style name="Theme.AppTheme.NoActionBar">
+    <item name="android:windowTranslucentStatus">false</item>
+    <item name="android:statusBarColor">@android:color/transparent</item>
+    <item name="android:navigationBarColor">@android:color/transparent</item>
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+    <item name="android:windowFullscreen">true</item>
+    <item name="android:windowActionBarOverlay">@null</item>
+    </style>
+
+    <style name="Theme.CustomSplashScreenTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/black</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/animated_logo</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="android:windowSplashScreenBrandingImage" tools:targetApi="s">@drawable/splash_brand_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.AppTheme</item>
+    </style>
+
+    　<!--  京セラ TORQUE端末で発生したエラー解決ため　-->
+    <style name="AppTheme.FullScreen.NoActionBar" parent="Theme.CustomSplashScreenTheme">
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/black</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowActionBarOverlay">@null</item>
     </style>
 
 </resources>

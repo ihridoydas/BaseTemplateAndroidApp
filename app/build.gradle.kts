@@ -71,11 +71,12 @@ dependencies {
     implementation(libs.datastore)
     implementation(libs.hilt.android)
     implementation(libs.ktor.client.core)
-    implementation(libs.protobuf.javalite)
+    implementation(libs.protobuf.javaLite)
     implementation(libs.square.moshi.kotlin)
     implementation(libs.square.retrofit)
     implementation(libs.square.retrofit.converter.moshi)
     implementation(libs.timber)
+    implementation(projects.navigation)
     //Module
     implementation(projects.theme)
 
@@ -99,12 +100,19 @@ dependencies {
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:3.19.4"
+        artifact = libs.protobuf.protoc.get().toString()
     }
     generateProtoTasks {
         all().forEach { task ->
-            task.plugins.create("java") {
-                option("lite")
+            task.builtins {
+                create("kotlin") {
+                    option("lite")
+                }
+            }
+            task.builtins {
+                create("java") {
+                    option("lite")
+                }
             }
         }
     }
