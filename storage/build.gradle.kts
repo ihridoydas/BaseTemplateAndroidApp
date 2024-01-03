@@ -1,11 +1,11 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     id(libs.plugins.androidLibrary.get().pluginId)
     id(libs.plugins.kotlin.android.get().pluginId)
+    id(libs.plugins.protobuf.get().pluginId)
 }
 
 android {
-    namespace = "template.theme"
+    namespace = "template.storage"
 
     buildFeatures {
         compose = true
@@ -18,3 +18,22 @@ android {
       implementation(libs.protobuf.kotlinLite)
 
   }
+protobuf {
+    protoc {
+        artifact = libs.protobuf.protoc.get().toString()
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                create("kotlin") {
+                    option("lite")
+                }
+            }
+            task.builtins {
+                create("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
+}

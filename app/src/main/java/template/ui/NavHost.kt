@@ -50,7 +50,6 @@ fun MainAnimationNavHost(
         }
         screen(ScreenDestinations.ViewScreen.route) {
             ViewScreen(
-                navController = navController,
                 onBackPress = {
                     // navigateTo のためNavHostControllerを作成します。
                     navController.navigateTo(ScreenDestinations.HomeScreen.route)

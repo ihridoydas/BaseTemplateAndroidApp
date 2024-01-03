@@ -24,6 +24,8 @@ dependencies {
     implementation(libs.compose.ui.tooling)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.core.splashscreen)
+
+    implementation(libs.androidx.hilt.compose.navigation)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
 }

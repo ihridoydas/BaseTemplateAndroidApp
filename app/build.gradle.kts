@@ -6,7 +6,6 @@ plugins {
     alias(libs.plugins.paparazzi) apply false
     alias(libs.plugins.hilt) apply false
     id(libs.plugins.sortDependencies.get().pluginId)
-    id(libs.plugins.protobuf.get().pluginId)
     alias(libs.plugins.dokka) apply false
 }
 
@@ -44,8 +43,6 @@ android {
 
 dependencies {
     ksp(libs.androidx.room.compiler)
-    // Hilt
-    ksp(libs.hilt.compiler)
     ksp(libs.square.moshi.kotlin.codegen)
 
     kspAndroidTest(libs.hilt.android.compiler)
@@ -61,6 +58,7 @@ dependencies {
     implementation(libs.androidx.compose.navigation)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.hilt.compose.navigation)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     // Network and Local
@@ -68,15 +66,14 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)
-    implementation(libs.datastore)
     implementation(libs.hilt.android)
     implementation(libs.ktor.client.core)
-    implementation(libs.protobuf.javaLite)
     implementation(libs.square.moshi.kotlin)
     implementation(libs.square.retrofit)
     implementation(libs.square.retrofit.converter.moshi)
     implementation(libs.timber)
     implementation(projects.navigation)
+    implementation(projects.storage)
     //Module
     implementation(projects.theme)
 
@@ -88,6 +85,8 @@ dependencies {
     debugImplementation(libs.square.leakcanary)
 
     annotationProcessor(libs.androidx.room.compiler)
+    // Hilt
+    annotationProcessor(libs.hilt.compiler)
 
     testImplementation(libs.junit)
 
@@ -98,22 +97,3 @@ dependencies {
     androidTestImplementation(libs.hilt.android.testing)
 }
 
-protobuf {
-    protoc {
-        artifact = libs.protobuf.protoc.get().toString()
-    }
-    generateProtoTasks {
-        all().forEach { task ->
-            task.builtins {
-                create("kotlin") {
-                    option("lite")
-                }
-            }
-            task.builtins {
-                create("java") {
-                    option("lite")
-                }
-            }
-        }
-    }
-}

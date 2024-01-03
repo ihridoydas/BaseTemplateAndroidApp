@@ -36,6 +36,7 @@ buildscript {
         classpath(libs.gradle)
         classpath(libs.gradle.versions.plugin)
         classpath(libs.kotlin.gradle.plugin)
+        classpath(libs.hilt.plugin)
         classpath(libs.spotless)
         classpath (libs.protobuf.gradle.plugin)
         classpath (libs.dokkaDocumentation.get())

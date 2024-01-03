@@ -38,14 +38,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ViewScreen(
-    navController: NavController,
-    onBackPress: () -> Unit,
-) {
+fun ViewScreen(onBackPress: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
