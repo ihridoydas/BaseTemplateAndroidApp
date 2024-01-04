@@ -31,3 +31,11 @@ echo "Sorting dependencies."
 ./gradlew sortDependencies
 
 echo "Completed sorting dependencies."
+
+./gradlew spotlessApply
+
+echo "Completed spotlessApply."
+
+./gradlew dokkaHtml
+
+echo "Completed dokkaHtml."
