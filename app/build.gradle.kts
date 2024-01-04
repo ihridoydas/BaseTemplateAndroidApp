@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.hilt) apply false
     id(libs.plugins.sortDependencies.get().pluginId)
     id(libs.plugins.protobuf.get().pluginId)
+    alias(libs.plugins.dokka) apply false
 }
 
 android {

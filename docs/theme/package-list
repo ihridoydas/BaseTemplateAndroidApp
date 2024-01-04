@@ -1,0 +1,24 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:template.theme.components////PointingToDeclaration/theme/template.theme.components/index.html
+$dokka.location:template.theme.components//AppBar/#kotlin.String#androidx.compose.ui.graphics.vector.ImageVector?#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/theme/template.theme.components/-app-bar.html
+$dokka.location:template.theme.components//AppTextField/#kotlin.String#kotlin.Int#kotlin.String#kotlin.Function1[kotlin.String,kotlin.Unit]#kotlin.Boolean#kotlin.Boolean#kotlin.Function0[kotlin.Unit]#androidx.compose.ui.graphics.vector.ImageVector?#kotlin.Int?#androidx.compose.ui.text.input.KeyboardType#androidx.compose.ui.text.input.ImeAction#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/theme/template.theme.components/-app-text-field.html
+$dokka.location:template.theme.components//AppTextFieldPreview/#/PointingToDeclaration/theme/template.theme.components/-app-text-field-preview.html
+$dokka.location:template.theme.components//FullScreenCircularProgressIndicator/#/PointingToDeclaration/theme/template.theme.components/-full-screen-circular-progress-indicator.html
+$dokka.location:template.theme.components//FullScreenCircularProgressIndicatorPreview/#/PointingToDeclaration/theme/template.theme.components/-full-screen-circular-progress-indicator-preview.html
+$dokka.location:template.theme.components//LoginScreenPreview/#/PointingToDeclaration/theme/template.theme.components/-login-screen-preview.html
+$dokka.location:template.theme.components/TemplatePreview///PointingToDeclaration/theme/template.theme.components/-template-preview/index.html
+$dokka.location:template.theme.utils////PointingToDeclaration/theme/template.theme.utils/index.html
+$dokka.location:template.theme.utils//toast/android.content.Context#kotlin.Int#kotlin.Function1[kotlin.Boolean,kotlin.Unit]/PointingToDeclaration/theme/template.theme.utils/toast.html
+$dokka.location:template.theme.utils//toast/android.content.Context#kotlin.String#kotlin.Function1[kotlin.Boolean,kotlin.Unit]/PointingToDeclaration/theme/template.theme.utils/toast.html
+$dokka.location:template.theme////PointingToDeclaration/theme/template.theme/index.html
+$dokka.location:template.theme//Purple200/#/PointingToDeclaration/theme/template.theme/-purple200.html
+$dokka.location:template.theme//Purple500/#/PointingToDeclaration/theme/template.theme/-purple500.html
+$dokka.location:template.theme//Shapes/#/PointingToDeclaration/theme/template.theme/-shapes.html
+$dokka.location:template.theme//Teal200/#/PointingToDeclaration/theme/template.theme/-teal200.html
+$dokka.location:template.theme//TemplateTheme/#kotlin.Boolean#kotlin.Boolean#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/theme/template.theme/-template-theme.html
+$dokka.location:template.theme//Typography/#/PointingToDeclaration/theme/template.theme/-typography.html
+template.theme
+template.theme.components
+template.theme.utils
+
