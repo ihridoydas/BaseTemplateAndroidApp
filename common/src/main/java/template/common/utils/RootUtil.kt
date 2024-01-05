@@ -9,6 +9,7 @@ import java.io.InputStreamReader
 /**
  * ルート化されている兆候が見られるか確認するメソッドを提供する.
  */
+@Suppress("UtilityClassWithPublicConstructor")
 class RootUtil {
     companion object {
         private val Tag = RootUtil::class.java.simpleName
@@ -66,6 +67,7 @@ class RootUtil {
         /**
          * su が存在するかどうかを判断する別の方法は、Runtime.getRuntime.exec() で実行を試みる.
          */
+        @Suppress("SwallowedException","TooGenericExceptionCaught")
         private fun checkRootSu(): Boolean {
             var process: Process? = null
             val ret = try {
