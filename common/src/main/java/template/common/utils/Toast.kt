@@ -22,37 +22,35 @@
 * SOFTWARE.
 *
 */
-package template.theme.components
+package template.common.utils
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import template.theme.TemplateTheme
+import android.content.Context
+import android.os.Build
+import android.widget.Toast
+import androidx.annotation.StringRes
 
-@Composable
-fun FullScreenCircularProgressIndicator() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-        contentAlignment = Alignment.Center,
-    ) {
-        CircularProgressIndicator()
-    }
+fun Context.toast(message: String, onToastDisplayChange: (Boolean) -> Unit) {
+    showToast(message, onToastDisplayChange)
 }
 
-@TemplatePreview
-@Composable
-fun FullScreenCircularProgressIndicatorPreview() {
-    TemplateTheme {
-        Surface {
-            FullScreenCircularProgressIndicator()
+fun Context.toast(@StringRes message: Int, onToastDisplayChange: (Boolean) -> Unit) {
+    showToast(getString(message), onToastDisplayChange)
+}
+
+private fun Context.showToast(message: String, onToastDisplayChange: (Boolean) -> Unit) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).also {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            it.addCallback(object : Toast.Callback() {
+                override fun onToastHidden() {
+                    super.onToastHidden()
+                    onToastDisplayChange(false)
+                }
+
+                override fun onToastShown() {
+                    super.onToastShown()
+                    onToastDisplayChange(true)
+                }
+            })
         }
-    }
+    }.show()
 }

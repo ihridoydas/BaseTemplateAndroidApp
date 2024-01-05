@@ -22,7 +22,7 @@
 * SOFTWARE.
 *
 */
-package template.theme.components
+package template.common.components
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton

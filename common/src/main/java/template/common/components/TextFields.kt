@@ -22,7 +22,7 @@
 * SOFTWARE.
 *
 */
-package template.theme.components
+package template.common.components
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
@@ -51,7 +51,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import template.theme.R
+import template.common.R
 import template.theme.TemplateTheme
 
 @Composable

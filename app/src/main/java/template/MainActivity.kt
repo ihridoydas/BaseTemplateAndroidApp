@@ -44,11 +44,12 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import template.common.DURATION
+import template.common.VALUES_X
+import template.common.VALUES_Y
+import template.common.utils.RootUtil
 import template.theme.TemplateTheme
 import template.theme.splashScreen.SplashViewModel
-import template.theme.utils.DURATION
-import template.theme.utils.VALUES_X
-import template.theme.utils.VALUES_Y
 import template.ui.MainAnimationNavHost
 import timber.log.Timber
 
@@ -64,6 +65,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         configureEdgeToEdgeWindow()
+
+        // Check Rooted Device
+        if (RootUtil.isDeviceRooted()) {
+            Timber.tag(Tag).e("onCreate - Rooted device.")
+            finish()
+            return
+        }
 
         Timber.tag(Tag).d("onCreate")
 

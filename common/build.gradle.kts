@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "template.theme"
+    namespace = "template.common"
 
     buildFeatures {
         compose = true
@@ -12,7 +12,7 @@ android {
 }
 
 dependencies {
-
+    implementation(projects.theme)
     // Gradle
     implementation(platform(libs.compose.bom))
     // UI

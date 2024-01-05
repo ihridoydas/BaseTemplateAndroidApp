@@ -22,9 +22,20 @@
 * SOFTWARE.
 *
 */
-package template.theme.utils
+package template.common.components
 
-const val VALUES_X = 0.4f
-const val VALUES_Y = 0.0f
-const val DURATION = 500L
-const val DELAY_DURATION = 3000L
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.ui.tooling.preview.Preview
+
+@Preview(
+    name = "Preview Day",
+    showBackground = true,
+    uiMode = UI_MODE_NIGHT_NO,
+)
+@Preview(
+    name = "Preview Night",
+    showBackground = true,
+    uiMode = UI_MODE_NIGHT_YES,
+)
+annotation class TemplatePreview
