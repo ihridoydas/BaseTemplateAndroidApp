@@ -1,0 +1,11 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:template.navigation////PointingToDeclaration/navigation/template.navigation/index.html
+$dokka.location:template.navigation//navigateTo/androidx.navigation.NavHostController#kotlin.String/PointingToDeclaration/navigation/template.navigation/navigate-to.html
+$dokka.location:template.navigation//screen/androidx.navigation.NavGraphBuilder#kotlin.String#kotlin.collections.List[androidx.navigation.NamedNavArgument]#kotlin.Function2[androidx.compose.animation.AnimatedVisibilityScope,androidx.navigation.NavBackStackEntry,kotlin.Unit]/PointingToDeclaration/navigation/template.navigation/screen.html
+$dokka.location:template.navigation/ScreenDestinations.HomeScreen///PointingToDeclaration/navigation/template.navigation/-screen-destinations/-home-screen/index.html
+$dokka.location:template.navigation/ScreenDestinations.ViewScreen///PointingToDeclaration/navigation/template.navigation/-screen-destinations/-view-screen/index.html
+$dokka.location:template.navigation/ScreenDestinations///PointingToDeclaration/navigation/template.navigation/-screen-destinations/index.html
+$dokka.location:template.navigation/ScreenDestinations/route/#/PointingToDeclaration/navigation/template.navigation/-screen-destinations/route.html
+template.navigation
+
