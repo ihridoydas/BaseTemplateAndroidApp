@@ -24,9 +24,13 @@
 */
 package template
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.view.View
+import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -34,15 +38,65 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.graphics.Color
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import dagger.hilt.android.AndroidEntryPoint
 import template.theme.TemplateTheme
+import template.theme.splashScreen.SplashViewModel
+import template.theme.utils.DURATION
+import template.theme.utils.VALUES_X
+import template.theme.utils.VALUES_Y
+import template.ui.MainAnimationNavHost
+import timber.log.Timber
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    companion object {
+        private val Tag = MainActivity::class.java.simpleName
+    }
+
+    private val splashViewModel: SplashViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         configureEdgeToEdgeWindow()
+
+        Timber.tag(Tag).d("onCreate")
+
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                !splashViewModel.isLoading.value
+            }
+            setOnExitAnimationListener { screen ->
+                val zoomX = ObjectAnimator.ofFloat(
+                    screen.iconView,
+                    View.SCALE_X,
+                    VALUES_X,
+                    VALUES_Y,
+                )
+                zoomX.interpolator = OvershootInterpolator()
+                zoomX.duration = DURATION
+                zoomX.doOnEnd { screen.remove() }
+
+                val zoomY = ObjectAnimator.ofFloat(
+                    screen.iconView,
+                    View.SCALE_Y,
+                    VALUES_X,
+                    VALUES_Y,
+                )
+                zoomY.interpolator = OvershootInterpolator()
+                zoomY.duration = DURATION
+                zoomY.doOnEnd { screen.remove() }
+
+                zoomX.start()
+                zoomY.start()
+            }
+        }
+        // splashViewModel.checkStartScreen() { route -> }
 
         setContent {
             ConfigureTransparentSystemBars()
@@ -51,7 +105,8 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    Greeting("Android")
+                    val navController = rememberNavController()
+                    MainAnimationNavHost(navController)
                 }
             }
         }

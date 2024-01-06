@@ -25,4 +25,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.core.ktx)
 
+    implementation(libs.androidx.hilt.compose.navigation)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+
 }
