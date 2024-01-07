@@ -13,6 +13,7 @@ android {
 }
 
   dependencies {
+      implementation(projects.common)
       implementation(libs.datastore)
       implementation(libs.protobuf.javaLite)
       implementation(libs.protobuf.kotlinLite)

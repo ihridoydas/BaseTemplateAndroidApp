@@ -22,20 +22,37 @@
 * SOFTWARE.
 *
 */
-package template.theme.components
+package template.common.components
 
-import android.content.res.Configuration.UI_MODE_NIGHT_NO
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import template.theme.TemplateTheme
 
-@Preview(
-    name = "Preview Day",
-    showBackground = true,
-    uiMode = UI_MODE_NIGHT_NO,
-)
-@Preview(
-    name = "Preview Night",
-    showBackground = true,
-    uiMode = UI_MODE_NIGHT_YES,
-)
-annotation class TemplatePreview
+@Composable
+fun FullScreenCircularProgressIndicator() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        contentAlignment = Alignment.Center,
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+@TemplatePreview
+@Composable
+fun FullScreenCircularProgressIndicatorPreview() {
+    TemplateTheme {
+        Surface {
+            FullScreenCircularProgressIndicator()
+        }
+    }
+}

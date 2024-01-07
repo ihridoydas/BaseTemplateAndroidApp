@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.square.retrofit)
     implementation(libs.square.retrofit.converter.moshi)
     implementation(libs.timber)
+    implementation(projects.common)
     implementation(projects.navigation)
     implementation(projects.storage)
     //Module
