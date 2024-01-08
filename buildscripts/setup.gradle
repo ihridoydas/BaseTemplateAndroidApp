@@ -28,6 +28,7 @@ tasks.register('deleteSetupCode') {
 
 def modules = project.subprojects.collect { it.name }
 
+// Rename For Main Package for each module
 modules.each { module ->
     tasks.register("renameAppPackage${module}", Copy) {
         description "Renames the template package in the ${module} module."
@@ -68,6 +69,88 @@ modules.each { module ->
         doLast {
             delete(startingDirectory)
         }
+    }
+}
+
+// Rename For androidTest Package for each module
+modules.each { module ->
+    tasks.register("renameAndroidTestPackage${module}", Copy) {
+        description "Renames the template package in the androidTest ${module} package."
+        group null
+
+        def androidTestDir = "${rootDir}/${module}/src/androidTest/java/${renameConfig.templateName}"
+        if (file(androidTestDir).exists()) {
+            def newPackageAsDirectory = renameConfig.newPackage.replaceAll("\\.", "/")
+            def startingDirectory = "${rootDir}/${module}/src/androidTest/java/${renameConfig.templateName}"
+            def endingDirectory = "${rootDir}/${module}/src/androidTest/java/${newPackageAsDirectory}"
+
+            from(startingDirectory)
+            into(endingDirectory)
+
+            // Replace package statements
+            filter { line ->
+                line.replaceAll(
+                        "package ${renameConfig.templateName}",
+                        "package ${renameConfig.newPackage}"
+                )
+            }
+
+            // Replace import statements
+            filter { line ->
+                line.replaceAll(
+                        "import ${renameConfig.templateName}",
+                        "import ${renameConfig.newPackage}"
+                )
+            }
+
+            doLast {
+                delete(startingDirectory)
+            }
+        } else {
+            println "androidTest directory not found for module: $module. Skipping androidTest package renaming."
+        }
+
+    }
+}
+
+// Rename For  Test Package for each module
+modules.each { module ->
+    tasks.register("renameTestPackage${module}", Copy) {
+        description "Renames the template package in the test ${module} package."
+        group null
+
+        def testDir = "${rootDir}/${module}/src/test/java/${renameConfig.templateName}"
+        if (file(testDir).exists()) {
+            def newPackageAsDirectory = renameConfig.newPackage.replaceAll("\\.", "/")
+            def startingDirectory = "${rootDir}/${module}/src/test/java/${renameConfig.templateName}"
+            def endingDirectory = "${rootDir}/${module}/src/test/java/${newPackageAsDirectory}"
+
+            from(startingDirectory)
+            into(endingDirectory)
+
+            // Replace package statements
+            filter { line ->
+                line.replaceAll(
+                        "package ${renameConfig.templateName}",
+                        "package ${renameConfig.newPackage}"
+                )
+            }
+
+            // Replace import statements
+            filter { line ->
+                line.replaceAll(
+                        "import ${renameConfig.templateName}",
+                        "import ${renameConfig.newPackage}"
+                )
+            }
+
+            doLast {
+                delete(startingDirectory)
+            }
+        } else {
+            println "test directory not found for module: $module. Skipping test package renaming."
+        }
+
     }
 }
 
@@ -174,6 +257,8 @@ tasks.register('renameAllModules') {
     group "Template Setup"
 
     dependsOn modules.collect { tasks.named("renameAppPackage${it}") }
+    dependsOn modules.collect { tasks.named("renameAndroidTestPackage${it}") }
+    dependsOn modules.collect { tasks.named("renameTestPackage${it}") }
     dependsOn keepOrRemoveDependencies, replaceTemplateReferences, deleteSetupCode
 
     doLast {
