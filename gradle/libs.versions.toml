@@ -112,6 +112,7 @@ timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "tim
 javax-inject = { group = "javax.inject", name = "javax.inject", version = "1" }
 square-leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakCanary" }
 dokkaDocumentation= {module = "org.jetbrains.dokka:android-documentation-plugin", version.ref = "dokkaVersion"}
+dokka-gradle-plugin= {module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokkaVersion"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidApplication" }

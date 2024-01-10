@@ -1,0 +1,26 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:template.common.components////PointingToDeclaration/common/template.common.components/index.html
+$dokka.location:template.common.components//AppBar/#kotlin.String#androidx.compose.ui.graphics.vector.ImageVector?#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/common/template.common.components/-app-bar.html
+$dokka.location:template.common.components//AppTextField/#kotlin.String#kotlin.Int#kotlin.String#kotlin.Function1[kotlin.String,kotlin.Unit]#kotlin.Boolean#kotlin.Boolean#kotlin.Function0[kotlin.Unit]#androidx.compose.ui.graphics.vector.ImageVector?#kotlin.Int?#androidx.compose.ui.text.input.KeyboardType#androidx.compose.ui.text.input.ImeAction#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/common/template.common.components/-app-text-field.html
+$dokka.location:template.common.components//AppTextFieldPreview/#/PointingToDeclaration/common/template.common.components/-app-text-field-preview.html
+$dokka.location:template.common.components//FullScreenCircularProgressIndicator/#/PointingToDeclaration/common/template.common.components/-full-screen-circular-progress-indicator.html
+$dokka.location:template.common.components//FullScreenCircularProgressIndicatorPreview/#/PointingToDeclaration/common/template.common.components/-full-screen-circular-progress-indicator-preview.html
+$dokka.location:template.common.components//LoginScreenPreview/#/PointingToDeclaration/common/template.common.components/-login-screen-preview.html
+$dokka.location:template.common.components/TemplatePreview///PointingToDeclaration/common/template.common.components/-template-preview/index.html
+$dokka.location:template.common.utils////PointingToDeclaration/common/template.common.utils/index.html
+$dokka.location:template.common.utils//toast/android.content.Context#kotlin.Int#kotlin.Function1[kotlin.Boolean,kotlin.Unit]/PointingToDeclaration/common/template.common.utils/toast.html
+$dokka.location:template.common.utils//toast/android.content.Context#kotlin.String#kotlin.Function1[kotlin.Boolean,kotlin.Unit]/PointingToDeclaration/common/template.common.utils/toast.html
+$dokka.location:template.common.utils/RootUtil.Companion///PointingToDeclaration/common/template.common.utils/-root-util/-companion/index.html
+$dokka.location:template.common.utils/RootUtil.Companion/isDeviceRooted/#/PointingToDeclaration/common/template.common.utils/-root-util/-companion/is-device-rooted.html
+$dokka.location:template.common.utils/RootUtil///PointingToDeclaration/common/template.common.utils/-root-util/index.html
+$dokka.location:template.common.utils/RootUtil/RootUtil/#/PointingToDeclaration/common/template.common.utils/-root-util/-root-util.html
+$dokka.location:template.common////PointingToDeclaration/common/template.common/index.html
+$dokka.location:template.common//DURATION/#/PointingToDeclaration/common/template.common/-d-u-r-a-t-i-o-n.html
+$dokka.location:template.common//DURATION_MILLIS/#/PointingToDeclaration/common/template.common/-d-u-r-a-t-i-o-n_-m-i-l-l-i-s.html
+$dokka.location:template.common//VALUES_X/#/PointingToDeclaration/common/template.common/-v-a-l-u-e-s_-x.html
+$dokka.location:template.common//VALUES_Y/#/PointingToDeclaration/common/template.common/-v-a-l-u-e-s_-y.html
+template.common
+template.common.components
+template.common.utils
+

@@ -1,8 +1,18 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
+$dokka.location:template.screens////PointingToDeclaration/app/template.screens/index.html
+$dokka.location:template.screens//HomeScreen/#androidx.navigation.NavController/PointingToDeclaration/app/template.screens/-home-screen.html
+$dokka.location:template.screens//ViewScreen/#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/app/template.screens/-view-screen.html
+$dokka.location:template.ui////PointingToDeclaration/app/template.ui/index.html
+$dokka.location:template.ui//MainAnimationNavHost/#androidx.navigation.NavHostController#kotlin.String/PointingToDeclaration/app/template.ui/-main-animation-nav-host.html
 $dokka.location:template////PointingToDeclaration/app/template/index.html
 $dokka.location:template//Greeting/#kotlin.String/PointingToDeclaration/app/template/-greeting.html
+$dokka.location:template/BaseApp///PointingToDeclaration/app/template/-base-app/index.html
+$dokka.location:template/BaseApp/BaseApp/#/PointingToDeclaration/app/template/-base-app/-base-app.html
+$dokka.location:template/MainActivity.Companion///PointingToDeclaration/app/template/-main-activity/-companion/index.html
 $dokka.location:template/MainActivity///PointingToDeclaration/app/template/-main-activity/index.html
 $dokka.location:template/MainActivity/MainActivity/#/PointingToDeclaration/app/template/-main-activity/-main-activity.html
 template
+template.screens
+template.ui
 

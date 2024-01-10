@@ -1,1 +1,1 @@
-sourceset_dependencies='{":theme:dokkaHtml/debug":[],":theme:dokkaHtml/main":[],":theme:dokkaHtml/release":[]}'
+sourceset_dependencies='{":app:dokkaHtml/debug":[],":app:dokkaHtml/main":[],":app:dokkaHtml/release":[]}'
