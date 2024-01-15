@@ -13,7 +13,7 @@ This template _is_ opinionated about developer tooling. Dependency management is
 To use this template in your own project, click the "Use this template" button at the top right of the repository. Once you do, a repository will be created for your account that you can clone and use on your device.
 
 To setup this repository to your needs, open the [setup.gradle](buildscripts/setup.gradle) file 
-and tweak the `renameConfig` block to your needs. After that, you can run the `renameTemplate` 
+and tweak the `renameConfig` block to your needs. After that, you can run the `renameAllModules` →　`./gradlew renameAllModules`
 gradle task to have the app module's package name and relevant strings replaced.
 
 ## What's Included
