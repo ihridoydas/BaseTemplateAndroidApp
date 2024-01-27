@@ -23,8 +23,12 @@ android {
     //Build Variant
     applicationVariants.configureEach {
         val appLabelMap = when (this.buildType.name) {
-            "debug" -> mapOf("develop" to "${rootProject.name} devDebug", "staging" to "${rootProject.name} stgDebug", "production" to "${rootProject.name} proDebug")
-            else -> mapOf("develop" to "${rootProject.name} Develop", "staging" to "${rootProject.name} Staging","production" to rootProject.name)
+            "debug" -> mapOf("develop" to "${rootProject.name} devDebug",
+            "staging" to "${rootProject.name} stgDebug",
+            "production" to "${rootProject.name} proDebug")
+            else -> mapOf("develop" to "${rootProject.name} Develop",
+                "staging" to "${rootProject.name} Staging",
+                "production" to rootProject.name)
         }
         val flavor = this.productFlavors[0]
         this.mergedFlavor.manifestPlaceholders["appLabel"] = "${appLabelMap[flavor.name]}"
