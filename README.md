@@ -6,7 +6,7 @@ This is a GitHub template repository intended to kickstart development on an And
 
 The purpose of this template is to avoid any opinions on writing code. The developers should have the freedom to choose their own architecture, third party dependencies, package structure, and more. 
 
-This template _is_ opinionated about developer tooling. Dependency management is configured, git hooks are defined, code formatting and static analysis are all there, and it even has pull request templates. The purpose of this repo is to help you get started building your next project with confidence in your code, and not telling you how to write it. 
+This template _is_ opinionated about developer tooling. Dependency management is configured, git hooks are defined, code formatting and static analysis are all there, and it even has pull request templates. The purpose of this repo is to help you get started building your next project with confidence in your code, and not telling you how to write it. **Inspired by** [AndroidAppTemplate](https://github.com/AdamMc331/AndroidAppTemplate)
 
 ## Using This Template
 
