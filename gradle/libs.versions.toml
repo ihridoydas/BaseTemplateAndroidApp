@@ -1,7 +1,7 @@
 [versions]
 androidApplication = "8.5.0"
 coreSplashscreen = "1.0.1"
-kotlinAndroid = "1.9.21"
+kotlinAndroid = "1.9.22"
 kotlinJvm = "1.9.20"
 kotlinSerialization = "1.9.21"
 protobufGradlePlugin = "0.9.4"
