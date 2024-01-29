@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id(libs.plugins.android.application.get().pluginId)
     id(libs.plugins.ksp.get().pluginId)
@@ -18,20 +20,92 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
-
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-            buildConfigField("String", "Template_HOST", "\"not given\"")
+    //Build Variant
+    applicationVariants.configureEach {
+        val appLabelMap = when (this.buildType.name) {
+            "debug" -> mapOf("develop" to "${rootProject.name} devDebug",
+            "staging" to "${rootProject.name} stgDebug",
+            "production" to "${rootProject.name} proDebug")
+            else -> mapOf("develop" to "${rootProject.name} Develop",
+                "staging" to "${rootProject.name} Staging",
+                "production" to rootProject.name)
         }
+        val flavor = this.productFlavors[0]
+        this.mergedFlavor.manifestPlaceholders["appLabel"] = "${appLabelMap[flavor.name]}"
+    }
 
-        debug {
+    /*
+    //Set in your local.properties file for signing Configs
+    //Path Location your keystore
+    STORE_FILE = /Users/~/app/jks/template.keystore
+    KEY_ALIAS = app_alias
+    STORE_PASSWORD = template
+    KEY_PASSWORD = template
+    */
+
+    signingConfigs {
+        create("develop") {
+            val keystoreProperties = Properties().apply{
+                load(File("local.properties").reader())
+            }
+            keyAlias = keystoreProperties.getProperty("KEY_ALIAS")
+            keyPassword = keystoreProperties.getProperty("KEY_PASSWORD")
+            storeFile = File(keystoreProperties.getProperty("STORE_FILE"))
+            storePassword = keystoreProperties.getProperty("STORE_PASSWORD")
+        }
+        create("staging") {
+            val keystoreProperties = Properties().apply{
+                load(File("local.properties").reader())
+            }
+            keyAlias = keystoreProperties.getProperty("KEY_ALIAS")
+            keyPassword = keystoreProperties.getProperty("KEY_PASSWORD")
+            storeFile = File(keystoreProperties.getProperty("STORE_FILE"))
+            storePassword = keystoreProperties.getProperty("STORE_PASSWORD")
+        }
+        create("production") {
+            val keystoreProperties = Properties().apply{
+                load(File("local.properties").reader())
+            }
+            keyAlias = keystoreProperties.getProperty("KEY_ALIAS")
+            keyPassword = keystoreProperties.getProperty("KEY_PASSWORD")
+            storeFile = File(keystoreProperties.getProperty("STORE_FILE"))
+            storePassword = keystoreProperties.getProperty("STORE_PASSWORD")
+        }
+    }
+
+    // Specifies one flavor dimension.
+    flavorDimensions += "version"
+    productFlavors {
+        create("develop") {
+            dimension = "version"
+            applicationIdSuffix = ".develop"
+            versionNameSuffix = "-develop"
+            signingConfig = signingConfigs.getByName("develop")
+        }
+        create("staging") {
+            initWith(getByName("staging"))
+            dimension = "version"
+            applicationIdSuffix = ".staging"
+            versionNameSuffix = "-staging"
+            signingConfig = signingConfigs.getByName("staging")
+        }
+        create("production") {
+            dimension = "version"
+            signingConfig = signingConfigs.getByName("production")
+        }
+    }
+    buildTypes {
+        getByName("debug") {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+            isDebuggable = true
             buildConfigField("String", "Template_HOST", "\"192.168.10.34\"")
+        }
+        getByName("release") {
+            isMinifyEnabled = true
+            isDebuggable = false
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            buildConfigField("String", "Template_HOST", "\"not given\"")
         }
     }
 

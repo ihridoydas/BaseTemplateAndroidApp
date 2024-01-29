@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by hridoydas on 2023/01/11
+  ~ Last modified 1/11/23, 2:33 PM
+  ~ Copyright © 2023 Hridoy Das. All rights reserved.
+  -->
+
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@drawable/ic_launcher_background"/>
+    <foreground>
+        <!-- 10dp padding on each side of 108dp asset -->
+        <inset
+            android:drawable="@drawable/ic_launcher_foreground"
+            android:inset="9.26%" />
+    </foreground>
+</adaptive-icon>
