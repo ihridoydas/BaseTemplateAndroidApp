@@ -17,3 +17,13 @@ ktlint_standard_string-template-indent = disabled
 # ktlint_standard_some-experimental-rule = disabled # Disables the (experimental) `some-experimental-rule` in the `standard` rule set provided by KtLint
 # ktlint_custom-rule-set = enabled # Enable all rules in the `custom-rule-set` rule set (not provided by KtLint)
 # ktlint_custom-rule-set_custom-rule = disabled # Disables the `custom-rule` rule in the `custom-rule-set` rule set (not provided by KtLint)
+
+# insert_final_newline = false
+# # Check detekt.yml file to customise max_line_length, ref.: https://detekt.dev/docs/rules/style/#maxlinelength
+# max_line_length = off
+# # Disable rules: https://pinterest.github.io/ktlint/rules/configuration-ktlint/#disabled-rules
+# ktlint_standard_no-wildcard-imports = disabled
+# ktlint_standard_import-ordering = disabled
+# ktlint_standard_package-name = disabled
+# ij_kotlin_allow_trailing_comma_on_call_site = false
+# ij_kotlin_allow_trailing_comma = false

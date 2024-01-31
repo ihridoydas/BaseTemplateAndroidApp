@@ -1,5 +1,5 @@
 [versions]
-androidApplication = "8.5.0"
+androidApplication = "8.2.2"
 coreSplashscreen = "1.0.1"
 kotlinAndroid = "1.9.21"
 kotlinJvm = "1.9.20"
