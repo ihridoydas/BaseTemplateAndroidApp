@@ -37,6 +37,9 @@
 - メモリリークの検出のための[LeakCanary](https://square.github.io/leakcanary/)。
 - [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)および[Room](https://developer.android.com/training/data-storage/room)の依存関係（必要に応じてsetup.gradleで削除可能）。
 - [Paparazzi](https://github.com/cashapp/paparazzi)の依存関係（必要に応じてsetup.gradleで削除可能）。
+- [Dokka](https://github.com/Kotlin/dokka) 依存関係、すべてのプロジェクトとモジュールをドキュメント化します。
+- [Spotless](https://github.com/diffplug/spotless) 依存関係、コードを清潔に保ちます。
+- [sortDependencies](https://github.com/square/gradle-dependencies-sorter) 依存関係、build.gradleファイル内の依存関係を整理します。
 
 ## 依存関係の設定
 

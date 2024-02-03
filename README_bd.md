@@ -44,6 +44,9 @@
 - [LeakCanary](https://square.github.io/leakcanary/) মেমোরি লিক পরিচিতির জন্য।
 - [Hilt](https://developer.android.com/training/dependency-injection/hilt-android) এবং [Room](https://developer.android.com/training/data-storage/room) ডিপেন্ডেন্সি (setup.gradle দ্বারা অপসারণযোগ্য)।
 - [Paparazzi](https://github.com/cashapp/paparazzi) ডিপেন্ডেন্সি (setup.gradle দ্বারা অপসারণযোগ্য)।
+- [Dokka](https://github.com/Kotlin/dokka) ডিপেন্ডেন্সি, যা সমস্ত প্রকল্প এবং মডিউল ডকুমেন্ট করে।
+- [Spotless](https://github.com/diffplug/spotless) ডিপেন্ডেন্সি, যা আপনার কোড স্পটলেস রাখে।
+- [sortDependencies](https://github.com/square/gradle-dependencies-sorter) ডিপেন্ডেন্সি, যা বিল্ড.gradle ফাইলে ডিপেন্ডেন্সিগুলি সাজায়।
 
 ## ডিপেন্ডেন্সি সেটআপ
 

@@ -37,6 +37,9 @@
 - [लीक कैनरी](https://square.github.io/leakcanary/) मेमोरी लीक की पहचान के लिए।
 - [हिल्ट](https://developer.android.com/training/dependency-injection/hilt-android) और [रूम](https://developer.android.com/training/data-storage/room) डिपेंडेंसीज़ (setup.gradle के माध्यम से हटा जा सकता है)।
 - [पापाराज़ी](https://github.com/cashapp/paparazzi) डिपेंडेंसी (setup.gradle के माध्यम से हटा जा सकता है)।
+- [Dokka](https://github.com/Kotlin/dokka) डिपेंडेंसी, जो सभी प्रोजेक्ट और मॉड्यूल को डॉक्यूमेंट करता है।
+- [Spotless](https://github.com/diffplug/spotless) डिपेंडेंसी, जो आपके कोड को स्पॉटलेस रखता है।
+- [sortDependencies](https://github.com/square/gradle-dependencies-sorter) डिपेंडेंसी, जो build.gradle फ़ाइल में डिपेंडेंसिज़ को साज़ा करता है।
 
 ## डिपेंडेंसी सेटअप
 
