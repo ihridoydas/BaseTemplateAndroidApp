@@ -3,6 +3,7 @@ import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
+import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -16,7 +17,7 @@ plugins {
     alias(libs.plugins.ksp) apply false
     id(libs.plugins.sortDependencies.get().pluginId).version(libs.versions.sortDependencies).apply(false)
     alias(libs.plugins.kotlinter) apply false
-    alias(libs.plugins.dokka) apply false
+    id(libs.plugins.dokka.get().pluginId).version(libs.versions.dokkaVersion).apply(false)
 }
 
 buildscript {

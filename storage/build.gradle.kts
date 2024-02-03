@@ -2,6 +2,7 @@ plugins {
     id(libs.plugins.androidLibrary.get().pluginId)
     id(libs.plugins.kotlin.android.get().pluginId)
     id(libs.plugins.protobuf.get().pluginId)
+    id(libs.plugins.dokka.get().pluginId)
 }
 
 android {

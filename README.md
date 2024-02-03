@@ -1,58 +1,60 @@
-# Android App Template
+# Base Template Android App
 
-This is a GitHub template repository intended to kickstart development on an Android application. This project comes set with a handful of tools that [Hridoy Chandra Das](https://github.com/ihridoydas) finds important and relevant to every project. If you think something is missing, or feel strongly that a setup should be changed, please submit an [Issue](https://github.com/ihridoydas/BaseTemplateAndroidApp/issues/new).
+Kickstart your Android app development with this GitHub template repository. Designed by [Hridoy Chandra Das](https://github.com/ihridoydas), it provides essential tools without imposing code-writing opinions.
 
 ## Why This Template?
 
-The purpose of this template is to avoid any opinions on writing code. The developers should have the freedom to choose their own architecture, third party dependencies, package structure, and more. 
+- **Freedom to Choose:** No opinions on code structure or architecture. Developers decide on their own.
+- **Opinionated Tooling:** Configured dependency management, git hooks, code formatting, and static analysis for enhanced development.
 
-This template _is_ opinionated about developer tooling. Dependency management is configured, git hooks are defined, code formatting and static analysis are all there, and it even has pull request templates. The purpose of this repo is to help you get started building your next project with confidence in your code, and not telling you how to write it. **Inspired by** [AndroidAppTemplate](https://github.com/AdamMc331/AndroidAppTemplate)
+Inspired by [AndroidAppTemplate](https://github.com/AdamMc331/AndroidAppTemplate).
 
-## Using This Template
+## Getting Started
 
-To use this template in your own project, click the "Use this template" button at the top right of the repository. Once you do, a repository will be created for your account that you can clone and use on your device.
+1. Click "Use this template" to create a repository under your account.
+    ```dsl
+   
+   templateName             : "template",
+   templateAppId            : "template.app.id",
+   templateMaterialThemeName: "TemplateTheme",
+   newTemplateName          : "Project", [Enter your project name here]
+   newTemplateAppId         : "domain.yourname.app", [Enter your project package name here]
+   newMaterialThemeName     : "MyMaterialTheme", [Enter your project theme name here]
+   useHiltDependencies      : true,
+   useRoomDependencies      : true,
+   useRetrofitDependencies  : true,
+   usePaparazziDependencies : true,
+   
+   ```
+2. Customize by adjusting [setup.gradle](buildscripts/setup.gradle) and running `./gradlew renameAllModules`.
 
-To setup this repository to your needs, open the [setup.gradle](buildscripts/setup.gradle) file 
-and tweak the `renameConfig` block to your needs. After that, you can run the `renameAllModules` →　`./gradlew renameAllModules`
-gradle task to have the app module's package name and relevant strings replaced.
+- Japanese [Readme here](https://github.com/ihridoydas/BaseTemplateAndroidApp/blob/develop/README_jp.md) 🇯🇵.
+- Bangla [Readme here](https://github.com/LewisVo/Markdown-Tutorial/blob/master/README_bd.md) 🇧🇩.
+- Hindi [Readme here](https://github.com/luongvo209/Markdown-Tutorial/blob/master/README_in.md) 🇮🇳.
 
 ## What's Included
 
-A number of third party dependencies are included in this template. They are also documented inside the [documentation folder](/documentation). The files inside this documentation folder are written in such a way that you can keep them in your real project, to let team members read up on why dependencies are included and how they work.
+Explore third-party dependencies and documentation in [/documentation](/documentation). Notable inclusions:
 
-The dependencies in the template include:
-
-* [Ktlint](/documentation/StaticAnalysis.md) for formatting.
-* [Detekt](/documentation/StaticAnalysis.md) for code smells.
-* [Git Hooks](/documentation/GitHooks.md) for automatically perform static analysis checks. 
-* [Gradle Versions Plugin](/documentation/VersionsPlugin.md) for checking all dependencies for new versions.
-* [GitHub Actions](/documentation/GitHubActions.md) for running continuous integration and ensuring code quality with every PR.
-* [LeakCanary](https://square.github.io/leakcanary/) for detecting memory leaks.
-* [Hilt](https://developer.android.com/training/dependency-injection/hilt-android) dependencies, which can be removed via setup.gradle if necessary.
-* [Room](https://developer.android.com/training/data-storage/room) dependencies, which can be removed via setup.gradle if necessary.
-* [Paparazzi](https://github.com/cashapp/paparazzi) dependncy, which can be removed via setup.gradle if necessary.
-
-### Danger
-
-This template uses [Danger](https://danger.systems) which will perform some checks against our 
-pull requests. You can find the list of checks in the [Dangerfile](Dangerfile). In addition, we 
-have a GitHub Actions workflow for Danger checks. In order for that to work, you'll need a 
-Danger API key setup in your GitHub secrets. Info on this can be found [here](https://www.jessesquires.com/blog/2020/04/10/running-danger-on-github-actions/). 
-
-### Templates
-
-There are also templates within this template. This repo comes shipped with a [Pull Request Template](/.github/pull_request_template.md) that will help you and your team write organized and detailed pull request descriptions. 
+- [Ktlint](/documentation/StaticAnalysis.md) for code formatting.
+- [Detekt](/documentation/StaticAnalysis.md) for code smells.
+- [Git Hooks](/documentation/GitHooks.md) for static analysis checks.
+- [GitHub Actions](/documentation/GitHubActions.md) for continuous integration.
+- [LeakCanary](https://square.github.io/leakcanary/) for detecting memory leaks.
+- [Hilt](https://developer.android.com/training/dependency-injection/hilt-android) and [Room](https://developer.android.com/training/data-storage/room) dependencies (removable via setup.gradle).
+- [Paparazzi](https://github.com/cashapp/paparazzi) dependency (removable via setup.gradle).
+- [Dokka](https://github.com/Kotlin/dokka) dependency, which document all project and module.
+- [Spotless](https://github.com/diffplug/spotless) dependency, which is Keep your code spotless.
+- [sortDependencies](https://github.com/square/gradle-dependencies-sorter) dependency, which is Sorts dependencies in build.gradle files.
 
 ## Dependency Setup
 
-You may notice that dependencies are set up in a very specific way. Each of the tools has its own Gradle file in the [buildscripts folder](/buildscripts). This is by design so that if you chose to have a multi module project, these dependencies can easily be shared between them. This is already configured inside our root `build.gradle.kts` file, by applying to each sub project:
+Dependencies are structured in [/buildscripts](/buildscripts). App module dependencies defined using a Gradle version catalog in [libs.versions.toml](gradle/libs.versions.toml).
 
-```groovy
-subprojects {
-    apply from: "../buildscripts/detekt.gradle"
-    apply from: "../buildscripts/versionsplugin.gradle"
-}
-```
+## Danger Checks
 
-In addition, all of the app module dependencies are defined using a gradle version catalog, found in this [toml](gradle/libs.versions.toml) file.
+Uses [Danger](https://danger.systems) for PR checks. See [Dangerfile](Dangerfile). Set up a Danger API key in GitHub secrets for GitHub Actions.
 
+## Templates
+
+Includes [Pull Request Template](/.github/pull_request_template.md) for organized PR descriptions.
