@@ -29,8 +29,8 @@ Inspired by [AndroidAppTemplate](https://github.com/AdamMc331/AndroidAppTemplate
 2. Customize by adjusting [setup.gradle](buildscripts/setup.gradle) and running `./gradlew renameAllModules`.
 
 - Japanese [Readme here](https://github.com/ihridoydas/BaseTemplateAndroidApp/blob/develop/README_jp.md) 🇯🇵.
-- Bangla [Readme here](https://github.com/LewisVo/Markdown-Tutorial/blob/master/README_bd.md) 🇧🇩.
-- Hindi [Readme here](https://github.com/luongvo209/Markdown-Tutorial/blob/master/README_in.md) 🇮🇳.
+- Bangla [Readme here](https://github.com/ihridoydas/BaseTemplateAndroidApp/blob/develop/README_bd.md) 🇧🇩.
+- Hindi [Readme here](https://github.com/ihridoydas/BaseTemplateAndroidApp/blob/develop/README_in.md) 🇮🇳.
 
 ## What's Included
 
