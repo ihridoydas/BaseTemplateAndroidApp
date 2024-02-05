@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.paparazzi) apply false
     alias(libs.plugins.hilt) apply false
     id(libs.plugins.sortDependencies.get().pluginId)
-    alias(libs.plugins.dokka) apply false
+    id(libs.plugins.dokka.get().pluginId)
 }
 
 android {

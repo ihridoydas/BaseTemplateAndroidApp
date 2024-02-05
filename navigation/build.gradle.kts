@@ -3,6 +3,7 @@ plugins {
     id(libs.plugins.kotlin.android.get().pluginId)
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.ksp) apply false
+    id(libs.plugins.dokka.get().pluginId)
 }
 
 android {
