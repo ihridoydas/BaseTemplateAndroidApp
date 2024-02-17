@@ -1,7 +1,6 @@
 plugins {
     id(libs.plugins.androidLibrary.get().pluginId)
     id(libs.plugins.kotlin.android.get().pluginId)
-    id(libs.plugins.protobuf.get().pluginId)
     id(libs.plugins.dokka.get().pluginId)
 }
 
@@ -15,27 +14,6 @@ android {
 
   dependencies {
       implementation(projects.common)
-      implementation(libs.datastore)
-      implementation(libs.protobuf.javaLite)
-      implementation(libs.protobuf.kotlinLite)
+      implementation(libs.kotlin.coroutines)
 
   }
-protobuf {
-    protoc {
-        artifact = libs.protobuf.protoc.get().toString()
-    }
-    generateProtoTasks {
-        all().forEach { task ->
-            task.builtins {
-                create("kotlin") {
-                    option("lite")
-                }
-            }
-            task.builtins {
-                create("java") {
-                    option("lite")
-                }
-            }
-        }
-    }
-}
