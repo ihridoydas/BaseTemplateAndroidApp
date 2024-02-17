@@ -2,6 +2,7 @@ $dokka.format:html-v1
 $dokka.linkExtension:html
 $dokka.location:template.screens////PointingToDeclaration/app/template.screens/index.html
 $dokka.location:template.screens//HomeScreen/#androidx.navigation.NavController/PointingToDeclaration/app/template.screens/-home-screen.html
+$dokka.location:template.screens//HomeScreenPreview/#/PointingToDeclaration/app/template.screens/-home-screen-preview.html
 $dokka.location:template.screens//ViewScreen/#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/app/template.screens/-view-screen.html
 $dokka.location:template.ui////PointingToDeclaration/app/template.ui/index.html
 $dokka.location:template.ui//MainAnimationNavHost/#androidx.navigation.NavHostController#kotlin.String/PointingToDeclaration/app/template.ui/-main-animation-nav-host.html

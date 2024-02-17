@@ -27,4 +27,15 @@ The following Gradle commands can be helpful:
 
 // Will check if everything is formatted correctly
 ./gradlew lintKotlin
+
+// Will check if everything is formatted correctly and run detekt
+./gradlew sortDependencies
+
+//check spotless
+./gradlew spotlessApply
+./gradlew spotlessCheck
+
+// check everything
+./gradlew check
+
 ```

@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.hilt) apply false
     id(libs.plugins.sortDependencies.get().pluginId)
     id(libs.plugins.dokka.get().pluginId)
+    id(libs.plugins.protobuf.get().pluginId)
 }
 
 android {
@@ -140,16 +141,20 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)
+    // Storage
+    implementation(libs.datastore)
     implementation(libs.hilt.android)
     implementation(libs.ktor.client.core)
+    implementation(libs.protobuf.javaLite)
+    implementation(libs.protobuf.kotlinLite)
     implementation(libs.square.moshi.kotlin)
     implementation(libs.square.retrofit)
     implementation(libs.square.retrofit.converter.moshi)
     implementation(libs.timber)
+    //Module
     implementation(projects.common)
     implementation(projects.navigation)
     implementation(projects.storage)
-    //Module
     implementation(projects.theme)
 
     // Test
@@ -170,5 +175,25 @@ dependencies {
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.compose.ui.test.junit)
     androidTestImplementation(libs.hilt.android.testing)
+}
+
+protobuf {
+    protoc {
+        artifact = libs.protobuf.protoc.get().toString()
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                create("kotlin") {
+                    option("lite")
+                }
+            }
+            task.builtins {
+                create("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }
 
