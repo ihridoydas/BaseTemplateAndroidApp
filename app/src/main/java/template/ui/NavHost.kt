@@ -30,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import template.navigation.ScreenDestinations
+import template.navigation.canGoBack
 import template.navigation.navigateTo
 import template.navigation.screen
 import template.screens.HomeScreen
@@ -59,6 +60,10 @@ fun MainAnimationNavHost(
     }
     // Back Handler
     BackHandler {
-        navController.popBackStack()
+        if (navController.canGoBack) {
+            if (navController.currentBackStackEntry?.destination?.route != ScreenDestinations.HomeScreen.route) {
+                navController.popBackStack()
+            }
+        }
     }
 }
