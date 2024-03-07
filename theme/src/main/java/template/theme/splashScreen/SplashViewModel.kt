@@ -38,9 +38,9 @@ class SplashViewModel :
 //    @ApplicationContext context: Context,
 //   // private val prefDataStore: PrefDataStore)
     ViewModel() {
-
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
+
     companion object {
         const val DELAY_DURATION = 3000L
     }

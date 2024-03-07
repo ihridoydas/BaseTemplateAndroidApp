@@ -37,9 +37,9 @@ import java.io.InputStreamReader
 class RootUtil {
     companion object {
         private val Tag = RootUtil::class.java.simpleName
-        private const val PathToWhich = "/system/xbin/which"
-        private const val CmdSu = "su"
-        private val PathsSu = arrayOf(
+        private const val PATH_TO_WHICH = "/system/xbin/which"
+        private const val CMD_SU = "su"
+        private val PATHS_SU = arrayOf(
             "/system/app/Superuser.apk",
             "/system/etc/init.d/99SuperSUDaemon",
             "/dev/com.koushikdutta.superuser.daemon/",
@@ -79,7 +79,7 @@ class RootUtil {
          * ルート化されたデバイスに通常見つかるファイルをチェックする.
          */
         private fun checkRootApps(): Boolean {
-            for (path in PathsSu) {
+            for (path in PATHS_SU) {
                 if (File(path).exists()) {
                     Log.e(Tag, "Root check is false(SU application is found)")
                     return true
@@ -95,7 +95,7 @@ class RootUtil {
         private fun checkRootSu(): Boolean {
             var process: Process? = null
             val ret = try {
-                process = Runtime.getRuntime().exec(arrayOf(PathToWhich, CmdSu))
+                process = Runtime.getRuntime().exec(arrayOf(PATH_TO_WHICH, CMD_SU))
                 val inputStream = BufferedReader(InputStreamReader(process.inputStream))
                 inputStream.readLine() != null
             } catch (t: Throwable) {

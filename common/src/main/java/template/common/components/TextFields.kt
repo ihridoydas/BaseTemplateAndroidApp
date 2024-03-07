@@ -111,7 +111,6 @@ fun AppTextField(
                     Icon(Icons.Filled.Info, "error", tint = MaterialTheme.colorScheme.error)
                 }
             },
-
             keyboardActions = KeyboardActions(
                 onDone = {
                     focusManager.clearFocus()
@@ -139,7 +138,7 @@ fun AppTextFieldPreview() {
                 value = "",
                 onValueChange = { },
                 singleLine = true,
-                isError = true, // @Update Error State
+                isError = true,
                 readOnly = false,
                 enabled = true,
                 supportingText = {

@@ -27,10 +27,11 @@ package template.navigation
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 
-fun NavHostController.navigateTo(route: String) = navigate(route) {
-    popUpTo(route)
-    launchSingleTop = true
-}
+fun NavHostController.navigateTo(route: String) =
+    navigate(route) {
+        popUpTo(route)
+        launchSingleTop = true
+    }
 
 // i want to back when
 val NavHostController.canGoBack: Boolean
