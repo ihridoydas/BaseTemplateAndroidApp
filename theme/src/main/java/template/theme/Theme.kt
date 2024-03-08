@@ -98,8 +98,8 @@ private val DarkColors = darkColorScheme(
 fun TemplateTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     content:
-    @Composable()
-    () -> Unit,
+        @Composable()
+        () -> Unit,
 ) {
     val colors = if (!useDarkTheme) {
         LightColors
