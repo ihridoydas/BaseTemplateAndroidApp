@@ -29,20 +29,21 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import template.common.DURATION
 import template.common.VALUES_X
@@ -106,10 +107,10 @@ class MainActivity : ComponentActivity() {
         }
         // splashViewModel.checkStartScreen() { route -> }
 
+        enableEdgeToEdge()
         setContent {
-            ConfigureTransparentSystemBars()
-
             TemplateTheme {
+                ChangeSystemBarsTheme(!isSystemInDarkTheme())
                 Surface(
                     color = MaterialTheme.colorScheme.background,
                 ) {
@@ -136,17 +137,30 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun ConfigureTransparentSystemBars() {
-        val systemUiController = rememberSystemUiController()
-        val useDarkIcons = !isSystemInDarkTheme()
-
-        DisposableEffect(systemUiController, useDarkIcons) {
-            systemUiController.setSystemBarsColor(
-                color = Color.Transparent,
-                darkIcons = useDarkIcons,
-            )
-
-            onDispose { }
+    private fun ChangeSystemBarsTheme(lightTheme: Boolean) {
+        val barColor = MaterialTheme.colorScheme.background.toArgb()
+        LaunchedEffect(lightTheme) {
+            if (lightTheme) {
+                enableEdgeToEdge(
+                    statusBarStyle = SystemBarStyle.light(
+                        barColor,
+                        barColor,
+                    ),
+                    navigationBarStyle = SystemBarStyle.light(
+                        barColor,
+                        barColor,
+                    ),
+                )
+            } else {
+                enableEdgeToEdge(
+                    statusBarStyle = SystemBarStyle.dark(
+                        barColor,
+                    ),
+                    navigationBarStyle = SystemBarStyle.dark(
+                        barColor,
+                    ),
+                )
+            }
         }
     }
 }
