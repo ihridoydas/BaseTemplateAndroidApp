@@ -54,6 +54,9 @@ Dependencies are structured in [/buildscripts](/buildscripts). App module depend
 ## Danger Checks
 
 Uses [Danger](https://danger.systems) for PR checks. See [Dangerfile](Dangerfile). Set up a Danger API key in GitHub secrets for GitHub Actions.
+we have a GitHub Actions workflow for Danger checks. In order for that to work properly, you'll need to give Danger permission to comment on your repository.
+
+You can do so by navigating to Repository Settings -> Actions -> General, scroll down to Workflow Permissions and set the permissions to read and write.
 
 ## Templates
 
