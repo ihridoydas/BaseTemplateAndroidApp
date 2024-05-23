@@ -10,6 +10,7 @@ plugins {
     id(libs.plugins.sortDependencies.get().pluginId)
     id(libs.plugins.dokka.get().pluginId)
     id(libs.plugins.protobuf.get().pluginId)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -122,8 +123,6 @@ dependencies {
 
     kspAndroidTest(libs.hilt.android.compiler)
 
-    // Gradle
-    implementation(platform(libs.compose.bom))
     // UI
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.android.material)
@@ -134,11 +133,12 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.foundation.android)
     implementation(libs.androidx.hilt.compose.navigation)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.material3.android)
     // Network and Local
     implementation(libs.androidx.room.runtime)
-    implementation(libs.compose.material3)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)
     // Storage
@@ -157,8 +157,10 @@ dependencies {
     implementation(projects.storage)
     implementation(projects.theme)
 
+    debugImplementation(libs.androidx.espresso.core.v350)
+    debugImplementation(libs.androidx.ui.test.junit4)
     // Test
-    debugImplementation(platform(libs.compose.bom))
+    //debugImplementation(platform(libs.compose.bom))
     debugImplementation(libs.compose.ui.test.manifest)
     debugImplementation(libs.compose.ui.tooling)
     // Others
@@ -168,9 +170,11 @@ dependencies {
     // Hilt
     annotationProcessor(libs.hilt.compiler)
 
+    testImplementation(libs.androidx.espresso.core.v350)
+    testImplementation(libs.androidx.ui.test.junit4)
     testImplementation(libs.junit)
 
-    androidTestImplementation(platform(libs.compose.bom))
+    //androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.compose.ui.test.junit)

@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.ksp) apply false
     id(libs.plugins.dokka.get().pluginId)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -16,14 +17,11 @@ android {
 
 dependencies {
     implementation(projects.common)
-    // Gradle
-    implementation(platform(libs.compose.bom))
     // UI
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.android.material)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
-    implementation(libs.compose.material3)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)
     implementation(libs.androidx.compose.ui.graphics)
@@ -35,7 +33,6 @@ dependencies {
 
 
     // Test
-    debugImplementation(platform(libs.compose.bom))
     debugImplementation(libs.compose.ui.test.manifest)
     debugImplementation(libs.compose.ui.tooling)
     // Others
@@ -45,9 +42,9 @@ dependencies {
 
     testImplementation(libs.junit)
 
-    androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.androidx.test.junit)
+    testImplementation(libs.androidx.ui.test.junit4)
     androidTestImplementation(libs.compose.ui.test.junit)
     androidTestImplementation(libs.hilt.android.testing)
 
