@@ -160,7 +160,6 @@ dependencies {
     debugImplementation(libs.androidx.espresso.core.v350)
     debugImplementation(libs.androidx.ui.test.junit4)
     // Test
-    //debugImplementation(platform(libs.compose.bom))
     debugImplementation(libs.compose.ui.test.manifest)
     debugImplementation(libs.compose.ui.tooling)
     // Others
@@ -174,7 +173,6 @@ dependencies {
     testImplementation(libs.androidx.ui.test.junit4)
     testImplementation(libs.junit)
 
-    //androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.compose.ui.test.junit)
