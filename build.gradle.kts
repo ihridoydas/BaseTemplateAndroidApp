@@ -3,7 +3,6 @@ import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
-import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -18,6 +17,7 @@ plugins {
     id(libs.plugins.sortDependencies.get().pluginId).version(libs.versions.sortDependencies).apply(false)
     alias(libs.plugins.kotlinter) apply false
     id(libs.plugins.dokka.get().pluginId).version(libs.versions.dokkaVersion).apply(false)
+    alias(libs.plugins.compose.compiler) apply false
 }
 
 buildscript {
@@ -45,24 +45,6 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-    }
-
-    // Currently overriding the ktlint version to 1.0.1, can remove in the future when kotlinter
-    // is updated: https://github.com/jeremymailen/kotlinter-gradle#custom-ktlint-version
-    configurations.classpath {
-        resolutionStrategy {
-            force(
-                "com.pinterest.ktlint:ktlint-rule-engine:${libs.versions.ktlint.get()}",
-                "com.pinterest.ktlint:ktlint-rule-engine-core:${libs.versions.ktlint.get()}",
-                "com.pinterest.ktlint:ktlint-cli-reporter-core:${libs.versions.ktlint.get()}",
-                "com.pinterest.ktlint:ktlint-cli-reporter-checkstyle:${libs.versions.ktlint.get()}",
-                "com.pinterest.ktlint:ktlint-cli-reporter-json:${libs.versions.ktlint.get()}",
-                "com.pinterest.ktlint:ktlint-cli-reporter-html:${libs.versions.ktlint.get()}",
-                "com.pinterest.ktlint:ktlint-cli-reporter-plain:${libs.versions.ktlint.get()}",
-                "com.pinterest.ktlint:ktlint-cli-reporter-sarif:${libs.versions.ktlint.get()}",
-                "com.pinterest.ktlint:ktlint-ruleset-standard:${libs.versions.ktlint.get()}",
-            )
-        }
     }
 }
 
@@ -130,11 +112,6 @@ fun BaseExtension.defaultConfig() {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    @Suppress("UnstableApiUsage")
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
     packagingOptions {

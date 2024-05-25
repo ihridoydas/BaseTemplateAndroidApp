@@ -12,10 +12,10 @@
         android:name="animationGroup"
         android:pivotX="0"
         android:pivotY="0"
-        android:scaleX="0.75"
-        android:scaleY="0.75"
-        android:translateX="13.5"
-        android:translateY="13.5">
+        android:scaleX="0.55"
+        android:scaleY="0.55"
+        android:translateX="25"
+        android:translateY="25">
         <path
             android:pathData="M74.25,0.01h-40.5c-5.95,0 -12.53,0 -18.43,2.42a23.84,23.84 0,0 0,-12.9 12.9c-2.42,5.9 -2.42,12.48 -2.42,18.43v40.5c0,5.95 0,12.53 2.42,18.43a23.84,23.84 0,0 0,12.9 12.9c5.9,2.42 12.48,2.42 18.43,2.42h40.5c5.95,0 12.53,0 18.43,-2.42a23.84,23.84 0,0 0,12.9 -12.9c2.42,-5.9 2.42,-12.48 2.42,-18.43L108,33.75c0,-5.95 0,-12.53 -2.42,-18.43a23.83,23.83 0,0 0,-12.9 -12.9c-5.9,-2.42 -12.48,-2.42 -18.43,-2.42Z"
             android:strokeColor="#55a456"
