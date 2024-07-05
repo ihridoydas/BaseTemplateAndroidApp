@@ -157,7 +157,6 @@ dependencies {
     implementation(projects.storage)
     implementation(projects.theme)
 
-    debugImplementation(libs.androidx.espresso.core.v350)
     debugImplementation(libs.androidx.ui.test.junit4)
     // Test
     debugImplementation(libs.compose.ui.test.manifest)
@@ -169,14 +168,12 @@ dependencies {
     // Hilt
     annotationProcessor(libs.hilt.compiler)
 
-    testImplementation(libs.androidx.espresso.core.v350)
+    testImplementation(libs.androidx.test.espresso.core)
+    testImplementation(libs.androidx.test.junit)
     testImplementation(libs.androidx.ui.test.junit4)
+    testImplementation(libs.compose.ui.test.junit)
+    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.junit)
-
-    androidTestImplementation(libs.androidx.test.espresso.core)
-    androidTestImplementation(libs.androidx.test.junit)
-    androidTestImplementation(libs.compose.ui.test.junit)
-    androidTestImplementation(libs.hilt.android.testing)
 }
 
 protobuf {

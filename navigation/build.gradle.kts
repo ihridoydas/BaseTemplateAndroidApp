@@ -42,10 +42,10 @@ dependencies {
 
     testImplementation(libs.junit)
 
-    androidTestImplementation(libs.androidx.test.espresso.core)
-    androidTestImplementation(libs.androidx.test.junit)
+    testImplementation(libs.androidx.test.espresso.core)
+    testImplementation(libs.androidx.test.junit)
     testImplementation(libs.androidx.ui.test.junit4)
-    androidTestImplementation(libs.compose.ui.test.junit)
-    androidTestImplementation(libs.hilt.android.testing)
+    testImplementation(libs.compose.ui.test.junit)
+    testImplementation(libs.hilt.android.testing)
 
 }
