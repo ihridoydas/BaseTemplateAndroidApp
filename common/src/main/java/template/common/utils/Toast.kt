@@ -47,19 +47,21 @@ private fun Context.showToast(
     message: String,
     onToastDisplayChange: (Boolean) -> Unit,
 ) {
-    Toast.makeText(this, message, Toast.LENGTH_SHORT).also {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            it.addCallback(object : Toast.Callback() {
-                override fun onToastHidden() {
-                    super.onToastHidden()
-                    onToastDisplayChange(false)
-                }
+    Toast
+        .makeText(this, message, Toast.LENGTH_SHORT)
+        .also {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                it.addCallback(object : Toast.Callback() {
+                    override fun onToastHidden() {
+                        super.onToastHidden()
+                        onToastDisplayChange(false)
+                    }
 
-                override fun onToastShown() {
-                    super.onToastShown()
-                    onToastDisplayChange(true)
-                }
-            })
-        }
-    }.show()
+                    override fun onToastShown() {
+                        super.onToastShown()
+                        onToastDisplayChange(true)
+                    }
+                })
+            }
+        }.show()
 }
