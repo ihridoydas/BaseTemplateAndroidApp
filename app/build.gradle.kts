@@ -118,11 +118,6 @@ android {
 }
 
 dependencies {
-    ksp(libs.androidx.room.compiler)
-    ksp(libs.square.moshi.kotlin.codegen)
-
-    kspAndroidTest(libs.hilt.android.compiler)
-
     // UI
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.android.material)
@@ -174,6 +169,11 @@ dependencies {
     testImplementation(libs.compose.ui.test.junit)
     testImplementation(libs.hilt.android.testing)
     testImplementation(libs.junit)
+
+    ksp(libs.androidx.room.compiler)
+    ksp(libs.square.moshi.kotlin.codegen)
+
+    kspAndroidTest(libs.hilt.android.compiler)
 }
 
 protobuf {

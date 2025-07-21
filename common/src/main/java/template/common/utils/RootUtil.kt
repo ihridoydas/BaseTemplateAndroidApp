@@ -59,9 +59,7 @@ class RootUtil {
         /**
          * ルート化された端末かどうか確認する.
          */
-        fun isDeviceRooted(): Boolean {
-            return checkRootBuild() || checkRootApps() || checkRootSu()
-        }
+        fun isDeviceRooted(): Boolean = checkRootBuild() || checkRootApps() || checkRootSu()
 
         /**
          * テストビルドやカスタム ROM の兆候を確認する.
