@@ -7,9 +7,9 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  push:
-    branches:
-      - develop
+#  push:
+#    branches:
+#      - develop
   pull_request:
 
 jobs:
