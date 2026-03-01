@@ -150,48 +150,73 @@ tasks.register('replaceTemplateReferences') {
 
         modules.each { module ->
 
+            // --- FIX MANIFEST ---
             replaceTextInFile(
                     "${rootDir}/${module}/src/main/AndroidManifest.xml",
                     "${renameConfig.templateName}.MainActivity",
                     "${renameConfig.newTemplateAppId}.MainActivity"
             )
 
-            replaceTextInFile(
-                    "${rootDir}/${module}/build.gradle.kts",
-                    "namespace = \"${renameConfig.templateName}\"",
-                    "namespace = \"${renameConfig.newTemplateAppId}\""
-            )
+            // --- FIX MODULE build.gradle.kts (REGEX SAFE) ---
+            def moduleGradle = new File("${rootDir}/${module}/build.gradle.kts")
+            if (moduleGradle.exists()) {
 
-            replaceTextInFile(
-                    "${rootDir}/${module}/build.gradle.kts",
-                    "applicationId = \"${renameConfig.templateAppId}\"",
-                    "applicationId = \"${renameConfig.newTemplateAppId}\""
-            )
+                def text = moduleGradle.text
 
-            replaceTextInFile(
-                    "${rootDir}/settings.gradle.kts",
-                    "rootProject.name = \"${renameConfig.templateName}\"",
-                    "rootProject.name = \"${renameConfig.newTemplateName}\""
-            )
+                // namespace = "template"
+                text = text.replaceAll(
+                        /namespace\s*=\s*"${renameConfig.templateName}"/,
+                        "namespace = \"${renameConfig.newTemplateAppId}\""
+                )
 
+                // namespace = "template.${project.name}"
+                text = text.replaceAll(
+                        /namespace\s*=\s*"${renameConfig.templateName}\.\$\{project\.name\}"/,
+                        "namespace = \"${renameConfig.newTemplateAppId}.\${project.name}\""
+                )
+
+                // applicationId
+                text = text.replaceAll(
+                        /applicationId\s*=\s*"${renameConfig.templateAppId}"/,
+                        "applicationId = \"${renameConfig.newTemplateAppId}\""
+                )
+
+                moduleGradle.text = text
+            }
+
+            // --- FIX STRINGS ---
             replaceTextInFile(
                     "${rootDir}/${module}/src/main/res/values/strings.xml",
                     "<string name=\"app_name\">${renameConfig.templateName}</string>",
                     "<string name=\"app_name\">${renameConfig.newTemplateName}</string>"
             )
+        }
 
-            replaceTextInFile(
-                    "${rootDir}/build.gradle.kts",
-                    "namespace = \"${renameConfig.templateName}\"",
+        // --- FIX ROOT build.gradle.kts ---
+        def rootGradle = new File("${rootDir}/build.gradle.kts")
+        if (rootGradle.exists()) {
+
+            def rootText = rootGradle.text
+
+            rootText = rootText.replaceAll(
+                    /namespace\s*=\s*"${renameConfig.templateName}"/,
                     "namespace = \"${renameConfig.newTemplateAppId}\""
             )
 
-            replaceTextInFile(
-                    "${rootDir}/build.gradle.kts",
-                    "namespace = \"${renameConfig.templateName}.\${project.name}\"",
+            rootText = rootText.replaceAll(
+                    /namespace\s*=\s*"${renameConfig.templateName}\.\$\{project\.name\}"/,
                     "namespace = \"${renameConfig.newTemplateAppId}.\${project.name}\""
             )
+
+            rootGradle.text = rootText
         }
+
+        // --- FIX PROJECT NAME ---
+        replaceTextInFile(
+                "${rootDir}/settings.gradle.kts",
+                "rootProject.name = \"${renameConfig.templateName}\"",
+                "rootProject.name = \"${renameConfig.newTemplateName}\""
+        )
     }
 }
 
