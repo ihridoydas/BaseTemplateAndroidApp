@@ -322,7 +322,7 @@ tasks.register('renameTemplate') {
             keepOrRemoveDependencies,
             replaceTemplateReferences,
             forceFullClean,
-           // deleteSetupCode
+            deleteSetupCode
     )
 
     doLast {
