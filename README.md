@@ -26,7 +26,7 @@ Inspired by [AndroidAppTemplate](https://github.com/AdamMc331/AndroidAppTemplate
    usePaparazziDependencies : true,
    
    ```
-2. Customize by adjusting [setup.gradle](buildscripts/setup.gradle) and running `./gradlew renameAllModules`.
+2. Customize by adjusting [setup.gradle](buildscripts/setup.gradle) and running `./gradlew renameTemplate`.
 
 - Japanese [Readme here](https://github.com/ihridoydas/BaseTemplateAndroidApp/blob/develop/README_jp.md) 🇯🇵.
 - Bangla [Readme here](https://github.com/ihridoydas/BaseTemplateAndroidApp/blob/develop/README_bd.md) 🇧🇩.

@@ -24,7 +24,7 @@
     useRetrofitDependencies  : true,
     usePaparazziDependencies : true,
     ```
-2. [setup.gradle](buildscripts/setup.gradle)を調整し、`./gradlew renameAllModules`を実行してカスタマイズします。
+2. [setup.gradle](buildscripts/setup.gradle)を調整し、`./gradlew renameTemplate`を実行してカスタマイズします。
 
 ## 含まれるもの
 

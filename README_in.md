@@ -24,7 +24,7 @@
     useRetrofitDependencies  : true,
     usePaparazziDependencies : true,
     ```
-2. [setup.gradle](buildscripts/setup.gradle) को समायोजित करके और `./gradlew renameAllModules` चलाकर कस्टमाइज़ करें।
+2. [setup.gradle](buildscripts/setup.gradle) को समायोजित करके और `./gradlew renameTemplate` चलाकर कस्टमाइज़ करें।
 
 ## क्या शामिल है
 
