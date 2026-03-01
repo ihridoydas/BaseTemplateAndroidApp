@@ -8,13 +8,6 @@ plugins {
     alias(libs.plugins.compose.compiler)
 }
 
-extensions.configure<LibraryExtension>("android") {
-    namespace = "template.navigation"
-
-    buildFeatures {
-        compose = true
-    }
-}
 
 dependencies {
     implementation(projects.common)

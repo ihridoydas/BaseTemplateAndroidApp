@@ -6,13 +6,6 @@ plugins {
     alias(libs.plugins.compose.compiler)
 }
 
-extensions.configure<LibraryExtension>("android") {
-    namespace = "template.theme"
-
-    buildFeatures {
-        compose = true
-    }
-}
 
 dependencies {
     // UI
