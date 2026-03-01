@@ -70,7 +70,8 @@ fun HomeScreen(navController: NavController) {
                 Text(
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
-                        .fillMaxSize().padding(0.dp),
+                        .fillMaxSize()
+                        .padding(0.dp),
                     text = "Lets Start!",
                     color = MaterialTheme.colorScheme.background,
                 )

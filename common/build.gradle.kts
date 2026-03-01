@@ -28,6 +28,7 @@ dependencies {
     implementation(libs.androidx.hilt.compose.navigation)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.material3.android)
+    implementation(libs.compose.material.icons.extended)
     testImplementation(libs.androidx.ui.test.junit4)
 
 }

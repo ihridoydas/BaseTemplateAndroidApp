@@ -106,7 +106,7 @@ android {
         getByName("release") {
             isMinifyEnabled = true
             isDebuggable = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             buildConfigField("String", "Template_HOST", "\"not given\"")
         }
     }
@@ -118,11 +118,6 @@ android {
 }
 
 dependencies {
-    ksp(libs.androidx.room.compiler)
-    ksp(libs.square.moshi.kotlin.codegen)
-
-    kspAndroidTest(libs.hilt.android.compiler)
-
     // UI
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.android.material)
@@ -139,6 +134,7 @@ dependencies {
     implementation(libs.androidx.material3.android)
     // Network and Local
     implementation(libs.androidx.room.runtime)
+    implementation(libs.compose.material.icons.extended)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)
     // Storage
@@ -174,6 +170,11 @@ dependencies {
     testImplementation(libs.compose.ui.test.junit)
     testImplementation(libs.hilt.android.testing)
     testImplementation(libs.junit)
+
+    ksp(libs.androidx.room.compiler)
+    ksp(libs.square.moshi.kotlin.codegen)
+
+    kspAndroidTest(libs.hilt.android.compiler)
 }
 
 protobuf {
@@ -195,4 +196,3 @@ protobuf {
         }
     }
 }
-
