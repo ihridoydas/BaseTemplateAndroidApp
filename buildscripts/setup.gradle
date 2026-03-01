@@ -90,13 +90,48 @@ tasks.register("renamePackages") {
     group = "Template Setup"
 
     doLast {
+
+        def templateName = renameConfig.templateName
+        def newAppId = renameConfig.newTemplateAppId
+        def newThemeName = renameConfig.newMaterialThemeName
+
         modules.each { module ->
+
             ["main", "androidTest", "test"].each { sourceSet ->
-                movePackageDirectory(rootDir, module, sourceSet,
-                        renameConfig.templateName,
-                        renameConfig.newTemplateAppId)
+
+                def newDirPath = newAppId.replace(".", "/")
+
+                def javaDir = file("${rootDir}/${module}/src/${sourceSet}/java/${templateName}")
+                def kotlinDir = file("${rootDir}/${module}/src/${sourceSet}/kotlin/${templateName}")
+
+                [javaDir, kotlinDir].each { dir ->
+
+                    if (dir.exists()) {
+
+                        def parentPath = dir.parentFile.absolutePath
+                        def targetDir = file("${parentPath}/${newDirPath}")
+
+                        copy {
+                            from(dir)
+                            into(targetDir)
+
+                            include("**/*.kt", "**/*.java")
+
+                            filter { line ->
+                                line
+                                        .replace("package ${templateName}", "package ${newAppId}")
+                                        .replace("import ${templateName}", "import ${newAppId}")
+                                        .replace(templateName + "Theme", newThemeName)
+                            }
+                        }
+
+                        delete(dir)
+                    }
+                }
             }
         }
+
+        println("✅ Package rename completed")
     }
 }
 
