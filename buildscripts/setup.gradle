@@ -198,14 +198,15 @@ tasks.register('replaceTemplateReferences') {
 
             def rootText = rootGradle.text
 
+            // 🔥 PASTE HERE
             rootText = rootText.replaceAll(
-                    /namespace\s*=\s*"${renameConfig.templateName}"/,
-                    "namespace = \"${renameConfig.newTemplateAppId}\""
+                    /namespace\s*=\s*"${renameConfig.templateName}\.[^"]+"/,
+                    "namespace = \"${renameConfig.newTemplateAppId}.\\\${project.name}\""
             )
 
             rootText = rootText.replaceAll(
-                    /namespace\s*=\s*"${renameConfig.templateName}\.\$\{project\.name\}"/,
-                    "namespace = \"${renameConfig.newTemplateAppId}.\${project.name}\""
+                    /namespace\s*=\s*"${renameConfig.templateName}"/,
+                    "namespace = \"${renameConfig.newTemplateAppId}\""
             )
 
             rootGradle.text = rootText
@@ -321,7 +322,7 @@ tasks.register('renameTemplate') {
             keepOrRemoveDependencies,
             replaceTemplateReferences,
             forceFullClean,
-            deleteSetupCode
+           // deleteSetupCode
     )
 
     doLast {
