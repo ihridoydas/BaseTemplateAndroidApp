@@ -11,6 +11,10 @@ android {
     buildFeatures {
         compose = true
     }
+
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
 }
 
 dependencies {
@@ -24,6 +28,7 @@ dependencies {
     implementation(libs.compose.ui.tooling)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.compose.material.icons.extended)
 
     implementation(libs.androidx.hilt.compose.navigation)
     implementation(libs.androidx.lifecycle.runtime.ktx)
