@@ -1,11 +1,12 @@
+import com.android.build.api.dsl.LibraryExtension
+
 plugins {
     id(libs.plugins.androidLibrary.get().pluginId)
-    id(libs.plugins.kotlin.android.get().pluginId)
     id(libs.plugins.dokka.get().pluginId)
     alias(libs.plugins.compose.compiler)
 }
 
-android {
+extensions.configure<LibraryExtension>("android") {
     namespace = "template.common"
 
     buildFeatures {
@@ -35,5 +36,4 @@ dependencies {
     implementation(libs.androidx.material3.android)
     implementation(libs.compose.material.icons.extended)
     testImplementation(libs.androidx.ui.test.junit4)
-
 }
