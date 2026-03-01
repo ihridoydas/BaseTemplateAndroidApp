@@ -159,7 +159,7 @@ fun LoginScreenPreview() {
                 value = "template@gmail.com",
                 label = R.string.email,
                 hint = "yourname@domain.com",
-                error = com.google.android.material.R.string.error_a11y_label,
+                error = R.string.error_email_empty,
                 leadingIcon = Icons.Filled.Email,
                 onValueChanged = { },
                 imeAction = ImeAction.Next,

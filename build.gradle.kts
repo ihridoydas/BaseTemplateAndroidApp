@@ -3,7 +3,6 @@ import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
-import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -157,7 +156,6 @@ subprojects {
     afterEvaluate {
         project.apply("${project.rootDir}/spotless.gradle")
     }
-    tasks.withType<Detekt>().configureEach { jvmTarget = "21" }
 
     tasks.withType<KotlinCompile> {
         compilerOptions {
