@@ -351,7 +351,7 @@ tasks.register('renameTemplate') {
         println("🧹 Running spotlessApply...")
 
         exec {
-            commandLine "./gradlew", "spotlessApply"
+            commandLine "./gradlew", "clean"
         }
         println("✅ Template successfully converted to ${renameConfig.newTemplateAppId}")
         println("🚀 Close Android Studio, reopen project, then run: ./gradlew clean build")
