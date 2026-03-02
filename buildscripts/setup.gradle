@@ -214,20 +214,21 @@ tasks.register('replaceTemplateReferences') {
         }
 
         // --- FIX ROOT build.gradle.kts ---
-        def rootGradle = new File("${rootDir}/build.gradle.kts")
+        def rootGradle = layout.projectDirectory.file("build.gradle.kts").asFile
+
         if (rootGradle.exists()) {
 
             def rootText = rootGradle.text
+            def projectVar = "\${project.name}"
 
-            // 🔥 PASTE HERE
             rootText = rootText.replaceAll(
                     /namespace\s*=\s*"${renameConfig.templateName}\.[^"]+"/,
-                    'namespace = "' + renameConfig.newTemplateAppId + '.${project.name}"'
+                    "namespace = \"${renameConfig.newTemplateAppId}.${projectVar}\""
             )
 
             rootText = rootText.replaceAll(
                     /namespace\s*=\s*"${renameConfig.templateName}"/,
-                    'namespace = "' + renameConfig.newTemplateAppId + '"'
+                    "namespace = \"${renameConfig.newTemplateAppId}\""
             )
 
             rootGradle.text = rootText
