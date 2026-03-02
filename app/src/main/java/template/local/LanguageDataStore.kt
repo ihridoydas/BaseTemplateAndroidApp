@@ -36,7 +36,7 @@ class LanguageDataStore(
     private val context: Context,
 ) {
     companion object {
-        private val Context.languageDataStore: DataStore<LanguagePreferences>
+        private val Context.languageStoreData: DataStore<LanguagePreferences>
             by dataStore(
                 fileName = "language.pb",
                 serializer = LanguageSerializer,
@@ -44,11 +44,11 @@ class LanguageDataStore(
     }
 
     val getLanguage: Flow<Language> =
-        context.languageDataStore.data
+        context.languageStoreData.data
             .map { it.language }
 
     suspend fun setLanguage(language: Language) {
-        context.languageDataStore.updateData { current ->
+        context.languageStoreData.updateData { current ->
             current
                 .toBuilder()
                 .setLanguage(language)
