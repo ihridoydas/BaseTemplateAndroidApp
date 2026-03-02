@@ -219,15 +219,16 @@ tasks.register('replaceTemplateReferences') {
 
             def rootText = rootGradle.text
 
-            // 🔥 PASTE HERE
+            // replace namespace = "template.something"
             rootText = rootText.replaceAll(
                     /namespace\s*=\s*"${renameConfig.templateName}\.[^"]+"/,
-                    'namespace = "' + renameConfig.newTemplateAppId + '.${project.name}"'
+                    "namespace = \"${renameConfig.newTemplateAppId}.\\\$\\{project.name\\}\""
             )
 
+            // replace namespace = "template"
             rootText = rootText.replaceAll(
                     /namespace\s*=\s*"${renameConfig.templateName}"/,
-                    'namespace = "' + renameConfig.newTemplateAppId + '"'
+                    "namespace = \"${renameConfig.newTemplateAppId}\""
             )
 
             rootGradle.text = rootText
