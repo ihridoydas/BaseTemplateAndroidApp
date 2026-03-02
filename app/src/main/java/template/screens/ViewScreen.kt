@@ -41,7 +41,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import template.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,7 +53,7 @@ fun ViewScreen(onBackPress: () -> Unit) {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Welcome",
+                        text = stringResource(R.string.welcome),
                         modifier = Modifier,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = MaterialTheme.typography.titleSmall,
@@ -78,7 +80,7 @@ fun ViewScreen(onBackPress: () -> Unit) {
                         .fillMaxSize(),
                 ) {
                     Text(
-                        text = "Nice to meet you..!",
+                        text = stringResource(R.string.nice_to_meet_you),
                         modifier = Modifier.padding(16.dp),
                     )
                 }

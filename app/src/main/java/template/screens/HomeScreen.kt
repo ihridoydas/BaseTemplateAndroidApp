@@ -36,14 +36,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import template.R
 import template.common.components.TemplatePreview
+import template.local.LanguageDataStore
 import template.navigation.ScreenDestinations
+import template.ui.LanguageDropdown
 
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(
+    navController: NavController,
+    languageDataStore: LanguageDataStore,
+) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -51,8 +60,12 @@ fun HomeScreen(navController: NavController) {
             Alignment.CenterHorizontally,
         ) {
             Text(
-                text = "Hello Developer!",
+                text = stringResource(
+                    R.string.hello_developer,
+                    stringResource(R.string.app_name),
+                ),
                 style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 16.dp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -78,10 +91,11 @@ fun HomeScreen(navController: NavController) {
             }
         }
     }
+    LanguageDropdown(languageDataStore)
 }
 
 @TemplatePreview
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(navController = rememberNavController())
+    HomeScreen(navController = rememberNavController(), languageDataStore = LanguageDataStore(LocalContext.current))
 }
