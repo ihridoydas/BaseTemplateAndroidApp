@@ -26,6 +26,7 @@ package template.local
 
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
+import com.google.protobuf.InvalidProtocolBufferException
 import template.datastore.LanguagePreferences
 import java.io.InputStream
 import java.io.OutputStream
@@ -37,8 +38,8 @@ object LanguageSerializer : Serializer<LanguagePreferences> {
     override suspend fun readFrom(input: InputStream): LanguagePreferences {
         try {
             return LanguagePreferences.parseFrom(input)
-        } catch (exception: Exception) {
-            throw CorruptionException("Cannot read proto.", exception)
+        } catch (e: InvalidProtocolBufferException) {
+            throw CorruptionException("Cannot read proto.", e)
         }
     }
 
