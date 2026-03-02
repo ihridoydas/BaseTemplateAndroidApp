@@ -318,7 +318,7 @@ naming:
   VariableMaxLength:
     active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
-    maximumVariableNameLength: 64
+    maximumVariableNameLength: 94
   VariableMinLength:
     active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
