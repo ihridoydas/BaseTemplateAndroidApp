@@ -219,14 +219,11 @@ tasks.register('replaceTemplateReferences') {
         if (rootGradle.exists()) {
 
             def rootText = rootGradle.text
-
             def projectVar = "\${project.name}"
 
             rootText = rootText.replaceAll(
                     /namespace\s*=\s*"${renameConfig.templateName}\.[^"]+"/,
-                    Matcher.quoteReplacement(
-                            "namespace = \"${renameConfig.newTemplateAppId}.${projectVar}\""
-                    )
+                    "namespace = \"${renameConfig.newTemplateAppId}.${projectVar}\""
             )
 
             rootText = rootText.replaceAll(
