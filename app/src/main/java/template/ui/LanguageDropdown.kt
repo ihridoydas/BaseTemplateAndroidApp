@@ -53,7 +53,6 @@ import template.util.Utils
 @Composable
 fun LanguageDropdown(languageDataStore: LanguageDataStore) {
     val scope = rememberCoroutineScope()
-
     val currentLanguage by languageDataStore
         .getLanguage
         .collectAsState(initial = Language.ENGLISH)
