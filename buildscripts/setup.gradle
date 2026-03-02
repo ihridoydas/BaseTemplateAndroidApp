@@ -166,19 +166,19 @@ tasks.register('replaceTemplateReferences') {
                 // namespace = "template"
                 text = text.replaceAll(
                         /namespace\s*=\s*"${renameConfig.templateName}"/,
-                        'namespace = "' + renameConfig.newTemplateAppId + '"'
+                        "namespace = \"${renameConfig.newTemplateAppId}\""
                 )
 
                 // namespace = "template.${project.name}"
                 text = text.replaceAll(
                         /namespace\s*=\s*"${renameConfig.templateName}\.\$\{project\.name\}"/,
-                        'namespace = "' + renameConfig.newTemplateAppId + '.${project.name}"'
+                        "namespace = \"${renameConfig.newTemplateAppId}.\${project.name}\""
                 )
 
                 // applicationId
                 text = text.replaceAll(
                         /applicationId\s*=\s*"${renameConfig.templateAppId}"/,
-                        'applicationId = "' + renameConfig.newTemplateAppId + '"'
+                        "applicationId = \"${renameConfig.newTemplateAppId}\""
                 )
 
                 moduleGradle.text = text
@@ -222,12 +222,12 @@ tasks.register('replaceTemplateReferences') {
             // 🔥 PASTE HERE
             rootText = rootText.replaceAll(
                     /namespace\s*=\s*"${renameConfig.templateName}\.[^"]+"/,
-                    'namespace = "' + renameConfig.newTemplateAppId + '.${project.name}"'
+                    "namespace = \"${renameConfig.newTemplateAppId}.\\\${project.name}\""
             )
 
             rootText = rootText.replaceAll(
                     /namespace\s*=\s*"${renameConfig.templateName}"/,
-                    'namespace = "' + renameConfig.newTemplateAppId + '"'
+                    "namespace = \"${renameConfig.newTemplateAppId}\""
             )
 
             rootGradle.text = rootText
@@ -236,8 +236,8 @@ tasks.register('replaceTemplateReferences') {
         // --- FIX PROJECT NAME ---
         replaceTextInFile(
                 "${rootDir}/settings.gradle.kts",
-                'rootProject.name = "' + renameConfig.templateName + '"',
-                'rootProject.name = "' + renameConfig.newTemplateName + '"'
+                "rootProject.name = \"${renameConfig.templateName}\"",
+                "rootProject.name = \"${renameConfig.newTemplateName}\""
         )
     }
 }
@@ -347,6 +347,12 @@ tasks.register('renameTemplate') {
     )
 
     doLast {
+
+        println("🧹 Running spotlessApply...")
+
+        exec {
+            commandLine "./gradlew", "spotlessApply"
+        }
         println("✅ Template successfully converted to ${renameConfig.newTemplateAppId}")
         println("🚀 Close Android Studio, reopen project, then run: ./gradlew clean build")
     }
