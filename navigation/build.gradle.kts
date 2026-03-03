@@ -1,13 +1,14 @@
+import com.android.build.api.dsl.LibraryExtension
+
 plugins {
     id(libs.plugins.androidLibrary.get().pluginId)
-    id(libs.plugins.kotlin.android.get().pluginId)
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.ksp) apply false
     id(libs.plugins.dokka.get().pluginId)
     alias(libs.plugins.compose.compiler)
 }
 
-android {
+extensions.configure<LibraryExtension>("android") {
     namespace = "template.navigation"
 
     buildFeatures {

@@ -1,8 +1,9 @@
-import com.android.build.gradle.AppExtension
+import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.dsl.LibraryExtension
 import com.android.build.gradle.AppPlugin
-import com.android.build.gradle.BaseExtension
-import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
+import org.gradle.api.plugins.JavaPlugin
+import org.gradle.api.plugins.JavaPluginExtension
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -96,63 +97,78 @@ tasks {
     }
 }
 
-fun BaseExtension.defaultConfig() {
-
-    compileSdkVersion(libs.versions.compileSdk.get().toInt())
-
-    defaultConfig {
-        minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.compileSdk.get().toInt()
-        consumerProguardFiles("consumer-rules.pro")
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-}
-
-fun PluginContainer.applyDefaultConfig(project: Project) {
-    whenPluginAdded {
+subprojects {
+    plugins.whenPluginAdded {
         when (this) {
             is AppPlugin -> {
-                project.extensions
-                    .getByType<AppExtension>()
-                    .apply {
-                        defaultConfig()
-                    }
-            }
+                extensions.configure<ApplicationExtension>("android") {
+                    compileSdk = libs.versions.compileSdk.get().toInt()
+                    namespace = "template"
 
-            is LibraryPlugin -> {
-                project.extensions
-                    .getByType<LibraryExtension>()
-                    .apply {
-                        defaultConfig()
+                    defaultConfig {
+                        minSdk = libs.versions.minSdk.get().toInt()
+                        targetSdk = libs.versions.compileSdk.get().toInt()
+                        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                        vectorDrawables {
+                            useSupportLibrary = true
+                        }
                     }
-            }
-
-            is JavaPlugin -> {
-                project.extensions.getByType<JavaPluginExtension>()
-                    .apply {
+                    compileOptions {
                         sourceCompatibility = JavaVersion.VERSION_17
                         targetCompatibility = JavaVersion.VERSION_17
                     }
+
+                    packaging {
+                        resources {
+                            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+                        }
+                    }
+                    
+                    buildFeatures {
+                        compose = true
+                    }
+                }
+            }
+
+            is LibraryPlugin -> {
+                extensions.configure<LibraryExtension>("android") {
+                    compileSdk = libs.versions.compileSdk.get().toInt()
+                    namespace = "template.${project.name}"
+
+                    defaultConfig {
+                        minSdk = libs.versions.minSdk.get().toInt()
+                        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                        consumerProguardFiles("consumer-rules.pro")
+                        vectorDrawables {
+                            useSupportLibrary = true
+                        }
+                    }
+                    compileOptions {
+                        sourceCompatibility = JavaVersion.VERSION_17
+                        targetCompatibility = JavaVersion.VERSION_17
+                    }
+
+                    packaging {
+                        resources {
+                            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+                        }
+                    }
+
+                    buildFeatures {
+                        compose = true
+                    }
+                }
+            }
+
+            is JavaPlugin -> {
+                extensions.configure<JavaPluginExtension> {
+                    sourceCompatibility = JavaVersion.VERSION_17
+                    targetCompatibility = JavaVersion.VERSION_17
+                }
             }
         }
     }
-}
 
-subprojects {
-    project.plugins.applyDefaultConfig(project)
     afterEvaluate {
         project.apply("${project.rootDir}/spotless.gradle")
     }

@@ -1,9 +1,9 @@
+import com.android.build.api.dsl.ApplicationExtension
 import java.util.Properties
 
 plugins {
     id(libs.plugins.android.application.get().pluginId)
     id(libs.plugins.ksp.get().pluginId)
-    id(libs.plugins.kotlin.android.get().pluginId)
     id(libs.plugins.kotlinter.get().pluginId)
     alias(libs.plugins.paparazzi) apply false
     alias(libs.plugins.hilt) apply false
@@ -13,27 +13,11 @@ plugins {
     alias(libs.plugins.compose.compiler)
 }
 
-android {
-    compileSdk = libs.versions.compileSdk.get().toInt()
-    namespace = "template"
-
+extensions.configure<ApplicationExtension>("android") {
     defaultConfig {
         applicationId = "template.app.id"
         versionCode = 1
         versionName = "1.0"
-    }
-    //Build Variant
-    applicationVariants.configureEach {
-        val appLabelMap = when (this.buildType.name) {
-            "debug" -> mapOf("develop" to "${rootProject.name} devDebug",
-            "staging" to "${rootProject.name} stgDebug",
-            "production" to "${rootProject.name} proDebug")
-            else -> mapOf("develop" to "${rootProject.name} Develop",
-                "staging" to "${rootProject.name} Staging",
-                "production" to rootProject.name)
-        }
-        val flavor = this.productFlavors[0]
-        this.mergedFlavor.manifestPlaceholders["appLabel"] = "${appLabelMap[flavor.name]}"
     }
 
     /*
@@ -44,36 +28,44 @@ android {
     STORE_PASSWORD = template
     KEY_PASSWORD = template
     */
-
-    /*signingConfigs {
+    signingConfigs {
         create("develop") {
-            val keystoreProperties = Properties().apply{
-                load(File("local.properties").reader())
+            val keystoreProperties = Properties().apply {
+                val propFile = rootProject.file("local.properties")
+                if (propFile.exists()) {
+                    load(propFile.reader())
+                }
             }
             keyAlias = keystoreProperties.getProperty("KEY_ALIAS")
             keyPassword = keystoreProperties.getProperty("KEY_PASSWORD")
-            storeFile = File(keystoreProperties.getProperty("STORE_FILE"))
+            storeFile = keystoreProperties.getProperty("STORE_FILE")?.let { file(it) }
             storePassword = keystoreProperties.getProperty("STORE_PASSWORD")
         }
         create("staging") {
-            val keystoreProperties = Properties().apply{
-                load(File("local.properties").reader())
+            val keystoreProperties = Properties().apply {
+                val propFile = rootProject.file("local.properties")
+                if (propFile.exists()) {
+                    load(propFile.reader())
+                }
             }
             keyAlias = keystoreProperties.getProperty("KEY_ALIAS")
             keyPassword = keystoreProperties.getProperty("KEY_PASSWORD")
-            storeFile = File(keystoreProperties.getProperty("STORE_FILE"))
+            storeFile = keystoreProperties.getProperty("STORE_FILE")?.let { file(it) }
             storePassword = keystoreProperties.getProperty("STORE_PASSWORD")
         }
         create("production") {
-            val keystoreProperties = Properties().apply{
-                load(File("local.properties").reader())
+            val keystoreProperties = Properties().apply {
+                val propFile = rootProject.file("local.properties")
+                if (propFile.exists()) {
+                    load(propFile.reader())
+                }
             }
             keyAlias = keystoreProperties.getProperty("KEY_ALIAS")
             keyPassword = keystoreProperties.getProperty("KEY_PASSWORD")
-            storeFile = File(keystoreProperties.getProperty("STORE_FILE"))
+            storeFile = keystoreProperties.getProperty("STORE_FILE")?.let { file(it) }
             storePassword = keystoreProperties.getProperty("STORE_PASSWORD")
         }
-    }*/
+    }
 
     // Specifies one flavor dimension.
     flavorDimensions += "version"
@@ -82,20 +74,20 @@ android {
             dimension = "version"
             applicationIdSuffix = ".develop"
             versionNameSuffix = "-develop"
-           // signingConfig = signingConfigs.getByName("develop")
+            signingConfig = signingConfigs.getByName("develop")
         }
         create("staging") {
-            initWith(getByName("staging"))
             dimension = "version"
             applicationIdSuffix = ".staging"
             versionNameSuffix = "-staging"
-           // signingConfig = signingConfigs.getByName("staging")
+            signingConfig = signingConfigs.getByName("staging")
         }
         create("production") {
             dimension = "version"
-            //signingConfig = signingConfigs.getByName("production")
+            signingConfig = signingConfigs.getByName("production")
         }
     }
+
     buildTypes {
         getByName("debug") {
             applicationIdSuffix = ".debug"
@@ -112,8 +104,30 @@ android {
     }
 
     buildFeatures {
-        compose = true
         buildConfig = true
+    }
+}
+
+androidComponents {
+    onVariants { variant ->
+        val flavorName = variant.flavorName ?: ""
+        val buildType = variant.buildType ?: ""
+
+        val appLabel = when (buildType) {
+            "debug" -> when (flavorName) {
+                "develop" -> "${rootProject.name} devDebug"
+                "staging" -> "${rootProject.name} stgDebug"
+                "production" -> "${rootProject.name} proDebug"
+                else -> "${rootProject.name} devDebug"
+            }
+            else -> when (flavorName) {
+                "develop" -> "${rootProject.name} Develop"
+                "staging" -> "${rootProject.name} Staging"
+                "production" -> rootProject.name
+                else -> rootProject.name
+            }
+        }
+        variant.manifestPlaceholders.put("appLabel", appLabel)
     }
 }
 

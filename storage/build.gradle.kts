@@ -1,11 +1,12 @@
+import com.android.build.api.dsl.LibraryExtension
+
 plugins {
     id(libs.plugins.androidLibrary.get().pluginId)
-    id(libs.plugins.kotlin.android.get().pluginId)
     id(libs.plugins.dokka.get().pluginId)
     alias(libs.plugins.compose.compiler)
 }
 
-android {
+extensions.configure<LibraryExtension>("android") {
     namespace = "template.storage"
 
     buildFeatures {
@@ -13,9 +14,8 @@ android {
     }
 }
 
-  dependencies {
-      implementation(projects.common)
-      implementation(libs.kotlin.coroutines)
-      testImplementation(libs.androidx.ui.test.junit4)
-
-  }
+dependencies {
+    implementation(projects.common)
+    implementation(libs.kotlin.coroutines)
+    testImplementation(libs.androidx.ui.test.junit4)
+}
