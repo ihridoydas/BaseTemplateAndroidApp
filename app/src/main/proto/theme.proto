@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option java_package = "template.datastore";
+option java_multiple_files = true;
+
+message ThemePreferences {
+
+  enum ThemeMode {
+    SYSTEM = 0;
+    LIGHT = 1;
+    DARK = 2;
+  }
+
+  ThemeMode theme_mode = 1;
+}

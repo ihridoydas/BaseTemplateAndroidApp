@@ -22,29 +22,37 @@
 * SOFTWARE.
 *
 */
-package template.local
+package template.local.language
 
-import androidx.datastore.core.CorruptionException
-import androidx.datastore.core.Serializer
-import com.google.protobuf.InvalidProtocolBufferException
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.dataStore
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import template.datastore.Language
 import template.datastore.LanguagePreferences
-import java.io.InputStream
-import java.io.OutputStream
 
-object LanguageSerializer : Serializer<LanguagePreferences> {
-    override val defaultValue: LanguagePreferences =
-        LanguagePreferences.getDefaultInstance()
-
-    override suspend fun readFrom(input: InputStream): LanguagePreferences {
-        try {
-            return LanguagePreferences.parseFrom(input)
-        } catch (e: InvalidProtocolBufferException) {
-            throw CorruptionException("Cannot read proto.", e)
-        }
+class LanguageDataStore(
+    private val context: Context,
+) {
+    companion object {
+        private val Context.languageStoreData: DataStore<LanguagePreferences>
+            by dataStore(
+                fileName = "language.pb",
+                serializer = LanguageSerializer,
+            )
     }
 
-    override suspend fun writeTo(
-        t: LanguagePreferences,
-        output: OutputStream,
-    ) = t.writeTo(output)
+    val getLanguage: Flow<Language> =
+        context.languageStoreData.data
+            .map { it.language }
+
+    suspend fun setLanguage(language: Language) {
+        context.languageStoreData.updateData { current ->
+            current
+                .toBuilder()
+                .setLanguage(language)
+                .build()
+        }
+    }
 }
