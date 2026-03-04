@@ -31,7 +31,7 @@
 
 
 
-2. [setup.gradle](buildscripts/setup.gradle) সংশোধন করে `./gradlew renameAllModules` রান করুন ।
+2. [setup.gradle](buildscripts/setup.gradle) সংশোধন করে `./gradlew renameTemplate` রান করুন ।
 
 ## কী অন্তর্ভুক্ত আছে
 

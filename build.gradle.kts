@@ -2,6 +2,7 @@ import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryPlugin
+import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginExtension
 import org.jetbrains.dokka.gradle.DokkaTask
@@ -40,9 +41,9 @@ buildscript {
         classpath(libs.kotlin.gradle.plugin)
         classpath(libs.hilt.plugin)
         classpath(libs.spotless)
-        classpath (libs.protobuf.gradle.plugin)
-        classpath (libs.dokkaDocumentation.get())
-        classpath (libs.dokka.gradle.plugin)
+        classpath(libs.protobuf.gradle.plugin)
+        classpath(libs.dokkaDocumentation.get())
+        classpath(libs.dokka.gradle.plugin)
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -55,7 +56,6 @@ apply(from = "buildscripts/setup.gradle")
 apply(from = "buildscripts/versionsplugin.gradle")
 
 subprojects {
-    apply(from = "../buildscripts/detekt.gradle")
     apply(plugin ="org.jetbrains.dokka")
     // configure all format tasks at once
     tasks.withType<DokkaTask>().configureEach {
@@ -77,24 +77,20 @@ afterEvaluate {
     }
 }
 
-tasks {
-    /**
-     * The detektAll tasks enables parallel usage for detekt so if this project
-     * expands to multi module support, detekt can continue to run quickly.
-     *
-     * https://proandroiddev.com/how-to-use-detekt-in-a-multi-module-android-project-6781937fbef2
-     */
-    @Suppress("UnusedPrivateMember")
-    val detektAll by registering(io.gitlab.arturbosch.detekt.Detekt::class) {
-        parallel = true
-        setSource(files(projectDir))
-        include("**/*.kt")
-        include("**/*.kts")
-        exclude("**/resources/**")
-        exclude("**/build/**")
-        config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
-        buildUponDefaultConfig = false
-    }
+tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+    jvmTarget = "17"
+    config.setFrom(layout.projectDirectory.file("config/detekt/detekt.yml"))
+}
+
+tasks.register<io.gitlab.arturbosch.detekt.Detekt>("detektAll") {
+    parallel = true
+    setSource(files(projectDir))
+    include("**/*.kt")
+    include("**/*.kts")
+    exclude("**/resources/**")
+    exclude("**/build/**")
+    config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
+    buildUponDefaultConfig = false
 }
 
 subprojects {
@@ -123,7 +119,7 @@ subprojects {
                             excludes += "/META-INF/{AL2.0,LGPL2.1}"
                         }
                     }
-                    
+
                     buildFeatures {
                         compose = true
                     }
@@ -173,13 +169,11 @@ subprojects {
         project.apply("${project.rootDir}/spotless.gradle")
     }
 
-    tasks.withType<KotlinCompile> {
+    tasks.withType<KotlinCompile>().configureEach {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
             freeCompilerArgs.addAll(
-                listOf(
-                    "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
-                )
+                listOf("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
             )
         }
     }
