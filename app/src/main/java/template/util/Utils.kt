@@ -32,11 +32,11 @@ import template.datastore.Language
 import java.util.Locale
 
 object Utils {
-
-    fun applyLanguage(context: Context, language: Language) {
-
+    fun applyLanguage(
+        context: Context,
+        language: Language,
+    ) {
         if (language == Language.SYSTEM) {
-
             val telephonyManager =
                 context.getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyManager
 
@@ -52,7 +52,7 @@ object Utils {
             }
 
             AppCompatDelegate.setApplicationLocales(
-                LocaleListCompat.forLanguageTags(code)
+                LocaleListCompat.forLanguageTags(code),
             )
             return
         }
@@ -65,7 +65,7 @@ object Utils {
         }
 
         AppCompatDelegate.setApplicationLocales(
-            LocaleListCompat.forLanguageTags(code)
+            LocaleListCompat.forLanguageTags(code),
         )
     }
 
