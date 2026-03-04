@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">マイアプリ</string>
+    <string name="hello_developer">こんにちは、開発者さん！\n%1$s</string>
+    <string name="nice_to_meet_you">はじめまして…！</string>
+    <string name="welcome">ようこそ</string>
+</resources>

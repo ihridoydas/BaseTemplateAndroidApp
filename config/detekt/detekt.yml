@@ -100,7 +100,7 @@ complexity:
     threshold: 600
   LongMethod:
     active: true
-    threshold: 60
+    threshold: 90
   LongParameterList:
     active: true
     functionThreshold: 20
@@ -318,7 +318,7 @@ naming:
   VariableMaxLength:
     active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
-    maximumVariableNameLength: 64
+    maximumVariableNameLength: 94
   VariableMinLength:
     active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']

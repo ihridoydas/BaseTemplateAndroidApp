@@ -28,11 +28,11 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
 import android.view.animation.OvershootInterpolator
-import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -45,22 +45,28 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import template.common.DURATION
 import template.common.VALUES_X
 import template.common.VALUES_Y
 import template.common.utils.RootUtil
+import template.local.LanguageDataStore
 import template.theme.TemplateTheme
 import template.theme.splashScreen.SplashViewModel
 import template.ui.MainAnimationNavHost
+import template.util.Utils
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     companion object {
         private val Tag = MainActivity::class.java.simpleName
     }
 
     private val splashViewModel: SplashViewModel by viewModels()
+
+    private lateinit var languageDataStore: LanguageDataStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,6 +114,12 @@ class MainActivity : ComponentActivity() {
         // splashViewModel.checkStartScreen() { route -> }
 
         enableEdgeToEdge()
+
+        runBlocking {
+            languageDataStore = LanguageDataStore(this@MainActivity)
+            val language = languageDataStore.getLanguage.first()
+            Utils.applyLanguage(language)
+        }
         setContent {
             TemplateTheme {
                 ChangeSystemBarsTheme(!isSystemInDarkTheme())
@@ -115,7 +127,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background,
                 ) {
                     val navController = rememberNavController()
-                    MainAnimationNavHost(navController)
+                    MainAnimationNavHost(navController, languageDataStore)
                 }
             }
         }

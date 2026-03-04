@@ -29,6 +29,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import template.local.LanguageDataStore
 import template.navigation.ScreenDestinations
 import template.navigation.canGoBack
 import template.navigation.navigateTo
@@ -40,6 +41,7 @@ import template.screens.ViewScreen
 @Composable
 fun MainAnimationNavHost(
     navController: NavHostController,
+    languageDataStore: LanguageDataStore,
     startDestination: String = ScreenDestinations.HomeScreen.route,
 ) {
     NavHost(
@@ -47,7 +49,7 @@ fun MainAnimationNavHost(
         startDestination = startDestination,
     ) {
         screen(ScreenDestinations.HomeScreen.route) {
-            HomeScreen(navController = navController)
+            HomeScreen(navController = navController, languageDataStore = languageDataStore)
         }
         screen(ScreenDestinations.ViewScreen.route) {
             ViewScreen(

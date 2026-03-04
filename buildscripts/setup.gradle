@@ -190,6 +190,27 @@ tasks.register('replaceTemplateReferences') {
                     "<string name=\"app_name\">${renameConfig.templateName}</string>",
                     "<string name=\"app_name\">${renameConfig.newTemplateName}</string>"
             )
+
+            // --- FIX PROTO FILES ---
+            def protoDir = file("${rootDir}/${module}/src/main/proto")
+
+            if (protoDir.exists()) {
+                protoDir.eachFileRecurse { file ->
+                    if (file.name.endsWith(".proto")) {
+
+                        def protoText = file.text
+
+                        protoText = protoText.replaceAll(
+                                /option\s+java_package\s*=\s*"[^"]+"/,
+                                'option java_package = "' + renameConfig.newTemplateAppId + '.datastore"'
+                        )
+
+                        file.text = protoText
+
+                        println("🔁 Updated java_package in ${file.name}")
+                    }
+                }
+            }
         }
 
         // --- FIX ROOT build.gradle.kts ---
