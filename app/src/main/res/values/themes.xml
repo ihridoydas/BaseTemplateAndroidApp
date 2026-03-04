@@ -25,7 +25,7 @@
     </style>
 
     <style name="Theme.CustomSplashScreenTheme" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/black</item>
+        <item name="windowSplashScreenBackground">#FFFFFF</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/animated_logo</item>
         <item name="windowSplashScreenAnimationDuration">1000</item>
         <item name="android:windowSplashScreenBrandingImage" tools:targetApi="s">@drawable/splash_brand_logo</item>
