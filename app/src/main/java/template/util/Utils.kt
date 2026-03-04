@@ -24,15 +24,35 @@
 */
 package template.util
 
+import android.content.Context
+import android.telephony.TelephonyManager
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import template.datastore.Language
+import java.util.Locale
 
 object Utils {
-    fun applyLanguage(language: Language) {
+
+    fun applyLanguage(context: Context, language: Language) {
+
         if (language == Language.SYSTEM) {
+
+            val telephonyManager =
+                context.getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyManager
+
+            val countryIso = telephonyManager
+                ?.networkCountryIso
+                ?.takeIf { it.isNotBlank() }
+                ?.uppercase()
+
+            val code = when (countryIso) {
+                "BD" -> "bn"
+                "JP" -> "ja"
+                else -> Locale.getDefault().language
+            }
+
             AppCompatDelegate.setApplicationLocales(
-                LocaleListCompat.getEmptyLocaleList(),
+                LocaleListCompat.forLanguageTags(code)
             )
             return
         }
@@ -41,11 +61,11 @@ object Utils {
             Language.ENGLISH -> "en"
             Language.JAPANESE -> "ja"
             Language.BENGALI -> "bn"
-            else -> "en"
+            Language.UNRECOGNIZED -> "en"
         }
 
         AppCompatDelegate.setApplicationLocales(
-            LocaleListCompat.forLanguageTags(code),
+            LocaleListCompat.forLanguageTags(code)
         )
     }
 
