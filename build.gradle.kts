@@ -2,10 +2,8 @@ import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryPlugin
-import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginExtension
-import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -57,17 +55,20 @@ apply(from = "buildscripts/versionsplugin.gradle")
 
 subprojects {
     apply(plugin ="org.jetbrains.dokka")
-    // configure all format tasks at once
-    tasks.withType<DokkaTask>().configureEach {
+    
+    // Dokka V2 configuration
+    extensions.configure<org.jetbrains.dokka.gradle.DokkaExtension>("dokka") {
+        dokkaPublications.configureEach {
+            outputDirectory.set(rootProject.layout.buildDirectory.dir("docs/${project.name}"))
+        }
         dokkaSourceSets.configureEach {
-            outputDirectory.set(rootProject.mkdir("docs/"))
-            noAndroidSdkLink.set(false)
+            enableAndroidDocumentationLink.set(true)
         }
     }
 }
 
-tasks.register("clean", Delete::class) {
-    delete(rootProject.layout.buildDirectory)
+val clean by tasks.registering(Delete::class) {
+    delete(rootProject.layout.buildDirectory.get())
 }
 
 afterEvaluate {
@@ -89,7 +90,7 @@ tasks.register<io.gitlab.arturbosch.detekt.Detekt>("detektAll") {
     include("**/*.kts")
     exclude("**/resources/**")
     exclude("**/build/**")
-    config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
+    config.setFrom(layout.projectDirectory.file("config/detekt/detekt.yml"))
     buildUponDefaultConfig = false
 }
 
