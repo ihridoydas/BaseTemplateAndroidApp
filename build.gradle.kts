@@ -59,7 +59,7 @@ subprojects {
     // Dokka V2 configuration
     extensions.configure<org.jetbrains.dokka.gradle.DokkaExtension>("dokka") {
         dokkaPublications.configureEach {
-            outputDirectory.set(rootProject.layout.buildDirectory.dir("docs/${project.name}"))
+            outputDirectory.set(layout.buildDirectory.dir("docs/${project.name}"))
         }
         dokkaSourceSets.configureEach {
             enableAndroidDocumentationLink.set(true)
@@ -68,7 +68,7 @@ subprojects {
 }
 
 val clean by tasks.registering(Delete::class) {
-    delete(rootProject.layout.buildDirectory.get())
+    delete(layout.buildDirectory)
 }
 
 afterEvaluate {
@@ -80,7 +80,7 @@ afterEvaluate {
 
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
     jvmTarget = "17"
-    config.setFrom(layout.projectDirectory.file("config/detekt/detekt.yml"))
+    config.setFrom(project.layout.projectDirectory.file("config/detekt/detekt.yml"))
 }
 
 tasks.register<io.gitlab.arturbosch.detekt.Detekt>("detektAll") {
@@ -90,7 +90,7 @@ tasks.register<io.gitlab.arturbosch.detekt.Detekt>("detektAll") {
     include("**/*.kts")
     exclude("**/resources/**")
     exclude("**/build/**")
-    config.setFrom(layout.projectDirectory.file("config/detekt/detekt.yml"))
+    config.setFrom(project.layout.projectDirectory.file("config/detekt/detekt.yml"))
     buildUponDefaultConfig = false
 }
 
