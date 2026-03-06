@@ -22,36 +22,35 @@
 * SOFTWARE.
 *
 */
-package template.local
+package template.local.theme
 
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import template.datastore.Language
-import template.datastore.LanguagePreferences
+import template.datastore.ThemePreferences
 
-class LanguageDataStore(
+class ThemeDataStore(
     private val context: Context,
 ) {
     companion object {
-        private val Context.languageStoreData: DataStore<LanguagePreferences>
-            by dataStore(
-                fileName = "language.pb",
-                serializer = LanguageSerializer,
-            )
+        private val Context.themeDataStore: DataStore<ThemePreferences> by dataStore(
+            fileName = "theme.pb",
+            serializer = ThemeSerializer,
+        )
     }
 
-    val getLanguage: Flow<Language> =
-        context.languageStoreData.data
-            .map { it.language }
+    val themeMode: Flow<ThemePreferences.ThemeMode> =
+        context.themeDataStore.data.map {
+            it.themeMode
+        }
 
-    suspend fun setLanguage(language: Language) {
-        context.languageStoreData.updateData { current ->
+    suspend fun setThemeMode(mode: ThemePreferences.ThemeMode) {
+        context.themeDataStore.updateData { current ->
             current
                 .toBuilder()
-                .setLanguage(language)
+                .setThemeMode(mode)
                 .build()
         }
     }

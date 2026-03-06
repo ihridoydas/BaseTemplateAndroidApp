@@ -47,7 +47,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import template.datastore.Language
-import template.local.LanguageDataStore
+import template.local.language.LanguageDataStore
 import template.util.Utils
 
 @Composable
@@ -61,11 +61,11 @@ fun LanguageDropdown(languageDataStore: LanguageDataStore) {
 
     Box(
         modifier = Modifier,
-        contentAlignment = Alignment.TopEnd,
+        contentAlignment = Alignment.Center,
     ) {
         IconButton(
             onClick = { expanded = true },
-            modifier = Modifier.align(Alignment.TopEnd),
+            modifier = Modifier.align(Alignment.Center),
         ) {
             Icon(
                 imageVector = Icons.Default.Language,
@@ -83,7 +83,7 @@ fun LanguageDropdown(languageDataStore: LanguageDataStore) {
                     Row {
                         Text("English")
                         if (currentLanguage == Language.ENGLISH) {
-                            Spacer(Modifier.width(8.dp))
+                            Spacer(Modifier.width(5.dp))
                             Text("✓")
                         }
                     }
@@ -96,14 +96,13 @@ fun LanguageDropdown(languageDataStore: LanguageDataStore) {
                     expanded = false
                 },
             )
-
             // Japanese
             DropdownMenuItem(
                 text = {
                     Row {
                         Text("日本語")
                         if (currentLanguage == Language.JAPANESE) {
-                            Spacer(Modifier.width(8.dp))
+                            Spacer(Modifier.width(5.dp))
                             Text("✓")
                         }
                     }
@@ -122,7 +121,7 @@ fun LanguageDropdown(languageDataStore: LanguageDataStore) {
                     Row {
                         Text("বাংলা")
                         if (currentLanguage == Language.BENGALI) {
-                            Spacer(Modifier.width(8.dp))
+                            Spacer(Modifier.width(5.dp))
                             Text("✓")
                         }
                     }

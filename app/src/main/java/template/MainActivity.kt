@@ -39,6 +39,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -51,7 +53,9 @@ import template.common.DURATION
 import template.common.VALUES_X
 import template.common.VALUES_Y
 import template.common.utils.RootUtil
-import template.local.LanguageDataStore
+import template.datastore.ThemePreferences
+import template.local.language.LanguageDataStore
+import template.local.theme.ThemeDataStore
 import template.theme.TemplateTheme
 import template.theme.splashScreen.SplashViewModel
 import template.ui.MainAnimationNavHost
@@ -65,11 +69,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val splashViewModel: SplashViewModel by viewModels()
-
     private lateinit var languageDataStore: LanguageDataStore
+    private lateinit var themeDataStore: ThemeDataStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialize DataStores immediately to prevent UninitializedPropertyAccessException
+        languageDataStore = LanguageDataStore(this)
+        themeDataStore = ThemeDataStore(this)
 
         configureEdgeToEdgeWindow()
 
@@ -111,23 +119,31 @@ class MainActivity : AppCompatActivity() {
                 zoomY.start()
             }
         }
-        // splashViewModel.checkStartScreen() { route -> }
 
         enableEdgeToEdge()
 
         runBlocking {
-            languageDataStore = LanguageDataStore(this@MainActivity)
             val language = languageDataStore.getLanguage.first()
-            Utils.applyLanguage(language)
+            Utils.applyLanguage(this@MainActivity, language)
         }
+
         setContent {
-            TemplateTheme {
-                ChangeSystemBarsTheme(!isSystemInDarkTheme())
+            val themeMode by themeDataStore.themeMode
+                .collectAsState(initial = ThemePreferences.ThemeMode.SYSTEM)
+
+            val isDarkTheme = when (themeMode) {
+                ThemePreferences.ThemeMode.DARK -> true
+                ThemePreferences.ThemeMode.LIGHT -> false
+                ThemePreferences.ThemeMode.SYSTEM -> isSystemInDarkTheme()
+                else -> false
+            }
+            TemplateTheme(useDarkTheme = isDarkTheme) {
+                ChangeSystemBarsTheme(!isDarkTheme)
                 Surface(
                     color = MaterialTheme.colorScheme.background,
                 ) {
                     val navController = rememberNavController()
-                    MainAnimationNavHost(navController, languageDataStore)
+                    MainAnimationNavHost(navController, languageDataStore, themeDataStore)
                 }
             }
         }
