@@ -25,9 +25,7 @@
 package template
 
 import android.animation.ObjectAnimator
-import android.content.Context
 import android.os.Bundle
-import android.telephony.TelephonyManager
 import android.view.View
 import android.view.animation.OvershootInterpolator
 import androidx.activity.SystemBarStyle
@@ -55,7 +53,6 @@ import template.common.DURATION
 import template.common.VALUES_X
 import template.common.VALUES_Y
 import template.common.utils.RootUtil
-import template.datastore.Language
 import template.datastore.ThemePreferences
 import template.local.language.LanguageDataStore
 import template.local.theme.ThemeDataStore
@@ -64,7 +61,6 @@ import template.theme.splashScreen.SplashViewModel
 import template.ui.MainAnimationNavHost
 import template.util.Utils
 import timber.log.Timber
-import java.util.Locale
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -74,11 +70,14 @@ class MainActivity : AppCompatActivity() {
 
     private val splashViewModel: SplashViewModel by viewModels()
     private lateinit var languageDataStore: LanguageDataStore
-
     private lateinit var themeDataStore: ThemeDataStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialize DataStores immediately to prevent UninitializedPropertyAccessException
+        languageDataStore = LanguageDataStore(this)
+        themeDataStore = ThemeDataStore(this)
 
         configureEdgeToEdgeWindow()
 
@@ -120,16 +119,14 @@ class MainActivity : AppCompatActivity() {
                 zoomY.start()
             }
         }
-        // splashViewModel.checkStartScreen() { route -> }
 
         enableEdgeToEdge()
 
         runBlocking {
-            languageDataStore = LanguageDataStore(this@MainActivity)
-            themeDataStore = ThemeDataStore(this@MainActivity)
             val language = languageDataStore.getLanguage.first()
             Utils.applyLanguage(this@MainActivity, language)
         }
+
         setContent {
             val themeMode by themeDataStore.themeMode
                 .collectAsState(initial = ThemePreferences.ThemeMode.SYSTEM)
