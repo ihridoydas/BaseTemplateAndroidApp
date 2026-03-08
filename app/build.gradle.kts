@@ -146,6 +146,7 @@ dependencies {
     implementation(libs.androidx.hilt.compose.navigation)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.material3.android)
+    implementation(libs.bundles.androidx.xr)
     // Network and Local
     implementation(libs.androidx.room.runtime)
     implementation(libs.compose.material.icons.extended)

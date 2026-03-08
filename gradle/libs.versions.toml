@@ -1,5 +1,5 @@
 [versions]
-androidApplication = "9.0.1"
+androidApplication = "9.1.0"
 coreSplashscreen = "1.2.0"
 espressoCore = "3.6.1"
 junitVersion = "1.1.5"
@@ -8,17 +8,17 @@ kotlinJvm = "2.3.10"
 kotlinSerialization = "2.3.10"
 protobufGradlePlugin = "0.9.6"
 timber = "5.0.1"
-spotless = "8.2.1"
+spotless = "8.3.0"
 minSdk = "26"
 compileSdk = "36"
-gradle = "9.0.1"
+gradle = "9.1.0"
 kotlinGradlePlugin = "2.2.10"
 ksp = "2.3.4"
 gradleVersionsPlugin = "0.51.0"
 ktorClientAndroid = "2.3.5"
 ktorClientContentNegotiation = "2.3.5"
 ktorClientLogging = "2.3.5"
-ktor = "3.4.0"
+ktor = "3.4.1"
 retrofit = "3.0.0"
 room = "2.8.4"
 protobuf = "4.34.0"
@@ -51,6 +51,8 @@ versioningPlugin = "2.1.0"
 material3Android = "1.4.0"
 foundationAndroid = "1.10.4"
 composeMaterialIcons = "1.7.8"
+xr = "1.0.0-alpha07"
+xr-material = "1.0.0-alpha11"
 
 [libraries]
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
@@ -120,6 +122,9 @@ dokka-gradle-plugin= {module = "org.jetbrains.dokka:dokka-gradle-plugin", versio
 versioning-plugin = { module = "org.jetbrains.dokka:versioning-plugin", version.ref = "versioningPlugin" }
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 androidx-foundation-android = { group = "androidx.compose.foundation", name = "foundation-android", version.ref = "foundationAndroid" }
+androidx-xr-compose = { module = "androidx.xr.compose:compose", version.ref = "xr" }
+androidx-xr-compose-material3 = { module = "androidx.xr.compose.material3:material3", version.ref = "xr-material" }
+androidx-xr-scenecore = { module = "androidx.xr.scenecore:scenecore", version.ref = "xr" }
 
 [plugins]
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinAndroid" }
@@ -137,3 +142,6 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufGradlePlugin" }
 androidLibrary = { id = "com.android.library", version.ref = "androidApplication" }
 dokka= {id = "org.jetbrains.dokka", version.ref = "dokkaVersion"}
+
+[bundles]
+androidx-xr = ["androidx-xr-compose", "androidx-xr-compose-material3", "androidx-xr-scenecore"]
