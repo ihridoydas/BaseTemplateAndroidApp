@@ -148,6 +148,7 @@ dependencies {
     implementation(libs.androidx.material3.android)
     // Network and Local
     implementation(libs.androidx.room.runtime)
+    implementation(libs.bundles.androidx.xr)
     implementation(libs.compose.material.icons.extended)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)
