@@ -24,50 +24,74 @@
 */
 package template.ui
 
-import androidx.activity.compose.BackHandler
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
+import androidx.compose.runtime.remember
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.ui.NavDisplay
 import template.local.language.LanguageDataStore
 import template.local.theme.ThemeDataStore
+import template.navigation.Navigator
 import template.navigation.ScreenDestinations
-import template.navigation.canGoBack
-import template.navigation.navigateTo
+import template.navigation.rememberNavigationState
 import template.navigation.screen
+import template.navigation.toEntries
 import template.screens.HomeScreen
 import template.screens.ViewScreen
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainAnimationNavHost(
-    navController: NavHostController,
     languageDataStore: LanguageDataStore,
     themeDataStore: ThemeDataStore,
-    startDestination: String = ScreenDestinations.HomeScreen.route,
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = startDestination,
-    ) {
-        screen(ScreenDestinations.HomeScreen.route) {
-            HomeScreen(navController = navController, languageDataStore = languageDataStore, themeDataStore)
+    val navigationState = rememberNavigationState(
+        startRoute = ScreenDestinations.HomeScreen,
+        topLevelRoutes = setOf(ScreenDestinations.HomeScreen),
+    )
+    val navigator = remember { Navigator(navigationState) }
+
+    val entryProvider = entryProvider {
+        screen<ScreenDestinations.HomeScreen> {
+            HomeScreen(
+                navigator = navigator,
+                languageDataStore = languageDataStore,
+                themeDataStore = themeDataStore,
+            )
         }
-        screen(ScreenDestinations.ViewScreen.route) {
+        screen<ScreenDestinations.ViewScreen> {
             ViewScreen(
                 onBackPress = {
-                    // navigateTo のためNavHostControllerを作成します。
-                    navController.navigateTo(ScreenDestinations.HomeScreen.route)
+                    navigator.goBack()
                 },
             )
         }
     }
-    // Back Handler
-    BackHandler {
-        if (navController.canGoBack) {
-            if (navController.currentBackStackEntry?.destination?.route != ScreenDestinations.HomeScreen.route) {
-                navController.popBackStack()
-            }
-        }
-    }
+
+    NavDisplay(
+        entries = navigationState.toEntries(entryProvider),
+        onBack = { navigator.goBack() },
+        transitionSpec = {
+            // Slide in from right when navigating forward
+            slideInHorizontally(
+                initialOffsetX = { it },
+                animationSpec = tween(700),
+            ) togetherWith slideOutHorizontally(
+                targetOffsetX = { -it },
+                animationSpec = tween(700),
+            )
+        },
+        popTransitionSpec = {
+            // Slide in from left when navigating back
+            slideInHorizontally(
+                initialOffsetX = { -it },
+                animationSpec = tween(700),
+            ) togetherWith slideOutHorizontally(
+                targetOffsetX = { it },
+                animationSpec = tween(700),
+            )
+        },
+    )
 }

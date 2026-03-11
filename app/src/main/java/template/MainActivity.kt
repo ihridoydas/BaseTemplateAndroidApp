@@ -45,7 +45,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -142,8 +141,7 @@ class MainActivity : AppCompatActivity() {
                 Surface(
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    val navController = rememberNavController()
-                    MainAnimationNavHost(navController, languageDataStore, themeDataStore)
+                    MainAnimationNavHost(languageDataStore, themeDataStore)
                 }
             }
         }

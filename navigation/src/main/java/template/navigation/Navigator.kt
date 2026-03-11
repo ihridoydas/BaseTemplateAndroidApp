@@ -24,15 +24,33 @@
 */
 package template.navigation
 
-import androidx.lifecycle.Lifecycle
-import androidx.navigation.NavHostController
+import androidx.navigation3.runtime.NavKey
 
-fun NavHostController.navigateTo(route: String) =
-    navigate(route) {
-        popUpTo(route)
-        launchSingleTop = true
+/**
+ * Handles navigation events (forward and back) by updating the navigation state.
+ */
+class Navigator(
+    val state: NavigationState,
+) {
+    fun navigate(route: NavKey) {
+        if (route in state.backStacks.keys) {
+            // This is a top level route, just switch to it.
+            state.topLevelRoute = route
+        } else {
+            state.backStacks[state.topLevelRoute]?.add(route)
+        }
     }
 
-// i want to back when
-val NavHostController.canGoBack: Boolean
-    get() = this.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED
+    fun goBack() {
+        val currentStack = state.backStacks[state.topLevelRoute]
+            ?: error("Stack for ${state.topLevelRoute} not found")
+        val currentRoute = currentStack.last()
+
+        // If we're at the base of the current route, go back to the start route stack.
+        if (currentRoute == state.topLevelRoute) {
+            state.topLevelRoute = state.startRoute
+        } else {
+            currentStack.removeLastOrNull()
+        }
+    }
+}

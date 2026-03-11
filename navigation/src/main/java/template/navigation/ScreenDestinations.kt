@@ -24,11 +24,14 @@
 */
 package template.navigation
 
-sealed class ScreenDestinations(
-    val route: String,
-) {
-    // Destinations
-    data object HomeScreen : ScreenDestinations("home_screen")
+import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.Serializable
 
-    data object ViewScreen : ScreenDestinations("view_screen")
+@Serializable
+sealed interface ScreenDestinations : NavKey {
+    @Serializable
+    data object HomeScreen : ScreenDestinations
+
+    @Serializable
+    data object ViewScreen : ScreenDestinations
 }

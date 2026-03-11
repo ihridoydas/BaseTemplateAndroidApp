@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.ksp) apply false
     id(libs.plugins.dokka.get().pluginId)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 
@@ -21,10 +22,10 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.core.ktx)
 
-    //Navigation
-    //https://developer.android.com/jetpack/androidx/releases/navigation
-    implementation(libs.androidx.compose.navigation)
-
+    //Navigation 3
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
 
     // Test
     debugImplementation(libs.compose.ui.test.manifest)

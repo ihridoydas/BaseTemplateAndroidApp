@@ -11,6 +11,7 @@ plugins {
     id(libs.plugins.dokka.get().pluginId)
     id(libs.plugins.protobuf.get().pluginId)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 extensions.configure<ApplicationExtension>("android") {
@@ -137,15 +138,17 @@ dependencies {
     implementation(libs.android.material)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
-    // Navigation
-    implementation(libs.androidx.compose.navigation)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.foundation.android)
     implementation(libs.androidx.hilt.compose.navigation)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.androidx.material3.android)
+    // Navigation 3
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
     // Network and Local
     implementation(libs.androidx.room.runtime)
     implementation(libs.bundles.androidx.xr)
