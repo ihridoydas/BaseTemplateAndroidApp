@@ -32,8 +32,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
+import template.common.NAV_DURATION_MILLIS
 import template.local.language.LanguageDataStore
-import template.local.theme.ThemeDataStore
+import template.local.theme.ThemeLocalDataStore
 import template.navigation.Navigator
 import template.navigation.ScreenDestinations
 import template.navigation.rememberNavigationState
@@ -45,7 +46,7 @@ import template.screens.ViewScreen
 @Composable
 fun MainAnimationNavHost(
     languageDataStore: LanguageDataStore,
-    themeDataStore: ThemeDataStore,
+    themeDataStore: ThemeLocalDataStore,
 ) {
     val navigationState = rememberNavigationState(
         startRoute = ScreenDestinations.HomeScreen,
@@ -77,20 +78,20 @@ fun MainAnimationNavHost(
             // Slide in from right when navigating forward
             slideInHorizontally(
                 initialOffsetX = { it },
-                animationSpec = tween(700),
+                animationSpec = tween(NAV_DURATION_MILLIS),
             ) togetherWith slideOutHorizontally(
                 targetOffsetX = { -it },
-                animationSpec = tween(700),
+                animationSpec = tween(NAV_DURATION_MILLIS),
             )
         },
         popTransitionSpec = {
             // Slide in from left when navigating back
             slideInHorizontally(
                 initialOffsetX = { -it },
-                animationSpec = tween(700),
+                animationSpec = tween(NAV_DURATION_MILLIS),
             ) togetherWith slideOutHorizontally(
                 targetOffsetX = { it },
-                animationSpec = tween(700),
+                animationSpec = tween(NAV_DURATION_MILLIS),
             )
         },
     )

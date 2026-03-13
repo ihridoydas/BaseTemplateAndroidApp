@@ -31,13 +31,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import template.datastore.ThemePreferences
 
-class ThemeDataStore(
+class ThemeLocalDataStore(
     private val context: Context,
 ) {
     companion object {
         private val Context.themeDataStore: DataStore<ThemePreferences> by dataStore(
             fileName = "theme.pb",
-            serializer = ThemeSerializer,
+            serializer = ThemeLocalSerializer,
         )
     }
 

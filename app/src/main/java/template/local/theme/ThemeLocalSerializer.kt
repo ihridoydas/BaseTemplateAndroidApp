@@ -31,7 +31,7 @@ import template.datastore.ThemePreferences
 import java.io.InputStream
 import java.io.OutputStream
 
-object ThemeSerializer : Serializer<ThemePreferences> {
+object ThemeLocalSerializer : Serializer<ThemePreferences> {
     override val defaultValue: ThemePreferences =
         ThemePreferences.getDefaultInstance()
 
