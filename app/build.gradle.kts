@@ -29,7 +29,7 @@ extensions.configure<ApplicationExtension>("android") {
     STORE_PASSWORD = template
     KEY_PASSWORD = template
     */
-    signingConfigs {
+    /*signingConfigs {
         create("develop") {
             val keystoreProperties = Properties().apply {
                 val propFile = rootProject.file("local.properties")
@@ -66,7 +66,7 @@ extensions.configure<ApplicationExtension>("android") {
             storeFile = keystoreProperties.getProperty("STORE_FILE")?.let { file(it) }
             storePassword = keystoreProperties.getProperty("STORE_PASSWORD")
         }
-    }
+    }*/
 
     // Specifies one flavor dimension.
     flavorDimensions += "version"
@@ -75,17 +75,17 @@ extensions.configure<ApplicationExtension>("android") {
             dimension = "version"
             applicationIdSuffix = ".develop"
             versionNameSuffix = "-develop"
-            signingConfig = signingConfigs.getByName("develop")
+           // signingConfig = signingConfigs.getByName("develop")
         }
         create("staging") {
             dimension = "version"
             applicationIdSuffix = ".staging"
             versionNameSuffix = "-staging"
-            signingConfig = signingConfigs.getByName("staging")
+           // signingConfig = signingConfigs.getByName("staging")
         }
         create("production") {
             dimension = "version"
-            signingConfig = signingConfigs.getByName("production")
+            //signingConfig = signingConfigs.getByName("production")
         }
     }
 

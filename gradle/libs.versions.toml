@@ -52,7 +52,8 @@ versioningPlugin = "2.1.0"
 material3Android = "1.4.0"
 foundationAndroid = "1.10.4"
 composeMaterialIcons = "1.7.8"
-xr = "1.0.0-alpha12"
+xr-compose = "1.0.0-alpha11"
+xr-scenecore = "1.0.0-alpha12"
 xr-material = "1.0.0-alpha15"
 
 [libraries]
@@ -125,9 +126,9 @@ dokka-gradle-plugin= {module = "org.jetbrains.dokka:dokka-gradle-plugin", versio
 versioning-plugin = { module = "org.jetbrains.dokka:versioning-plugin", version.ref = "versioningPlugin" }
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 androidx-foundation-android = { group = "androidx.compose.foundation", name = "foundation-android", version.ref = "foundationAndroid" }
-androidx-xr-compose = { module = "androidx.xr.compose:compose", version.ref = "xr" }
+androidx-xr-compose = { module = "androidx.xr.compose:compose", version.ref = "xr-compose" }
 androidx-xr-compose-material3 = { module = "androidx.xr.compose.material3:material3", version.ref = "xr-material" }
-androidx-xr-scenecore = { module = "androidx.xr.scenecore:scenecore", version.ref = "xr" }
+androidx-xr-scenecore = { module = "androidx.xr.scenecore:scenecore", version.ref = "xr-scenecore" }
 
 [plugins]
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinAndroid" }
