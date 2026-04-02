@@ -1,7 +1,7 @@
 /*
 * MIT License
 *
-* Copyright (c) 2026 Hridoy Chandra Das
+* Copyright (c) 2024 Hridoy Chandra Das
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -22,29 +22,35 @@
 * SOFTWARE.
 *
 */
-package template.local.theme
+package template.navigation
 
-import androidx.datastore.core.CorruptionException
-import androidx.datastore.core.Serializer
-import com.google.protobuf.InvalidProtocolBufferException
-import template.datastore.ThemePreferences
-import java.io.InputStream
-import java.io.OutputStream
+import androidx.navigation3.runtime.NavKey
 
-object ThemeSerializer : Serializer<ThemePreferences> {
-    override val defaultValue: ThemePreferences =
-        ThemePreferences.getDefaultInstance()
-
-    override suspend fun readFrom(input: InputStream): ThemePreferences {
-        try {
-            return ThemePreferences.parseFrom(input)
-        } catch (exception: InvalidProtocolBufferException) {
-            throw CorruptionException("Cannot read proto.", exception)
+/**
+ * Handles navigation events (forward and back) by updating the navigation state.
+ */
+class Navigator(
+    val state: NavigationState,
+) {
+    fun navigate(route: NavKey) {
+        if (route in state.backStacks.keys) {
+            // This is a top level route, just switch to it.
+            state.topLevelRoute = route
+        } else {
+            state.backStacks[state.topLevelRoute]?.add(route)
         }
     }
 
-    override suspend fun writeTo(
-        t: ThemePreferences,
-        output: OutputStream,
-    ) = t.writeTo(output)
+    fun goBack() {
+        val currentStack = state.backStacks[state.topLevelRoute]
+            ?: error("Stack for ${state.topLevelRoute} not found")
+        val currentRoute = currentStack.last()
+
+        // If we're at the base of the current route, go back to the start route stack.
+        if (currentRoute == state.topLevelRoute) {
+            state.topLevelRoute = state.startRoute
+        } else {
+            currentStack.removeLastOrNull()
+        }
+    }
 }

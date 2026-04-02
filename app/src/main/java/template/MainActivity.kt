@@ -45,7 +45,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -55,7 +54,7 @@ import template.common.VALUES_Y
 import template.common.utils.RootUtil
 import template.datastore.ThemePreferences
 import template.local.language.LanguageDataStore
-import template.local.theme.ThemeDataStore
+import template.local.theme.ThemeLocalDataStore
 import template.theme.TemplateTheme
 import template.theme.splashScreen.SplashViewModel
 import template.ui.MainAnimationNavHost
@@ -70,14 +69,14 @@ class MainActivity : AppCompatActivity() {
 
     private val splashViewModel: SplashViewModel by viewModels()
     private lateinit var languageDataStore: LanguageDataStore
-    private lateinit var themeDataStore: ThemeDataStore
+    private lateinit var themeDataStore: ThemeLocalDataStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // Initialize DataStores immediately to prevent UninitializedPropertyAccessException
         languageDataStore = LanguageDataStore(this)
-        themeDataStore = ThemeDataStore(this)
+        themeDataStore = ThemeLocalDataStore(this)
 
         configureEdgeToEdgeWindow()
 
@@ -142,8 +141,7 @@ class MainActivity : AppCompatActivity() {
                 Surface(
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    val navController = rememberNavController()
-                    MainAnimationNavHost(navController, languageDataStore, themeDataStore)
+                    MainAnimationNavHost(languageDataStore, themeDataStore)
                 }
             }
         }

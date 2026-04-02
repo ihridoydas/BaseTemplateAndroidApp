@@ -39,27 +39,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import template.R
-import template.common.components.TemplatePreview
 import template.datastore.ThemePreferences
 import template.local.language.LanguageDataStore
-import template.local.theme.ThemeDataStore
+import template.local.theme.ThemeLocalDataStore
+import template.navigation.Navigator
 import template.navigation.ScreenDestinations
 import template.ui.LanguageDropdown
 import template.ui.ThemeToggleButton
 
 @Composable
 fun HomeScreen(
-    navController: NavController,
+    navigator: Navigator,
     languageDataStore: LanguageDataStore,
-    themeDataStore: ThemeDataStore,
+    themeDataStore: ThemeLocalDataStore,
 ) {
     val themeMode by themeDataStore.themeMode
         .collectAsState(initial = ThemePreferences.ThemeMode.SYSTEM)
@@ -109,11 +106,7 @@ fun HomeScreen(
             Button(
                 modifier = Modifier.size(120.dp, 40.dp),
                 onClick = {
-                    navController.navigate(ScreenDestinations.ViewScreen.route) {
-                        popUpTo(ScreenDestinations.HomeScreen.route) {
-                            inclusive = false
-                        }
-                    }
+                    navigator.navigate(ScreenDestinations.ViewScreen)
                 },
             ) {
                 Text(
@@ -123,14 +116,4 @@ fun HomeScreen(
             }
         }
     }
-}
-
-@TemplatePreview
-@Composable
-fun HomeScreenPreview() {
-    HomeScreen(
-        navController = rememberNavController(),
-        languageDataStore = LanguageDataStore(LocalContext.current),
-        themeDataStore = ThemeDataStore(LocalContext.current),
-    )
 }

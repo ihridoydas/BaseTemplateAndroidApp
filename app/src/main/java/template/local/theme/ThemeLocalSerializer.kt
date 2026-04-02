@@ -1,7 +1,7 @@
 /*
 * MIT License
 *
-* Copyright (c) 2024 Hridoy Chandra Das
+* Copyright (c) 2026 Hridoy Chandra Das
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -22,17 +22,29 @@
 * SOFTWARE.
 *
 */
-package template.navigation
+package template.local.theme
 
-import androidx.lifecycle.Lifecycle
-import androidx.navigation.NavHostController
+import androidx.datastore.core.CorruptionException
+import androidx.datastore.core.Serializer
+import com.google.protobuf.InvalidProtocolBufferException
+import template.datastore.ThemePreferences
+import java.io.InputStream
+import java.io.OutputStream
 
-fun NavHostController.navigateTo(route: String) =
-    navigate(route) {
-        popUpTo(route)
-        launchSingleTop = true
+object ThemeLocalSerializer : Serializer<ThemePreferences> {
+    override val defaultValue: ThemePreferences =
+        ThemePreferences.getDefaultInstance()
+
+    override suspend fun readFrom(input: InputStream): ThemePreferences {
+        try {
+            return ThemePreferences.parseFrom(input)
+        } catch (exception: InvalidProtocolBufferException) {
+            throw CorruptionException("Cannot read proto.", exception)
+        }
     }
 
-// i want to back when
-val NavHostController.canGoBack: Boolean
-    get() = this.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED
+    override suspend fun writeTo(
+        t: ThemePreferences,
+        output: OutputStream,
+    ) = t.writeTo(output)
+}

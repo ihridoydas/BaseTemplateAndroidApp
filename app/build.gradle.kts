@@ -11,6 +11,7 @@ plugins {
     id(libs.plugins.dokka.get().pluginId)
     id(libs.plugins.protobuf.get().pluginId)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 extensions.configure<ApplicationExtension>("android") {
@@ -28,7 +29,7 @@ extensions.configure<ApplicationExtension>("android") {
     STORE_PASSWORD = template
     KEY_PASSWORD = template
     */
-    signingConfigs {
+    /*signingConfigs {
         create("develop") {
             val keystoreProperties = Properties().apply {
                 val propFile = rootProject.file("local.properties")
@@ -65,7 +66,7 @@ extensions.configure<ApplicationExtension>("android") {
             storeFile = keystoreProperties.getProperty("STORE_FILE")?.let { file(it) }
             storePassword = keystoreProperties.getProperty("STORE_PASSWORD")
         }
-    }
+    }*/
 
     // Specifies one flavor dimension.
     flavorDimensions += "version"
@@ -74,17 +75,17 @@ extensions.configure<ApplicationExtension>("android") {
             dimension = "version"
             applicationIdSuffix = ".develop"
             versionNameSuffix = "-develop"
-            signingConfig = signingConfigs.getByName("develop")
+           // signingConfig = signingConfigs.getByName("develop")
         }
         create("staging") {
             dimension = "version"
             applicationIdSuffix = ".staging"
             versionNameSuffix = "-staging"
-            signingConfig = signingConfigs.getByName("staging")
+           // signingConfig = signingConfigs.getByName("staging")
         }
         create("production") {
             dimension = "version"
-            signingConfig = signingConfigs.getByName("production")
+            //signingConfig = signingConfigs.getByName("production")
         }
     }
 
@@ -137,15 +138,17 @@ dependencies {
     implementation(libs.android.material)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
-    // Navigation
-    implementation(libs.androidx.compose.navigation)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.foundation.android)
     implementation(libs.androidx.hilt.compose.navigation)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.androidx.material3.android)
+    // Navigation 3
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
     // Network and Local
     implementation(libs.androidx.room.runtime)
     implementation(libs.bundles.androidx.xr)

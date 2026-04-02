@@ -25,6 +25,7 @@
 package template.common
 
 const val DURATION_MILLIS = 500
+const val NAV_DURATION_MILLIS = 700
 const val VALUES_X = 0.4f
 const val VALUES_Y = 0.0f
 const val DURATION = 500L
