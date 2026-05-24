@@ -3,10 +3,7 @@ package template.common
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import org.koin.compose.KoinContext
 import org.koin.compose.koinInject
 import template.common.ui.MainAnimationNavHost
