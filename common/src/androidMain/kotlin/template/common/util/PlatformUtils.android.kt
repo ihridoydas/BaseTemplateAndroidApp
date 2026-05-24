@@ -6,6 +6,13 @@ import androidx.core.os.LocaleListCompat
 actual object PlatformUtils {
     actual fun changeLanguage(code: String) {
         val appLocale = LocaleListCompat.forLanguageTags(code)
-        AppCompatDelegate.setApplicationLocales(appLocale)
+        if (AppCompatDelegate.getApplicationLocales() != appLocale) {
+            AppCompatDelegate.setApplicationLocales(appLocale)
+        }
+        // Force immediate update of resources for Compose Multiplatform
+        val locale = if (code.isEmpty()) java.util.Locale.getDefault() else java.util.Locale.forLanguageTag(code)
+        if (java.util.Locale.getDefault() != locale) {
+            java.util.Locale.setDefault(locale)
+        }
     }
 }

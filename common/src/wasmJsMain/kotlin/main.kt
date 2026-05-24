@@ -14,6 +14,8 @@ fun main() {
         println("Koin initialization failed: ${e.message}")
     }
     ComposeViewport(viewportContainerId = "ComposeTarget") {
-        App()
+        App(onLanguageChange = { code ->
+            template.common.util.PlatformUtils.changeLanguage(code)
+        })
     }
 }

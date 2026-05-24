@@ -25,9 +25,9 @@
 package template
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import org.koin.android.ext.android.get
 import template.common.App
@@ -36,7 +36,7 @@ import template.theme.splashScreen.SplashViewModel
 import timber.log.Timber
 import template.common.util.PlatformUtils
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     companion object {
         private val Tag = MainActivity::class.java.simpleName
     }

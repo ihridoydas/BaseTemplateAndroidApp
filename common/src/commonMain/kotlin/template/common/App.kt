@@ -15,7 +15,7 @@ import template.storage.local.theme.ThemeLocalDataStore
 import template.storage.local.theme.ThemeMode
 import template.theme.TemplateTheme
 import template.theme.splashScreen.SplashViewModel
-import kotlinx.coroutines.flow.first
+import androidx.compose.runtime.key
 
 @Composable
 fun App(
@@ -34,28 +34,34 @@ fun App(
         val themeMode by themeLocalDataStore.themeMode
             .collectAsState(initial = ThemeMode.SYSTEM)
 
+        val languageState by languageDataStore.getLanguage
+            .collectAsState(initial = null)
+
         val isDarkTheme = when (themeMode) {
             ThemeMode.DARK -> true
             ThemeMode.LIGHT -> false
             ThemeMode.SYSTEM -> isSystemInDarkTheme()
         }
 
-        LaunchedEffect(languageDataStore) {
-            val language = languageDataStore.getLanguage.first()
-            val code = when (language) {
-                template.storage.local.language.Language.SYSTEM -> ""
-                template.storage.local.language.Language.ENGLISH -> "en"
-                template.storage.local.language.Language.JAPANESE -> "ja"
-                template.storage.local.language.Language.BENGALI -> "bn"
-            }
-            if (code.isNotEmpty()) {
+        LaunchedEffect(languageState) {
+            languageState?.let { lang ->
+                val code = when (lang) {
+                    template.storage.local.language.Language.SYSTEM -> ""
+                    template.storage.local.language.Language.ENGLISH -> "en"
+                    template.storage.local.language.Language.JAPANESE -> "ja"
+                    template.storage.local.language.Language.BENGALI -> "bn"
+                }
                 onLanguageChange(code)
             }
         }
 
-        TemplateTheme(useDarkTheme = isDarkTheme) {
-            Surface(color = MaterialTheme.colorScheme.background) {
-                MainAnimationNavHost()
+        languageState?.let { language ->
+            key(language) {
+                TemplateTheme(useDarkTheme = isDarkTheme) {
+                    Surface(color = MaterialTheme.colorScheme.background) {
+                        MainAnimationNavHost()
+                    }
+                }
             }
         }
     }

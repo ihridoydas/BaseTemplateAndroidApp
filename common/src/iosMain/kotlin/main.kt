@@ -4,5 +4,7 @@ import androidx.compose.ui.window.ComposeUIViewController
 import platform.UIKit.UIViewController
 
 fun MainViewController(): UIViewController = ComposeUIViewController {
-    App()
+    App(onLanguageChange = { code ->
+        template.common.util.PlatformUtils.changeLanguage(code)
+    })
 }

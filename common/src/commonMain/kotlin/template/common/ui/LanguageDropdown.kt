@@ -48,7 +48,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import template.storage.local.language.Language
 import template.storage.local.language.LanguageDataStore
-import template.common.util.PlatformUtils
 
 import org.koin.compose.koinInject
 
@@ -57,7 +56,7 @@ fun LanguageDropdown(languageDataStore: LanguageDataStore = koinInject()) {
     val scope = rememberCoroutineScope()
     val currentLanguage by languageDataStore
         .getLanguage
-        .collectAsState(initial = Language.ENGLISH)
+        .collectAsState(initial = null)
 
     var expanded by remember { mutableStateOf(false) }
 
@@ -93,7 +92,6 @@ fun LanguageDropdown(languageDataStore: LanguageDataStore = koinInject()) {
                 onClick = {
                     scope.launch {
                         languageDataStore.setLanguage(Language.ENGLISH)
-                        PlatformUtils.changeLanguage("en")
                     }
                     expanded = false
                 },
@@ -112,7 +110,6 @@ fun LanguageDropdown(languageDataStore: LanguageDataStore = koinInject()) {
                 onClick = {
                     scope.launch {
                         languageDataStore.setLanguage(Language.JAPANESE)
-                        PlatformUtils.changeLanguage("ja")
                     }
                     expanded = false
                 },
@@ -131,7 +128,6 @@ fun LanguageDropdown(languageDataStore: LanguageDataStore = koinInject()) {
                 onClick = {
                     scope.launch {
                         languageDataStore.setLanguage(Language.BENGALI)
-                        PlatformUtils.changeLanguage("bn")
                     }
                     expanded = false
                 },

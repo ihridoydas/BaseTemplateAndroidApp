@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">テンプレート</string>
+    <string name="hello_developer"> こんにちは開発者！\n%1$s</string>
+    <string name="nice_to_meet_you">はじめまして！</string>
+    <string name="welcome">ようこそ</string>
+    <string name="email">メール</string>
+    <string name="error_email_empty">メールを入力してください</string>
+</resources>
