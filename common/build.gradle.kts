@@ -13,8 +13,18 @@ kotlin {
         }
     }
     jvm()
-    iosArm64()
-    iosSimulatorArm64()
+    iosArm64 {
+        binaries.framework {
+            baseName = "common"
+            isStatic = true
+        }
+    }
+    iosSimulatorArm64 {
+        binaries.framework {
+            baseName = "common"
+            isStatic = true
+        }
+    }
     // @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
     @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
     wasmJs {
@@ -40,6 +50,8 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.koin.compose)
                 implementation(libs.koin.compose.viewmodel)
+                implementation(libs.androidx.lifecycle.viewmodel)
+                implementation(libs.androidx.lifecycle.runtimeCompose)
 
                 api(libs.jetbrains.navigation3)
 

@@ -21,7 +21,7 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
 /**
  * Helper for iOS initialization
  */
-fun initKoin() = initKoin {}
+fun doInitKoin() = initKoin {}
 
 val networkModule = module {
     single { createHttpClient() }
