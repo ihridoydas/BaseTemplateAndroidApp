@@ -49,12 +49,12 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
-        // Check Rooted Device
-        if (RootUtil.isDeviceRooted()) {
-            Timber.tag(Tag).e("onCreate - Rooted device.")
-            finish()
-            return
-        }
+//        // Check Rooted Device
+//        if (RootUtil.isDeviceRooted()) {
+//            Timber.tag(Tag).e("onCreate - Rooted device.")
+//            finish()
+//            return
+//        }
 
         Timber.tag(Tag).d("onCreate")
 

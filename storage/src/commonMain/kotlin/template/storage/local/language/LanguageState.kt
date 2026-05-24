@@ -5,6 +5,8 @@ import kotlinx.serialization.SerialName
 
 @Serializable
 enum class Language {
+    @SerialName("unknown")
+    UNKNOWN,
     @SerialName("system")
     SYSTEM,
     @SerialName("english")
@@ -17,5 +19,5 @@ enum class Language {
 
 @Serializable
 data class LanguageState(
-    val language: Language = Language.SYSTEM
+    val language: Language = Language.UNKNOWN
 )

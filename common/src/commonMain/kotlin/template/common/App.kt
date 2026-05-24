@@ -17,42 +17,49 @@ import template.theme.TemplateTheme
 fun App(
     onLanguageChange: (String) -> Unit = {},
 ) {
-    KoinContext {
-        val themeLocalDataStore: ThemeLocalDataStore = koinInject()
-        val languageDataStore: LanguageDataStore = koinInject()
+    val languageDataStore: LanguageDataStore = koinInject()
+    
+    // 1. Initialize LanguageManager
+    SideEffect {
+        template.common.util.LanguageManager.init(languageDataStore)
+    }
 
-        // Theme management
-        val themeMode by themeLocalDataStore.themeMode.collectAsState(initial = ThemeMode.SYSTEM)
-        val isDarkTheme = when (themeMode) {
-            ThemeMode.DARK -> true
-            ThemeMode.LIGHT -> false
-            else -> isSystemInDarkTheme()
-        }
+    // 2. Observe the centralized state
+    val languageState by template.common.util.LanguageManager.currentLanguage.collectAsState()
 
-        // Language management
-        val languageState by languageDataStore.getLanguage.collectAsState(initial = null)
+    // 3. Wait for the state to transition away from UNKNOWN before rendering
+    if (languageState == Language.UNKNOWN) {
+        println("App: Waiting for LanguageManager initialization...")
+        return
+    }
 
-        // Ensure we wait for the first DataStore emission
-        if (languageState == null) return@KoinContext
-
-        val languageCode = when (languageState) {
+    val languageCode = remember(languageState) {
+        when (languageState) {
             Language.ENGLISH -> "en"
             Language.JAPANESE -> "ja"
             Language.BENGALI -> "bn"
             Language.SYSTEM -> ""
-            else -> ""
+            else -> "" // Fallback for UNKNOWN (though we check above)
         }
+    }
 
-        println("App: State is $languageState, Applying code '$languageCode'")
+    println("App: Render languageState=$languageState -> code='$languageCode'")
 
-        // Side effect for platform persistence
-        LaunchedEffect(languageCode) {
-            onLanguageChange(languageCode)
-        }
-
-        // 🔹 Key ensures total UI reload on language change
+    template.common.util.ProvideAppLocale(languageCode) {
         key(languageCode) {
-            template.common.util.ProvideAppLocale(languageCode) {
+            KoinContext {
+                val themeLocalDataStore: ThemeLocalDataStore = koinInject()
+                val themeMode by themeLocalDataStore.themeMode.collectAsState(initial = ThemeMode.SYSTEM)
+                val isDarkTheme = when (themeMode) {
+                    ThemeMode.DARK -> true
+                    ThemeMode.LIGHT -> false
+                    else -> isSystemInDarkTheme()
+                }
+
+                LaunchedEffect(languageCode) {
+                    onLanguageChange(languageCode)
+                }
+
                 TemplateTheme(useDarkTheme = isDarkTheme) {
                     Surface(color = MaterialTheme.colorScheme.background) {
                         MainAnimationNavHost()

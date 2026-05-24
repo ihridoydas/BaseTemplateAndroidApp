@@ -14,34 +14,32 @@ fun ProvideAppLocale(
     languageCode: String,
     content: @Composable () -> Unit
 ) {
+    println("ProvideAppLocale: Input languageCode = '$languageCode'")
     // 1. Force the Compose Resources environment to use the given language
-    // We create a custom ComposeEnvironment that overrides the language qualifier.
-    val customComposeEnvironment = remember(languageCode) {
+    val systemEnv = getSystemResourceEnvironment()
+    val customEnv = remember(languageCode, systemEnv) {
+        println("ProvideAppLocale: Creating environment for '$languageCode'")
+        ResourceEnvironment(
+            language = if (languageCode.isEmpty()) systemEnv.language else LanguageQualifier(languageCode),
+            region = systemEnv.region,
+            theme = systemEnv.theme,
+            density = systemEnv.density
+        )
+    }
+
+    val customComposeEnvironment = remember(customEnv) {
         object : ComposeEnvironment {
             @Composable
             override fun rememberEnvironment(): ResourceEnvironment {
-                val systemEnv = getSystemResourceEnvironment()
-                return if (languageCode.isEmpty()) {
-                    systemEnv
-                } else {
-                    ResourceEnvironment(
-                        language = LanguageQualifier(languageCode),
-                        region = systemEnv.region,
-                        theme = systemEnv.theme,
-                        density = systemEnv.density
-                    )
-                }
+                println("ProvideAppLocale: ComposeEnvironment.rememberEnvironment returning ${customEnv.language.language}")
+                return customEnv
             }
         }
     }
 
     // 2. Update the standard Compose LocaleList for other components
     val localeList = remember(languageCode) {
-        if (languageCode.isEmpty()) {
-            LocaleList.current
-        } else {
-            LocaleList(Locale(languageCode))
-        }
+        if (languageCode.isEmpty()) LocaleList.current else LocaleList(Locale(languageCode))
     }
 
     CompositionLocalProvider(

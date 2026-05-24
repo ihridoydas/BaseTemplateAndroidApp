@@ -60,6 +60,7 @@ fun HomeScreen(
     navigator: Navigator,
     themeDataStore: ThemeLocalDataStore = koinInject(),
 ) {
+    println("HomeScreen: Recomposing")
     val themeMode by themeDataStore.themeMode
         .collectAsState(initial = ThemeMode.SYSTEM)
 

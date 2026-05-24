@@ -40,22 +40,17 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 import template.storage.local.language.Language
-import template.storage.local.language.LanguageDataStore
 
 import org.koin.compose.koinInject
 
 @Composable
-fun LanguageDropdown(languageDataStore: LanguageDataStore = koinInject()) {
-    val scope = rememberCoroutineScope()
-    val currentLanguage by languageDataStore.getLanguage
-        .collectAsState(initial = Language.SYSTEM)
+fun LanguageDropdown() {
+    val currentLanguage by template.common.util.LanguageManager.currentLanguage.collectAsState()
 
     var expanded by remember { mutableStateOf(false) }
 
@@ -90,9 +85,7 @@ fun LanguageDropdown(languageDataStore: LanguageDataStore = koinInject()) {
                 },
                 onClick = {
                     expanded = false
-                    scope.launch {
-                        languageDataStore.setLanguage(Language.SYSTEM)
-                    }
+                    template.common.util.LanguageManager.setLanguage(Language.SYSTEM)
                 },
             )
             // English
@@ -108,9 +101,7 @@ fun LanguageDropdown(languageDataStore: LanguageDataStore = koinInject()) {
                 },
                 onClick = {
                     expanded = false
-                    scope.launch {
-                        languageDataStore.setLanguage(Language.ENGLISH)
-                    }
+                    template.common.util.LanguageManager.setLanguage(Language.ENGLISH)
                 },
             )
             // Japanese
@@ -126,9 +117,7 @@ fun LanguageDropdown(languageDataStore: LanguageDataStore = koinInject()) {
                 },
                 onClick = {
                     expanded = false
-                    scope.launch {
-                        languageDataStore.setLanguage(Language.JAPANESE)
-                    }
+                    template.common.util.LanguageManager.setLanguage(Language.JAPANESE)
                 },
             )
             // Bangla
@@ -144,9 +133,7 @@ fun LanguageDropdown(languageDataStore: LanguageDataStore = koinInject()) {
                 },
                 onClick = {
                     expanded = false
-                    scope.launch {
-                        languageDataStore.setLanguage(Language.BENGALI)
-                    }
+                    template.common.util.LanguageManager.setLanguage(Language.BENGALI)
                 },
             )
         }
