@@ -1,18 +1,17 @@
 package template.common.util
 
 import kotlinx.browser.window
+import kotlinx.browser.localStorage
 
 actual object PlatformUtils {
     actual fun changeLanguage(code: String) {
-        // For Web, changing the locale of the running app is tricky.
-        // One way is to reload the page with a language parameter, 
-        // or if using a library that supports it, update the state.
-        // For now, let's at least log it.
-        println("Changing language to: $code")
+        val targetCode = if (code.isEmpty()) "en" else code
+        val savedLang = localStorage.getItem("app_lang")
         
-        // We can try to set the lang attribute
-        kotlinx.browser.document.documentElement?.setAttribute("lang", code)
-        
-        // Some libraries might pick up window.navigator.language, but we can't change that.
+        if (savedLang != targetCode) {
+            localStorage.setItem("app_lang", targetCode)
+            println("PlatformUtils Web: Language changed to $targetCode. Reloading page...")
+            window.location.reload()
+        }
     }
 }

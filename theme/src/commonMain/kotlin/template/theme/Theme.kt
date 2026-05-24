@@ -109,7 +109,7 @@ fun TemplateTheme(
 
     MaterialTheme(
         colorScheme = colors,
-        typography = Typography,
+        typography = getTypography(),
         shapes = Shapes,
         content = content,
     )

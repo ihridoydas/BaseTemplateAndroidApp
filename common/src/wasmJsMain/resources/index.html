@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+        // Apply saved language before Compose starts to avoid resource loading issues
+        (function() {
+            var savedLang = localStorage.getItem("app_lang");
+            if (savedLang) {
+                document.documentElement.setAttribute("lang", savedLang);
+            }
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Base Template</title>
@@ -17,6 +26,7 @@
         #ComposeTarget {
             width: 100%;
             height: 100%;
+            font-family: 'Noto Sans JP', 'Noto Sans Bengali', sans-serif;
         }
     </style>
 </head>

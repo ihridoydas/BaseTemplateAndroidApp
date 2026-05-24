@@ -25,25 +25,39 @@
 package template.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.resources.Font
+import template.theme.generated.resources.Res
+import template.theme.generated.resources.noto_sans_jp
+import template.theme.generated.resources.noto_sans_bengali
+
+@Composable
+fun getAppFontFamily() = FontFamily(
+    Font(Res.font.noto_sans_jp, FontWeight.Normal),
+    Font(Res.font.noto_sans_bengali, FontWeight.Normal)
+)
 
 // Set of Material typography styles to start with
-val Typography =
-    Typography(
-        bodyMedium =
-            TextStyle(
-                fontFamily = FontFamily.SansSerif,
-                fontWeight = FontWeight.Normal,
-                fontSize = 16.sp,
-            ),
-        bodyLarge =
-            TextStyle(
-                fontFamily = FontFamily.SansSerif,
-                fontWeight = FontWeight.Normal,
-                fontSize = 18.sp,
-            ),
-        // Add other styles if needed, all using SansSerif to pick up browser/system fonts
-    )
+@Composable
+fun getTypography() = Typography(
+    bodyMedium = TextStyle(
+        fontFamily = getAppFontFamily(),
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+    ),
+    bodyLarge = TextStyle(
+        fontFamily = getAppFontFamily(),
+        fontWeight = FontWeight.Normal,
+        fontSize = 18.sp,
+    ),
+    labelSmall = TextStyle(
+        fontFamily = getAppFontFamily(),
+        fontWeight = FontWeight.Medium,
+        fontSize = 11.sp,
+    ),
+)
+

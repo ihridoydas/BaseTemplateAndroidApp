@@ -3,7 +3,11 @@ package template.common
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import org.koin.compose.KoinContext
 import org.koin.compose.koinInject
 import template.common.ui.MainAnimationNavHost
@@ -12,7 +16,6 @@ import template.storage.local.theme.ThemeLocalDataStore
 import template.storage.local.theme.ThemeMode
 import template.theme.TemplateTheme
 import template.theme.splashScreen.SplashViewModel
-import androidx.compose.runtime.key
 
 @Composable
 fun App(
@@ -48,12 +51,14 @@ fun App(
                     template.storage.local.language.Language.JAPANESE -> "ja"
                     template.storage.local.language.Language.BENGALI -> "bn"
                 }
+                println("App: Language changed to $lang, code: '$code'")
                 onLanguageChange(code)
             }
         }
 
-        languageState?.let { language ->
-            key(language) {
+        val lang = languageState
+        if (lang != null) {
+            key(lang) {
                 TemplateTheme(useDarkTheme = isDarkTheme) {
                     Surface(color = MaterialTheme.colorScheme.background) {
                         MainAnimationNavHost()
