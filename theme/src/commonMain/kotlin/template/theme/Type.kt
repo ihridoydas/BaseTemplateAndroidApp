@@ -35,8 +35,15 @@ val Typography =
     Typography(
         bodyMedium =
             TextStyle(
-                fontFamily = FontFamily.Default,
+                fontFamily = FontFamily.SansSerif,
                 fontWeight = FontWeight.Normal,
                 fontSize = 16.sp,
             ),
+        bodyLarge =
+            TextStyle(
+                fontFamily = FontFamily.SansSerif,
+                fontWeight = FontWeight.Normal,
+                fontSize = 18.sp,
+            ),
+        // Add other styles if needed, all using SansSerif to pick up browser/system fonts
     )
