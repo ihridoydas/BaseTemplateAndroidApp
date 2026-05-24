@@ -2,90 +2,50 @@ import com.android.build.api.dsl.ApplicationExtension
 import java.util.Properties
 
 plugins {
-    id(libs.plugins.android.application.get().pluginId)
-    id(libs.plugins.ksp.get().pluginId)
-    id(libs.plugins.kotlinter.get().pluginId)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlinter)
     alias(libs.plugins.paparazzi) apply false
-    alias(libs.plugins.hilt) apply false
-    id(libs.plugins.sortDependencies.get().pluginId)
-    id(libs.plugins.dokka.get().pluginId)
-    id(libs.plugins.protobuf.get().pluginId)
+    alias(libs.plugins.sortDependencies)
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.protobuf)
+    alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
 }
 
-extensions.configure<ApplicationExtension>("android") {
+android {
+    namespace = "template"
+    compileSdk = libs.versions.compileSdk.get().toInt()
+
     defaultConfig {
         applicationId = "template.app.id"
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.compileSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
-    /*
-    //Set in your local.properties file for signing Configs
-    //Path Location your keystore
-    STORE_FILE = /Users/~/app/jks/template.keystore
-    KEY_ALIAS = app_alias
-    STORE_PASSWORD = template
-    KEY_PASSWORD = template
-    */
-    /*signingConfigs {
-        create("develop") {
-            val keystoreProperties = Properties().apply {
-                val propFile = rootProject.file("local.properties")
-                if (propFile.exists()) {
-                    load(propFile.reader())
-                }
-            }
-            keyAlias = keystoreProperties.getProperty("KEY_ALIAS")
-            keyPassword = keystoreProperties.getProperty("KEY_PASSWORD")
-            storeFile = keystoreProperties.getProperty("STORE_FILE")?.let { file(it) }
-            storePassword = keystoreProperties.getProperty("STORE_PASSWORD")
-        }
-        create("staging") {
-            val keystoreProperties = Properties().apply {
-                val propFile = rootProject.file("local.properties")
-                if (propFile.exists()) {
-                    load(propFile.reader())
-                }
-            }
-            keyAlias = keystoreProperties.getProperty("KEY_ALIAS")
-            keyPassword = keystoreProperties.getProperty("KEY_PASSWORD")
-            storeFile = keystoreProperties.getProperty("STORE_FILE")?.let { file(it) }
-            storePassword = keystoreProperties.getProperty("STORE_PASSWORD")
-        }
-        create("production") {
-            val keystoreProperties = Properties().apply {
-                val propFile = rootProject.file("local.properties")
-                if (propFile.exists()) {
-                    load(propFile.reader())
-                }
-            }
-            keyAlias = keystoreProperties.getProperty("KEY_ALIAS")
-            keyPassword = keystoreProperties.getProperty("KEY_PASSWORD")
-            storeFile = keystoreProperties.getProperty("STORE_FILE")?.let { file(it) }
-            storePassword = keystoreProperties.getProperty("STORE_PASSWORD")
-        }
-    }*/
-
-    // Specifies one flavor dimension.
     flavorDimensions += "version"
     productFlavors {
         create("develop") {
             dimension = "version"
             applicationIdSuffix = ".develop"
             versionNameSuffix = "-develop"
-           // signingConfig = signingConfigs.getByName("develop")
         }
         create("staging") {
             dimension = "version"
             applicationIdSuffix = ".staging"
             versionNameSuffix = "-staging"
-           // signingConfig = signingConfigs.getByName("staging")
         }
         create("production") {
             dimension = "version"
-            //signingConfig = signingConfigs.getByName("production")
         }
     }
 
@@ -104,8 +64,26 @@ extensions.configure<ApplicationExtension>("android") {
         }
     }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
     buildFeatures {
         buildConfig = true
+        compose = true
+    }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+
+    sourceSets {
+        getByName("main") {
+            java.setSrcDirs(listOf("src/main/java", "src/main/kotlin"))
+        }
     }
 }
 
@@ -141,14 +119,17 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.foundation.android)
-    implementation(libs.androidx.hilt.compose.navigation)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
-    implementation(libs.androidx.material3.android)
-    // Navigation 3
-    implementation(libs.androidx.navigation3.runtime)
-    implementation(libs.androidx.navigation3.ui)
+    
+    // Use Compose Multiplatform dependencies
+    implementation(compose.runtime)
+    implementation(compose.foundation)
+    implementation(compose.material3)
+    implementation(compose.ui)
+    implementation(compose.components.resources)
+
+    // Koin
+    implementation(libs.koin.android)
+    implementation(libs.koin.compose)
     // Network and Local
     implementation(libs.androidx.room.runtime)
     implementation(libs.bundles.androidx.xr)
@@ -156,14 +137,7 @@ dependencies {
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)
     // Storage
-    implementation(libs.datastore)
-    implementation(libs.hilt.android)
-    implementation(libs.ktor.client.core)
-    implementation(libs.protobuf.javaLite)
-    implementation(libs.protobuf.kotlinLite)
-    implementation(libs.square.moshi.kotlin)
-    implementation(libs.square.retrofit)
-    implementation(libs.square.retrofit.converter.moshi)
+    implementation(libs.datastore.android)
     implementation(libs.timber)
     //Module
     implementation(projects.common)
@@ -171,28 +145,19 @@ dependencies {
     implementation(projects.storage)
     implementation(projects.theme)
 
-    debugImplementation(libs.androidx.ui.test.junit4)
-    // Test
-    debugImplementation(libs.compose.ui.test.manifest)
-    debugImplementation(libs.compose.ui.tooling)
+    debugImplementation(compose.uiTooling)
     // Others
     debugImplementation(libs.square.leakcanary)
 
     annotationProcessor(libs.androidx.room.compiler)
-    // Hilt
-    annotationProcessor(libs.hilt.compiler)
 
     testImplementation(libs.androidx.test.espresso.core)
     testImplementation(libs.androidx.test.junit)
     testImplementation(libs.androidx.ui.test.junit4)
     testImplementation(libs.compose.ui.test.junit)
-    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.junit)
 
     ksp(libs.androidx.room.compiler)
-    ksp(libs.square.moshi.kotlin.codegen)
-
-    kspAndroidTest(libs.hilt.android.compiler)
 }
 
 protobuf {

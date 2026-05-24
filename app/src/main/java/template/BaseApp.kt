@@ -25,7 +25,18 @@
 package template
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import template.common.di.initKoin
+import template.storage.local.dataStoreContext
 
-@HiltAndroidApp
-class BaseApp : Application()
+class BaseApp : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        dataStoreContext = this
+        initKoin {
+            androidLogger()
+            androidContext(this@BaseApp)
+        }
+    }
+}
