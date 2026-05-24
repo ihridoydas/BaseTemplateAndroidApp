@@ -124,7 +124,7 @@ fun LanguageDropdown() {
             DropdownMenuItem(
                 text = {
                     Row {
-                        Text("বাংলা")
+                        Text(if(currentLanguage == Language.BENGALI) "বাংলা" else "Bangla")
                         if (currentLanguage == Language.BENGALI) {
                             Spacer(Modifier.width(5.dp))
                             Text("✓")

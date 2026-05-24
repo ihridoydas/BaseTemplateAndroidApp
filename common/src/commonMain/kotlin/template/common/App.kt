@@ -49,7 +49,7 @@ fun App(
         key(languageCode) {
             KoinContext {
                 val themeLocalDataStore: ThemeLocalDataStore = koinInject()
-                val themeMode by themeLocalDataStore.themeMode.collectAsState(initial = ThemeMode.SYSTEM)
+                val themeMode by themeLocalDataStore.themeMode.collectAsState(initial = ThemeMode.LIGHT)
                 val isDarkTheme = when (themeMode) {
                     ThemeMode.DARK -> true
                     ThemeMode.LIGHT -> false

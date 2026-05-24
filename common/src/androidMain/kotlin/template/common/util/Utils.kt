@@ -41,6 +41,7 @@ object Utils {
             Language.ENGLISH -> "en"
             Language.JAPANESE -> "ja"
             Language.BENGALI -> "bn"
+            else -> "en"
         }
 
         AppCompatDelegate.setApplicationLocales(
