@@ -33,6 +33,8 @@ kotlin {
                 implementation(compose.components.uiToolingPreview)
                 
                 implementation(libs.kotlin.coroutines)
+                api(libs.androidx.lifecycle.viewmodel)
+                api(libs.androidx.lifecycle.runtimeCompose)
             }
         }
         val androidMain by getting {

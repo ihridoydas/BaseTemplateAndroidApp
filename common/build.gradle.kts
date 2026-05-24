@@ -48,10 +48,11 @@ kotlin {
                 implementation(libs.kotlin.coroutines)
                 
                 implementation(libs.koin.core)
+                implementation(libs.koin.viewmodel)
                 implementation(libs.koin.compose)
                 implementation(libs.koin.compose.viewmodel)
-                implementation(libs.androidx.lifecycle.viewmodel)
-                implementation(libs.androidx.lifecycle.runtimeCompose)
+                api(libs.androidx.lifecycle.viewmodel)
+                api(libs.androidx.lifecycle.runtimeCompose)
 
                 api(libs.jetbrains.navigation3)
 
