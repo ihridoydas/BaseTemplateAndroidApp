@@ -4,10 +4,15 @@ import platform.Foundation.NSUserDefaults
 
 actual object PlatformUtils {
     actual fun changeLanguage(code: String) {
-        println("PlatformUtils iOS: changeLanguage to $code")
         val defaults = NSUserDefaults.standardUserDefaults
-        val languages = if (code.isEmpty()) null else listOf(code)
-        defaults.setObject(languages, "AppleLanguages")
+        if (code.isEmpty()) {
+            defaults.removeObjectForKey("AppleLanguages")
+            defaults.removeObjectForKey("AppleLocale")
+        } else {
+            defaults.setObject(listOf(code), "AppleLanguages")
+            defaults.setObject(code, "AppleLocale")
+        }
+        // Force immediate persistence for debug environments
         defaults.synchronize()
     }
 }

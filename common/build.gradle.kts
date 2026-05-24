@@ -25,7 +25,6 @@ kotlin {
             isStatic = true
         }
     }
-    // @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
     @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
     wasmJs {
         browser()
@@ -87,12 +86,6 @@ kotlin {
                 implementation(libs.ktor.client.darwin)
             }
         }
-    }
-
-    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
-        binaries.executable()
     }
 }
 

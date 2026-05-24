@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">template</string>
+    <string name="hello_developer"> Hello Developer!\n%1$s</string>
+    <string name="nice_to_meet_you">Nice to meet you.!</string>
+    <string name="welcome">Welcome</string>
+    <string name="email">email</string>
+    <string name="error_email_empty">Email cannot be empty</string>
+</resources>

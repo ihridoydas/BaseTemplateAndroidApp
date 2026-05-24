@@ -46,7 +46,6 @@ import org.jetbrains.compose.resources.stringResource
 import template.common.generated.resources.Res
 import template.common.generated.resources.app_name
 import template.common.generated.resources.hello_developer
-import template.storage.local.language.LanguageDataStore
 import template.storage.local.theme.ThemeLocalDataStore
 import template.storage.local.theme.ThemeMode
 import template.navigation.Navigator
@@ -59,7 +58,6 @@ import org.koin.compose.koinInject
 @Composable
 fun HomeScreen(
     navigator: Navigator,
-    languageDataStore: LanguageDataStore = koinInject(),
     themeDataStore: ThemeLocalDataStore = koinInject(),
 ) {
     val themeMode by themeDataStore.themeMode
@@ -74,7 +72,7 @@ fun HomeScreen(
                 .align(Alignment.TopStart)
                 .padding(16.dp),
         ) {
-            LanguageDropdown(languageDataStore)
+            LanguageDropdown()
         }
 
         // 🔹 Top Right - Theme Toggle

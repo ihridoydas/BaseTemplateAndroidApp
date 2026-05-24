@@ -54,9 +54,8 @@ import org.koin.compose.koinInject
 @Composable
 fun LanguageDropdown(languageDataStore: LanguageDataStore = koinInject()) {
     val scope = rememberCoroutineScope()
-    val currentLanguage by languageDataStore
-        .getLanguage
-        .collectAsState(initial = null)
+    val currentLanguage by languageDataStore.getLanguage
+        .collectAsState(initial = Language.SYSTEM)
 
     var expanded by remember { mutableStateOf(false) }
 
@@ -78,6 +77,24 @@ fun LanguageDropdown(languageDataStore: LanguageDataStore = koinInject()) {
             expanded = expanded,
             onDismissRequest = { expanded = false },
         ) {
+            // System Default
+            DropdownMenuItem(
+                text = {
+                    Row {
+                        Text("System Default")
+                        if (currentLanguage == Language.SYSTEM) {
+                            Spacer(Modifier.width(5.dp))
+                            Text("✓")
+                        }
+                    }
+                },
+                onClick = {
+                    expanded = false
+                    scope.launch {
+                        languageDataStore.setLanguage(Language.SYSTEM)
+                    }
+                },
+            )
             // English
             DropdownMenuItem(
                 text = {
@@ -90,10 +107,10 @@ fun LanguageDropdown(languageDataStore: LanguageDataStore = koinInject()) {
                     }
                 },
                 onClick = {
+                    expanded = false
                     scope.launch {
                         languageDataStore.setLanguage(Language.ENGLISH)
                     }
-                    expanded = false
                 },
             )
             // Japanese
@@ -108,10 +125,10 @@ fun LanguageDropdown(languageDataStore: LanguageDataStore = koinInject()) {
                     }
                 },
                 onClick = {
+                    expanded = false
                     scope.launch {
                         languageDataStore.setLanguage(Language.JAPANESE)
                     }
-                    expanded = false
                 },
             )
             // Bangla
@@ -126,10 +143,10 @@ fun LanguageDropdown(languageDataStore: LanguageDataStore = koinInject()) {
                     }
                 },
                 onClick = {
+                    expanded = false
                     scope.launch {
                         languageDataStore.setLanguage(Language.BENGALI)
                     }
-                    expanded = false
                 },
             )
         }

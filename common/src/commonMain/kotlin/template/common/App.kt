@@ -3,62 +3,56 @@ package template.common
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
+import androidx.compose.runtime.*
 import org.koin.compose.KoinContext
 import org.koin.compose.koinInject
 import template.common.ui.MainAnimationNavHost
+import template.storage.local.language.Language
 import template.storage.local.language.LanguageDataStore
 import template.storage.local.theme.ThemeLocalDataStore
 import template.storage.local.theme.ThemeMode
 import template.theme.TemplateTheme
-import template.theme.splashScreen.SplashViewModel
 
 @Composable
 fun App(
-    onLanguageChange: suspend (String) -> Unit = {}
+    onLanguageChange: (String) -> Unit = {},
 ) {
     KoinContext {
-        val splashViewModel: SplashViewModel = koinInject()
-
-        LaunchedEffect(splashViewModel) {
-            // You can add logic here if needed for splash exit
-        }
-
         val themeLocalDataStore: ThemeLocalDataStore = koinInject()
         val languageDataStore: LanguageDataStore = koinInject()
 
-        val themeMode by themeLocalDataStore.themeMode
-            .collectAsState(initial = ThemeMode.SYSTEM)
-
-        val languageState by languageDataStore.getLanguage
-            .collectAsState(initial = null)
-
+        // Theme management
+        val themeMode by themeLocalDataStore.themeMode.collectAsState(initial = ThemeMode.SYSTEM)
         val isDarkTheme = when (themeMode) {
             ThemeMode.DARK -> true
             ThemeMode.LIGHT -> false
-            ThemeMode.SYSTEM -> isSystemInDarkTheme()
+            else -> isSystemInDarkTheme()
         }
 
-        LaunchedEffect(languageState) {
-            languageState?.let { lang ->
-                val code = when (lang) {
-                    template.storage.local.language.Language.SYSTEM -> ""
-                    template.storage.local.language.Language.ENGLISH -> "en"
-                    template.storage.local.language.Language.JAPANESE -> "ja"
-                    template.storage.local.language.Language.BENGALI -> "bn"
-                }
-                println("App: Language changed to $lang, code: '$code'")
-                onLanguageChange(code)
-            }
+        // Language management
+        val languageState by languageDataStore.getLanguage.collectAsState(initial = null)
+
+        // Ensure we wait for the first DataStore emission
+        if (languageState == null) return@KoinContext
+
+        val languageCode = when (languageState) {
+            Language.ENGLISH -> "en"
+            Language.JAPANESE -> "ja"
+            Language.BENGALI -> "bn"
+            Language.SYSTEM -> ""
+            else -> ""
         }
 
-        val lang = languageState
-        if (lang != null) {
-            key(lang) {
+        println("App: State is $languageState, Applying code '$languageCode'")
+
+        // Side effect for platform persistence
+        LaunchedEffect(languageCode) {
+            onLanguageChange(languageCode)
+        }
+
+        // 🔹 Key ensures total UI reload on language change
+        key(languageCode) {
+            template.common.util.ProvideAppLocale(languageCode) {
                 TemplateTheme(useDarkTheme = isDarkTheme) {
                     Surface(color = MaterialTheme.colorScheme.background) {
                         MainAnimationNavHost()
