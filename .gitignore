@@ -1,10 +1,46 @@
+# Gradle
+.gradle/
+build/
+.kotlin/
+
+# IntelliJ IDEA / Android Studio
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+*.iws
+*.ipr
+out/
+
+# Android
 local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+
+# Kotlin Multiplatform / Native
+.konan/
+kotlin-js-store/
+node_modules/
+
+# iOS (Xcode)
+iosApp/build/
+iosApp/DerivedData/
+iosApp/*.xcworkspace/
+!iosApp/iosApp.xcworkspace/contents.xcworkspacedata
+iosApp/*.xcodeproj/project.xcworkspace/
+iosApp/*.xcodeproj/xcuserdata/
+iosApp/.appcode_info
+iosApp/.xcworkspace/
+iosApp/Podfile.lock
+iosApp/Pods/
+
+# macOS
+.DS_Store
+
+# Log files
+*.log
