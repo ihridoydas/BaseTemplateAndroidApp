@@ -27,9 +27,12 @@ package template.common.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -67,27 +70,25 @@ fun HomeScreen(
     val scope = rememberCoroutineScope()
 
     Box(modifier = Modifier.fillMaxSize()) {
-        // 🔹 Top Left - Language Dropdown
-        Box(
+        // 🔹 Top Bar Area (Language & Theme)
+        Row(
             modifier = Modifier
-                .align(Alignment.TopStart)
+                .fillMaxWidth()
+                .statusBarsPadding()
                 .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             LanguageDropdown()
+            ThemeToggleButton(
+                themeMode = themeMode,
+                onToggle = { newMode ->
+                    scope.launch {
+                        themeDataStore.setThemeMode(newMode)
+                    }
+                },
+            )
         }
-
-        // 🔹 Top Right - Theme Toggle
-        ThemeToggleButton(
-            themeMode = themeMode,
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(16.dp),
-            onToggle = { newMode ->
-                scope.launch {
-                    themeDataStore.setThemeMode(newMode)
-                }
-            },
-        )
 
         // 🔹 Center Content
         Column(

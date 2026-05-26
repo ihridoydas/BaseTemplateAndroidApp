@@ -27,8 +27,12 @@ package template.common.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
@@ -47,31 +51,18 @@ import org.jetbrains.compose.resources.stringResource
 import template.common.generated.resources.Res
 import template.common.generated.resources.nice_to_meet_you
 import template.common.generated.resources.welcome
+import template.common.components.AppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ViewScreen(onBackPress: () -> Unit) {
     Scaffold(
+        modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(Res.string.welcome),
-                        modifier = Modifier,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = MaterialTheme.typography.titleSmall,
-                    )
-                },
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            onBackPress()
-                        },
-                        modifier = Modifier,
-                    ) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                },
+            AppBar(
+                title = stringResource(Res.string.welcome),
+                navIcon = Icons.AutoMirrored.Filled.ArrowBack,
+                onNav = onBackPress
             )
         },
         content = {
