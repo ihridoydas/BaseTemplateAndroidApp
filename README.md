@@ -43,7 +43,8 @@ Explore third-party dependencies and documentation in [/documentation](/document
 - [LeakCanary](https://square.github.io/leakcanary/) for detecting memory leaks.
 - [Hilt](https://developer.android.com/training/dependency-injection/hilt-android) and [Room](https://developer.android.com/training/data-storage/room) dependencies (removable via setup.gradle).
 - [Paparazzi](https://github.com/cashapp/paparazzi) dependency (removable via setup.gradle).
-- [Dokka](https://github.com/Kotlin/dokka) dependency, which document all project and module.
+- [Dokka](/documentation/StaticAnalysis.md) dependency, which document all project and module.
+- [Essential KMP Tasks](/documentation/EssentialTasks.md) for multiplatform development.
 - [Spotless](https://github.com/diffplug/spotless) dependency, which is Keep your code spotless.
 - [sortDependencies](https://github.com/square/gradle-dependencies-sorter) dependency, which is Sorts dependencies in build.gradle files.
 

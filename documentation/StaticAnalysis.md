@@ -8,34 +8,29 @@ This project leverages static analysis to ensure that the codebase meets certain
 
 To run a detekt validation, use the one of the following Gradle commands:
 
-```
+```bash
 ./gradlew detekt # Runs over each module synchronously
-./gradlew detektAll # Runs over each module in parallel.
+./gradlew detektAll # Runs over the entire project in parallel (Recommended).
 ```
 
 ## Ktlint
 
-[Ktlint](https://github.com/pinterest/ktlint) is a static analysis tool from Pinterest that prevents bike shedding when it comes to code formatting. It also comes with a Gradle task to automatically format your entire codebase, if it can. The benefit of a tool like this is to ensure everyone on the team will have code formatted the same way, and there's no debating around white spaces, indentation, imports, etc. 
+[Ktlint](https://github.com/pinterest/ktlint) is a static analysis tool from Pinterest that prevents bike shedding when it comes to code formatting. It also comes with a Gradle task to automatically format your entire codebase, if it can.
 
 We use the [Kotlinter](https://github.com/jeremymailen/kotlinter-gradle) Ktlint Gradle plugin in this project.
 
 The following Gradle commands can be helpful:
 
+```bash
+./gradlew formatKotlin # Will format the codebase
+./gradlew lintKotlin # Will check if everything is formatted correctly
 ```
-// Will format the codebase
-./gradlew formatKotlin
 
-// Will check if everything is formatted correctly
-./gradlew lintKotlin
+## Other Quality Tasks
 
-// Will check if everything is formatted correctly and run detekt
-./gradlew sortDependencies
-
-//check spotless
-./gradlew spotlessApply
-./gradlew spotlessCheck
-
-// check everything
-./gradlew check
-
+```bash
+./gradlew sortDependencies # Sorts dependencies in build.gradle files
+./gradlew spotlessApply # Applies spotless formatting
+./gradlew spotlessCheck # Checks spotless formatting
+./gradlew check # Runs all static analysis and tests
 ```
