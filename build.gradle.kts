@@ -24,7 +24,7 @@ plugins {
 }
 
 apply(from = "buildscripts/githooks.gradle")
-// apply(from = "buildscripts/setup.gradle") // Disabling this as it's imperative and likely cause of warnings
+apply(from = "buildscripts/setup.gradle")
 apply(from = "buildscripts/versionsplugin.gradle")
 
 subprojects {

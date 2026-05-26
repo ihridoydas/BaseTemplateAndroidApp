@@ -1,18 +1,26 @@
 import java.util.regex.Pattern
 
+/**
+ * ----------------------------------------------------------------------------
+ * KMP TEMPLATE SETUP CONFIGURATION
+ * ----------------------------------------------------------------------------
+ * Update these values to customize your project.
+ * Then run: ./gradlew renameTemplate
+ */
 def renameConfig = [
         templateName             : "template",
         templateAppId            : "template.app.id",
         templateMaterialThemeName: "TemplateTheme",
 
         newTemplateName          : "Project",
-        newTemplateAppId         : "domain.yourname.app",
-        newMaterialThemeName     : "MyMaterialTheme",
+        newTemplateAppId         : "com.example.project",
+        newMaterialThemeName     : "ProjectTheme",
 
-        useHiltDependencies      : true,
-        useRoomDependencies      : true,
-        useRetrofitDependencies  : true,
-        usePaparazziDependencies : true,
+        // Toggle dependencies (Experimental KMP-aware removal)
+        useKoin                  : true,
+        useKtor                  : true,
+        useRoomKmp               : true,
+        useComposeMultiplatform  : true,
         useAndroidXR             : false,
 ]
 
@@ -21,40 +29,22 @@ def renameConfig = [
  * AUTO FIX: PROJECT PATH CHANGE CLEAN
  * --------------------------------------------
  */
-
 def projectRootMarker = file("${rootDir}/.projectRootPath")
 
 tasks.register("checkProjectPathChange") {
     group = "Template Setup"
-
     doLast {
-
         def currentPath = rootDir.absolutePath
-
         if (projectRootMarker.exists()) {
-
             def oldPath = projectRootMarker.text.trim()
-
             if (oldPath != currentPath) {
-
-                println "⚠️ Project folder moved!"
-                println "🧹 Performing deep clean..."
-
-                exec {
-                    commandLine "./gradlew", "--stop"
-                }
-
-                delete("${rootDir}/.gradle")
-                delete("${rootDir}/build")
-
-                rootProject.subprojects.each { sub ->
-                    delete("${sub.projectDir}/build")
-                }
-
+                println "⚠️ Project folder moved! Performing deep clean..."
+                exec { commandLine "./gradlew", "--stop" }
+                delete("${rootDir}/.gradle", "${rootDir}/build")
+                rootProject.subprojects.each { delete("${it.projectDir}/build") }
                 println "✅ Deep clean completed"
             }
         }
-
         projectRootMarker.text = currentPath
     }
 }
@@ -64,7 +54,6 @@ tasks.register("checkProjectPathChange") {
  * UTILITIES
  * --------------------------------------------
  */
-
 static def replaceTextInFile(fileName, originalText, newText) {
     def file = new File(fileName)
     if (file.exists()) {
@@ -75,7 +64,6 @@ static def replaceTextInFile(fileName, originalText, newText) {
 static def removeTextFromFile(fileName, text) {
     def file = new File(fileName)
     if (!file.exists()) return
-
     def lines = file.readLines()
     file.text = ""
     lines.each { line ->
@@ -89,48 +77,40 @@ def modules = project.subprojects.collect { it.name }
 
 /**
  * --------------------------------------------
- * RENAME PACKAGE (ALL SOURCESETS)
+ * RENAME PACKAGE (KMP AWARE)
  * --------------------------------------------
  */
-
 modules.each { module ->
-
     tasks.register("renameAppPackage${module}") {
-
         doLast {
-
             def templateName = renameConfig.templateName
             def newAppId = renameConfig.newTemplateAppId
             def newDir = newAppId.replace(".", "/")
 
-            ["main", "androidTest", "test"].each { sourceSet ->
+            // KMP SourceSets
+            def sourceSets = [
+                    "commonMain", "androidMain", "iosMain", "jvmMain", "wasmJsMain",
+                    "commonTest", "androidTest", "iosTest", "jvmTest", "wasmJsTest",
+                    "main", "test" // legacy/android-only
+            ]
 
-                ["java", "kotlin"].each { lang ->
-
+            sourceSets.each { sourceSet ->
+                ["kotlin", "java"].each { lang ->
                     def oldDir = file("${rootDir}/${module}/src/${sourceSet}/${lang}/${templateName}")
-
                     if (oldDir.exists()) {
-
                         println("📦 Renaming ${module} ${sourceSet}/${lang}")
-
                         def newDirFile = file("${rootDir}/${module}/src/${sourceSet}/${lang}/${newDir}")
-
                         copy {
                             from(oldDir)
                             into(newDirFile)
                             include("**/*.kt", "**/*.java")
-
                             filter { line ->
-                                line
-                                        .replace("package ${templateName}", "package ${newAppId}")
-                                        .replace("import ${templateName}", "import ${newAppId}")
-                                        .replace(renameConfig.templateMaterialThemeName, renameConfig.newMaterialThemeName)
+                                line.replace("package ${templateName}", "package ${newAppId}")
+                                    .replace("import ${templateName}", "import ${newAppId}")
+                                    .replace(renameConfig.templateMaterialThemeName, renameConfig.newMaterialThemeName)
                             }
                         }
-
-                        // DELETE OLD DIRECTORY COMPLETELY
                         oldDir.deleteDir()
-                        println("🗑 Deleted old directory: ${oldDir}")
                     }
                 }
             }
@@ -143,216 +123,88 @@ modules.each { module ->
  * REPLACE REFERENCES
  * --------------------------------------------
  */
-
 tasks.register('replaceTemplateReferences') {
     group "Template Setup"
-
     doLast {
-
         modules.each { module ->
+            // Manifests
+            def manifest = file("${rootDir}/${module}/src/androidMain/AndroidManifest.xml")
+            if (!manifest.exists()) manifest = file("${rootDir}/${module}/src/main/AndroidManifest.xml")
+            if (manifest.exists()) {
+                replaceTextInFile(manifest.absolutePath, "${renameConfig.templateName}.MainActivity", "${renameConfig.newTemplateAppId}.MainActivity")
+                replaceTextInFile(manifest.absolutePath, "package=\"${renameConfig.templateName}\"", "package=\"${renameConfig.newTemplateAppId}\"")
+            }
 
-            // --- FIX MANIFEST ---
-            replaceTextInFile(
-                    "${rootDir}/${module}/src/main/AndroidManifest.xml",
-                    "${renameConfig.templateName}.MainActivity",
-                    "${renameConfig.newTemplateAppId}.MainActivity"
-            )
-
-            // --- FIX MODULE build.gradle.kts (REGEX SAFE) ---
+            // build.gradle.kts
             def moduleGradle = new File("${rootDir}/${module}/build.gradle.kts")
             if (moduleGradle.exists()) {
-
                 def text = moduleGradle.text
-
-                // namespace = "template"
-                text = text.replaceAll(
-                        /namespace\s*=\s*"${renameConfig.templateName}"/,
-                        "namespace = \"${renameConfig.newTemplateAppId}\""
-                )
-
-                // namespace = "template.${project.name}"
-                text = text.replaceAll(
-                        /namespace\s*=\s*"${renameConfig.templateName}\.\$\{project\.name\}"/,
-                        "namespace = \"${renameConfig.newTemplateAppId}.\${project.name}\""
-                )
-
-                // applicationId
-                text = text.replaceAll(
-                        /applicationId\s*=\s*"${renameConfig.templateAppId}"/,
-                        "applicationId = \"${renameConfig.newTemplateAppId}\""
-                )
-
+                text = text.replaceAll(/namespace\s*=\s*"${renameConfig.templateName}"/, "namespace = \"${renameConfig.newTemplateAppId}\"")
+                text = text.replaceAll(/namespace\s*=\s*"${renameConfig.templateName}\.[^"]+"/, "namespace = \"${renameConfig.newTemplateAppId}.\${project.name}\"")
+                text = text.replaceAll(/applicationId\s*=\s*"${renameConfig.templateAppId}"/, "applicationId = \"${renameConfig.newTemplateAppId}\"")
+                text = text.replaceAll(/baseName\s*=\s*"${renameConfig.templateName}"/, "baseName = \"${renameConfig.newTemplateName.toLowerCase()}\"")
                 moduleGradle.text = text
             }
-
-            // --- FIX STRINGS ---
-            replaceTextInFile(
-                    "${rootDir}/${module}/src/main/res/values/strings.xml",
-                    "<string name=\"app_name\">${renameConfig.templateName}</string>",
-                    "<string name=\"app_name\">${renameConfig.newTemplateName}</string>"
-            )
-
-            // --- FIX PROTO FILES ---
-            def protoDir = file("${rootDir}/${module}/src/main/proto")
-
-            if (protoDir.exists()) {
-                protoDir.eachFileRecurse { file ->
-                    if (file.name.endsWith(".proto")) {
-
-                        def protoText = file.text
-
-                        protoText = protoText.replaceAll(
-                                /option\s+java_package\s*=\s*"[^"]+"/,
-                                'option java_package = "' + renameConfig.newTemplateAppId + '.datastore"'
-                        )
-
-                        file.text = protoText
-
-                        println("🔁 Updated java_package in ${file.name}")
-                    }
-                }
-            }
         }
 
-        // --- FIX ROOT build.gradle.kts ---
+        // Project settings
+        replaceTextInFile("${rootDir}/settings.gradle.kts", "rootProject.name = \"${renameConfig.templateName}\"", "rootProject.name = \"${renameConfig.newTemplateName}\"")
+        
+        // Root build.gradle.kts
         def rootGradle = new File("${rootDir}/build.gradle.kts")
         if (rootGradle.exists()) {
-
-            def rootText = rootGradle.text
-
-            // 🔥 PASTE HERE
-            rootText = rootText.replaceAll(
-                    /namespace\s*=\s*"${renameConfig.templateName}\.[^"]+"/,
-                    "namespace = \"${renameConfig.newTemplateAppId}.\\\${project.name}\""
-            )
-
-            rootText = rootText.replaceAll(
-                    /namespace\s*=\s*"${renameConfig.templateName}"/,
-                    "namespace = \"${renameConfig.newTemplateAppId}\""
-            )
-
-            rootGradle.text = rootText
+            rootGradle.text = rootGradle.text.replaceAll(/namespace\s*=\s*"${renameConfig.templateName}"/, "namespace = \"${renameConfig.newTemplateAppId}\"")
         }
-
-        // --- FIX PROJECT NAME ---
-        replaceTextInFile(
-                "${rootDir}/settings.gradle.kts",
-                "rootProject.name = \"${renameConfig.templateName}\"",
-                "rootProject.name = \"${renameConfig.newTemplateName}\""
-        )
     }
 }
 
 /**
  * --------------------------------------------
- * KEEP / REMOVE DEPENDENCIES
+ * CLEANUP DEPENDENCIES
  * --------------------------------------------
  */
-
 tasks.register('keepOrRemoveDependencies') {
     group "Template Setup"
-
     doLast {
+        def filesToClean = []
+        filesToClean << "${rootDir}/build.gradle.kts"
+        filesToClean << "${rootDir}/gradle/libs.versions.toml"
+        modules.each { filesToClean << "${rootDir}/${it}/build.gradle.kts" }
 
-        modules.each { module ->
-
-            def files = [
-                    "${rootDir}/build.gradle.kts",
-                    "${rootDir}/${module}/build.gradle.kts",
-                    "${rootDir}/gradle/libs.versions.toml"
-            ]
-
-            files.each { fileName ->
-
-                if (!renameConfig.useHiltDependencies) {
-                    removeTextFromFile(fileName, "hilt")
-                }
-
-                if (!renameConfig.useRoomDependencies) {
-                    removeTextFromFile(fileName, "room")
-                }
-
-                if (!renameConfig.useRetrofitDependencies) {
-                    removeTextFromFile(fileName, "retrofit")
-                    removeTextFromFile(fileName, "moshi")
-                }
-
-                if (!renameConfig.usePaparazziDependencies) {
-                    removeTextFromFile(fileName, "paparazzi")
-                }
-
-                if (!renameConfig.useAndroidXR) {
-                    removeTextFromFile(fileName, "xr")
-                }
+        filesToClean.each { fileName ->
+            if (!renameConfig.useKoin) removeTextFromFile(fileName, "koin")
+            if (!renameConfig.useKtor) removeTextFromFile(fileName, "ktor")
+            if (!renameConfig.useRoomKmp) removeTextFromFile(fileName, "room")
+            if (!renameConfig.useComposeMultiplatform) {
+                removeTextFromFile(fileName, "compose.multiplatform")
+                removeTextFromFile(fileName, "compose.compiler")
             }
+            if (!renameConfig.useAndroidXR) removeTextFromFile(fileName, "xr")
         }
     }
 }
 
 /**
  * --------------------------------------------
- * FORCE CLEAN
+ * MAIN ENTRY POINT
  * --------------------------------------------
  */
-
-tasks.register("forceFullClean") {
-    group = "Template Setup"
-
-    doLast {
-
-        println("🧹 Cleaning all build artifacts...")
-
-        delete("${rootDir}/.gradle")
-        delete("${rootDir}/build")
-
-        rootProject.subprojects.each { sub ->
-            delete("${sub.projectDir}/build")
-        }
-
-        println("✅ Full clean completed")
-    }
-}
-
-/**
- * --------------------------------------------
- * DELETE SETUP SCRIPT
- * --------------------------------------------
- */
-
-tasks.register('deleteSetupCode') {
-
-    doLast {
-
-        removeTextFromFile("${rootDir}/build.gradle.kts", "setup.gradle")
-
-        delete("${rootDir}/buildscripts/setup.gradle")
-        delete("${rootDir}/renovate.json")
-        delete("${rootDir}/.github/workflows/template_change_test.yml")
-        delete("${rootDir}/.github/workflows/install_git_hooks_macos.yml")
-        delete("${rootDir}/.github/workflows/install_git_hooks_windows.yml")
-    }
-}
-
-/**
- * --------------------------------------------
- * MAIN EXECUTION
- * --------------------------------------------
- */
-
 tasks.register('renameTemplate') {
     group "Template Setup"
-
     dependsOn(
             checkProjectPathChange,
             modules.collect { tasks.named("renameAppPackage${it}") },
             keepOrRemoveDependencies,
             replaceTemplateReferences,
-            forceFullClean,
-            deleteSetupCode
+            tasks.register("cleanupSetup") {
+                doLast {
+                    removeTextFromFile("${rootDir}/build.gradle.kts", "setup.gradle")
+                    delete("${rootDir}/buildscripts/setup.gradle")
+                }
+            }
     )
-
     doLast {
-        println("✅ Template successfully converted to ${renameConfig.newTemplateAppId}")
-        println("🚀 Close Android Studio, reopen project, then run: ./gradlew clean build")
+        println("✅ KMP Template successfully converted to ${renameConfig.newTemplateAppId}")
+        println("🚀 Next steps: Re-sync Gradle and run ./gradlew clean build")
     }
 }
