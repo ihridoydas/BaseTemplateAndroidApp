@@ -31,7 +31,7 @@ val storageModule = module {
 }
 
 val viewModelModule = module {
-    factoryOf(::SplashViewModel)
+    singleOf(::SplashViewModel)
 }
 
 val appModule = module {

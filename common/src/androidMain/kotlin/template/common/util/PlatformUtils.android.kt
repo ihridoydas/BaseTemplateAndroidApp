@@ -15,4 +15,11 @@ actual object PlatformUtils {
             java.util.Locale.setDefault(locale)
         }
     }
+
+    actual fun changeTheme(isDark: Boolean) {
+        val mode = if (isDark) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        if (AppCompatDelegate.getDefaultNightMode() != mode) {
+            AppCompatDelegate.setDefaultNightMode(mode)
+        }
+    }
 }

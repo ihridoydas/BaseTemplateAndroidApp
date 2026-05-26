@@ -15,4 +15,8 @@ actual object PlatformUtils {
         // Force immediate persistence for debug environments
         defaults.synchronize()
     }
+
+    actual fun changeTheme(isDark: Boolean) {
+        // No-op or implementation if needed for iOS
+    }
 }

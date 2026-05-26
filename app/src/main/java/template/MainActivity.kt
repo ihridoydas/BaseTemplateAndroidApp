@@ -61,9 +61,14 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         setContent {
-            App(onLanguageChange = { code ->
-                PlatformUtils.changeLanguage(code)
-            })
+            App(
+                onLanguageChange = { code ->
+                    PlatformUtils.changeLanguage(code)
+                },
+                onThemeChange = { isDark ->
+                    PlatformUtils.changeTheme(isDark)
+                }
+            )
         }
     }
 }

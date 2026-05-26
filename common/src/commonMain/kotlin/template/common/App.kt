@@ -1,9 +1,11 @@
 package template.common
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import org.koin.compose.KoinContext
 import org.koin.compose.koinInject
 import template.common.ui.MainAnimationNavHost
@@ -16,52 +18,57 @@ import template.theme.TemplateTheme
 @Composable
 fun App(
     onLanguageChange: (String) -> Unit = {},
+    onThemeChange: (Boolean) -> Unit = {},
 ) {
-    val languageDataStore: LanguageDataStore = koinInject()
-    
-    // 1. Initialize LanguageManager
-    SideEffect {
-        template.common.util.LanguageManager.init(languageDataStore)
-    }
-
-    // 2. Observe the centralized state
-    val languageState by template.common.util.LanguageManager.currentLanguage.collectAsState()
-
-    // 3. Wait for the state to transition away from UNKNOWN before rendering
-    if (languageState == Language.UNKNOWN) {
-        println("App: Waiting for LanguageManager initialization...")
-        return
-    }
-
-    val languageCode = remember(languageState) {
-        when (languageState) {
-            Language.ENGLISH -> "en"
-            Language.JAPANESE -> "ja"
-            Language.BENGALI -> "bn"
-            Language.SYSTEM -> ""
-            else -> "" // Fallback for UNKNOWN (though we check above)
+    KoinContext {
+        val languageDataStore: LanguageDataStore = koinInject()
+        val themeLocalDataStore: ThemeLocalDataStore = koinInject()
+        
+        // 1. Initialize LanguageManager
+        SideEffect {
+            template.common.util.LanguageManager.init(languageDataStore)
         }
-    }
 
-    println("App: Render languageState=$languageState -> code='$languageCode'")
+        // 2. Observe the centralized states
+        val languageState by template.common.util.LanguageManager.currentLanguage.collectAsState()
+        val themeMode by themeLocalDataStore.themeMode.collectAsState(initial = ThemeMode.SYSTEM)
 
-    template.common.util.ProvideAppLocale(languageCode) {
-        key(languageCode) {
-            KoinContext {
-                val themeLocalDataStore: ThemeLocalDataStore = koinInject()
-                val themeMode by themeLocalDataStore.themeMode.collectAsState(initial = ThemeMode.LIGHT)
-                val isDarkTheme = when (themeMode) {
-                    ThemeMode.DARK -> true
-                    ThemeMode.LIGHT -> false
-                    else -> isSystemInDarkTheme()
-                }
+        // 3. Wait for the state to transition away from UNKNOWN before rendering
+        if (languageState == Language.UNKNOWN) {
+            return@KoinContext
+        }
 
-                LaunchedEffect(languageCode) {
-                    onLanguageChange(languageCode)
-                }
+        val languageCode = remember(languageState) {
+            when (languageState) {
+                Language.ENGLISH -> "en"
+                Language.JAPANESE -> "ja"
+                Language.BENGALI -> "bn"
+                Language.SYSTEM -> ""
+                else -> ""
+            }
+        }
 
-                TemplateTheme(useDarkTheme = isDarkTheme) {
-                    Surface(color = MaterialTheme.colorScheme.background) {
+        val isDarkTheme = when (themeMode) {
+            ThemeMode.DARK -> true
+            ThemeMode.LIGHT -> false
+            else -> isSystemInDarkTheme()
+        }
+
+        LaunchedEffect(languageCode) {
+            onLanguageChange(languageCode)
+        }
+
+        LaunchedEffect(isDarkTheme) {
+            onThemeChange(isDarkTheme)
+        }
+
+        template.common.util.ProvideAppLocale(languageCode, isDarkTheme) {
+            TemplateTheme(useDarkTheme = isDarkTheme) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    key(languageCode) {
                         MainAnimationNavHost()
                     }
                 }
