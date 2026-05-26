@@ -26,8 +26,13 @@ fun main() {
 
     ComposeViewport(viewportContainerId = "ComposeTarget") {
         println("Web App: Rendering App...")
-        App(onLanguageChange = { code ->
-            PlatformUtils.changeLanguage(code)
-        })
+        App(
+            onLanguageChange = { code ->
+                PlatformUtils.changeLanguage(code)
+            },
+            onThemeChange = { isDark ->
+                PlatformUtils.changeTheme(isDark)
+            }
+        )
     }
 }

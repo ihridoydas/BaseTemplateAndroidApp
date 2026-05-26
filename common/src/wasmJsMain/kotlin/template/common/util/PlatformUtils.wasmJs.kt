@@ -8,4 +8,8 @@ actual object PlatformUtils {
         document.documentElement?.setAttribute("lang", lang)
         println("PlatformUtils Web: Language set to '$lang'")
     }
+
+    actual fun changeTheme(isDark: Boolean) {
+        println("PlatformUtils Web: changeTheme to isDark=$isDark")
+    }
 }

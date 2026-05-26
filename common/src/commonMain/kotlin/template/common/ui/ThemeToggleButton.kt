@@ -24,6 +24,7 @@
 */
 package template.common.ui
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.LightMode
@@ -39,29 +40,22 @@ fun ThemeToggleButton(
     onToggle: (ThemeMode) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val isDark = when (themeMode) {
+        ThemeMode.DARK -> true
+        ThemeMode.LIGHT -> false
+        ThemeMode.SYSTEM -> isSystemInDarkTheme()
+    }
+
     IconButton(
         modifier = modifier,
         onClick = {
-            val newMode = when (themeMode) {
-                ThemeMode.LIGHT -> {
-                    ThemeMode.DARK
-                }
-
-                ThemeMode.DARK -> {
-                    ThemeMode.LIGHT
-                }
-
-                ThemeMode.SYSTEM -> {
-                    ThemeMode.DARK
-                }
-            }
-
+            val newMode = if (isDark) ThemeMode.LIGHT else ThemeMode.DARK
             onToggle(newMode)
         },
     ) {
         Icon(
             imageVector =
-                if (themeMode == ThemeMode.DARK) {
+                if (isDark) {
                     Icons.Default.DarkMode
                 } else {
                     Icons.Default.LightMode

@@ -16,9 +16,14 @@ fun main() {
     application {
         Window(onCloseRequest = ::exitApplication, title = "Base Template") {
             println("Rendering App...")
-            App(onLanguageChange = { code ->
-                template.common.util.PlatformUtils.changeLanguage(code)
-            })
+            App(
+                onLanguageChange = { code ->
+                    template.common.util.PlatformUtils.changeLanguage(code)
+                },
+                onThemeChange = { isDark ->
+                    template.common.util.PlatformUtils.changeTheme(isDark)
+                }
+            )
         }
     }
 }

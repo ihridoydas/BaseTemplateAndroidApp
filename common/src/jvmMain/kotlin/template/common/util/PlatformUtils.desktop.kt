@@ -6,4 +6,8 @@ actual object PlatformUtils {
         val locale = if (code.isEmpty()) java.util.Locale.getDefault() else java.util.Locale.forLanguageTag(code)
         java.util.Locale.setDefault(locale)
     }
+
+    actual fun changeTheme(isDark: Boolean) {
+        println("PlatformUtils Desktop: changeTheme to isDark=$isDark")
+    }
 }
