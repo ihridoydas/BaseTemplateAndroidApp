@@ -1,8 +1,8 @@
-# Base Template KMP App
+# KmpTemplate
 
-Kickstart your **Kotlin Multiplatform (KMP)** development with this GitHub template repository. Designed by [Hridoy Chandra Das](https://github.com/ihridoydas), it provides a robust starting point for Android, iOS, Desktop, and Web (Wasm) applications.
+Kickstart your **Kotlin Multiplatform (KMP)** development with this KmpTemplate. Designed by [Hridoy Chandra Das](https://github.com/ihridoydas), it provides a robust starting point for Android, iOS, Desktop, and Web (Wasm) applications.
 
-## Why This Template?
+## Why KmpTemplate?
 
 - **Multiplatform by Default:** Shared logic and UI (Compose Multiplatform) for Android, iOS, Desktop, and Web.
 - **Opinionated Tooling:** Configured dependency management, git hooks, code formatting, and static analysis for enhanced development.
@@ -31,9 +31,9 @@ Kickstart your **Kotlin Multiplatform (KMP)** development with this GitHub templ
     ```
 4. **Restart Android Studio**, re-sync Gradle, and you are ready to build!
 
-- Japanese [Readme here](https://github.com/ihridoydas/BaseTemplateAndroidApp/blob/develop/README_jp.md) 🇯🇵.
-- Bangla [Readme here](https://github.com/ihridoydas/BaseTemplateAndroidApp/blob/develop/README_bd.md) 🇧🇩.
-- Hindi [Readme here](https://github.com/ihridoydas/BaseTemplateAndroidApp/blob/develop/README_in.md) 🇮🇳.
+- Japanese [Readme here](README_jp.md) 🇯🇵.
+- Bangla [Readme here](README_bd.md) 🇧🇩.
+- Hindi [Readme here](README_in.md) 🇮🇳.
 
 ## What's Included
 

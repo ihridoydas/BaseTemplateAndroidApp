@@ -2,7 +2,7 @@ import java.util.regex.Pattern
 
 /**
  * ----------------------------------------------------------------------------
- * KMP TEMPLATE SETUP CONFIGURATION
+ * KmpTemplate SETUP CONFIGURATION
  * ----------------------------------------------------------------------------
  * Update these values to customize your project.
  * Then run: ./gradlew renameTemplate
@@ -12,9 +12,9 @@ def renameConfig = [
         templateAppId            : "template.app.id",
         templateMaterialThemeName: "TemplateTheme",
 
-        newTemplateName          : "Project",
-        newTemplateAppId         : "com.example.project",
-        newMaterialThemeName     : "ProjectTheme",
+        newTemplateName          : "MyAwesomeApp",
+        newTemplateAppId         : "com.example.app",
+        newMaterialThemeName     : "AppTheme",
 
         // Toggle dependencies (Experimental KMP-aware removal)
         useKoin                  : true,
@@ -143,17 +143,41 @@ tasks.register('replaceTemplateReferences') {
                 text = text.replaceAll(/namespace\s*=\s*"${renameConfig.templateName}\.[^"]+"/, "namespace = \"${renameConfig.newTemplateAppId}.\${project.name}\"")
                 text = text.replaceAll(/applicationId\s*=\s*"${renameConfig.templateAppId}"/, "applicationId = \"${renameConfig.newTemplateAppId}\"")
                 text = text.replaceAll(/baseName\s*=\s*"${renameConfig.templateName}"/, "baseName = \"${renameConfig.newTemplateName.toLowerCase()}\"")
+                text = text.replaceAll(/packageOfResClass\s*=\s*"${renameConfig.templateName}/, "packageOfResClass = \"${renameConfig.newTemplateAppId}")
                 moduleGradle.text = text
             }
         }
 
         // Project settings
-        replaceTextInFile("${rootDir}/settings.gradle.kts", "rootProject.name = \"${renameConfig.templateName}\"", "rootProject.name = \"${renameConfig.newTemplateName}\"")
+        replaceTextInFile("${rootDir}/settings.gradle.kts", "rootProject.name = \"KmpTemplate\"", "rootProject.name = \"${renameConfig.newTemplateName}\"")
         
         // Root build.gradle.kts
         def rootGradle = new File("${rootDir}/build.gradle.kts")
         if (rootGradle.exists()) {
             rootGradle.text = rootGradle.text.replaceAll(/namespace\s*=\s*"${renameConfig.templateName}"/, "namespace = \"${renameConfig.newTemplateAppId}\"")
+        }
+
+        // Extra UI and Resources
+        replaceTextInFile("${rootDir}/app/src/main/res/values/strings.xml", ">KmpTemplate<", ">${renameConfig.newTemplateName}<")
+        replaceTextInFile("${rootDir}/common/src/wasmJsMain/resources/index.html", "<title>KmpTemplate</title>", "<title>${renameConfig.newTemplateName}</title>")
+        replaceTextInFile("${rootDir}/common/src/jvmMain/kotlin/main.kt", "title = \"KmpTemplate\"", "title = \"${renameConfig.newTemplateName}\"")
+
+        // iOS Bundle Identifiers
+        def pbxproj = file("${rootDir}/iosApp/iosApp.xcodeproj/project.pbxproj")
+        if (pbxproj.exists()) {
+             replaceTextInFile(pbxproj.absolutePath, "BUNDLE_IDENTIFIER = ${renameConfig.templateName}.iosApp", "BUNDLE_IDENTIFIER = ${renameConfig.newTemplateAppId}.iosApp")
+             replaceTextInFile(pbxproj.absolutePath, "PRODUCT_BUNDLE_IDENTIFIER = ${renameConfig.templateName}.iosApp", "PRODUCT_BUNDLE_IDENTIFIER = ${renameConfig.newTemplateAppId}.iosApp")
+        }
+
+        // Documentation/READMEs
+        def readmes = ["README.md", "README_jp.md", "README_bd.md", "README_in.md"]
+        readmes.each { readme ->
+            replaceTextInFile("${rootDir}/${readme}", "# KmpTemplate", "# ${renameConfig.newTemplateName}")
+            replaceTextInFile("${rootDir}/${readme}", "## Why KmpTemplate?", "## Why ${renameConfig.newTemplateName}?")
+            // Translation specific headers
+            replaceTextInFile("${rootDir}/${readme}", "## なぜ KmpTemplate？", "## なぜ ${renameConfig.newTemplateName}？")
+            replaceTextInFile("${rootDir}/${readme}", "## কেন KmpTemplate?", "## কেন ${renameConfig.newTemplateName}?")
+            replaceTextInFile("${rootDir}/${readme}", "## KmpTemplate क्यों?", "## ${renameConfig.newTemplateName} क्यों?")
         }
     }
 }
@@ -204,7 +228,7 @@ tasks.register('renameTemplate') {
             }
     )
     doLast {
-        println("✅ KMP Template successfully converted to ${renameConfig.newTemplateAppId}")
+        println("✅ KmpTemplate successfully converted to ${renameConfig.newTemplateAppId}")
         println("🚀 Next steps: Re-sync Gradle and run ./gradlew clean build")
     }
 }

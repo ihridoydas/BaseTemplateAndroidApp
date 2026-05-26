@@ -14,7 +14,7 @@ fun main() {
         e.printStackTrace()
     }
     application {
-        Window(onCloseRequest = ::exitApplication, title = "Base Template") {
+        Window(onCloseRequest = ::exitApplication, title = "KmpTemplate") {
             println("Rendering App...")
             App(
                 onLanguageChange = { code ->

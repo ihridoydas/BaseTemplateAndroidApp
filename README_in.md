@@ -1,8 +1,8 @@
-# बेस टेम्पलेट KMP एप्लिकेशन
+# KmpTemplate
 
-अपने **Kotlin Multiplatform (KMP)** विकास की शुरुआत इस GitHub टेम्पलेट रिपॉजिटरी के साथ करें। [हृदय चंद्र दास](https://github.com/ihridoydas) द्वारा डिज़ाइन किया गया, यह Android, iOS, Desktop और Web (Wasm) अनुप्रयोगों के लिए एक मजबूत आधार प्रदान करता है।
+अपने **Kotlin Multiplatform (KMP)** विकास की शुरुआत इस GitHub रिपॉजिटरी के साथ करें। [हृदय चंद्र दास](https://github.com/ihridoydas) द्वारा डिज़ाइन किया गया, यह Android, iOS, Desktop और Web (Wasm) अनुप्रयोगों के लिए एक मजबूत आधार प्रदान करता है।
 
-## यह टेम्पलेट क्यों?
+## KmpTemplate क्यों?
 
 - **डिफ़ॉल्ट रूप से मल्टीप्लेटफ़ॉर्म:** Android, iOS, Desktop और Web के लिए साझा लॉजिक और UI (Compose Multiplatform)।
 - **स्मार्ट सेटअप:** अपने प्रोजेक्ट का नाम, पैकेज आईडी बदलने और आवश्यक KMP लाइब्रेरीज़ को कुछ ही सेकंड में टॉगल करने के लिए एक कस्टम स्क्रिप्ट।
