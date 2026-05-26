@@ -1,55 +1,50 @@
-# बेस टेम्पलेट Android एप्लिकेशन
+# बेस टेम्पलेट KMP एप्लिकेशन
 
-इस GitHub टेम्पलेट रिपॉजिटरी के साथ अपनी Android एप्लिकेशन विकास की शुरुआत करें। [हृदय चंद्र दास](https://github.com/ihridoydas) द्वारा डिज़ाइन किया गया है, यह कोड लेखन के राय-निर्देश ना देते हुए महत्वपूर्ण टूल्स प्रदान करता है।
+अपने **Kotlin Multiplatform (KMP)** विकास की शुरुआत इस GitHub टेम्पलेट रिपॉजिटरी के साथ करें। [हृदय चंद्र दास](https://github.com/ihridoydas) द्वारा डिज़ाइन किया गया, यह Android, iOS, Desktop और Web (Wasm) अनुप्रयोगों के लिए एक मजबूत आधार प्रदान करता है।
 
-## इस टेम्पलेट का कारण?
+## यह टेम्पलेट क्यों?
 
-- **चयन की स्वतंत्रता:** कोड संरचना या आर्किटेक्चर पर कोई राय नहीं है। डेवेलपर्स खुद चुनते हैं।
-- **राय निर्देशित टूलिंग:** कॉन्फ़िगर किए गए डिपेंडेंसी प्रबंधन, git हुक्स, कोड स्वरूपिता, और स्थायी विश्लेषण के लिए।
-
-[AndroidAppTemplate](https://github.com/AdamMc331/AndroidAppTemplate) से प्रेरित।
+- **डिफ़ॉल्ट रूप से मल्टीप्लेटफ़ॉर्म:** Android, iOS, Desktop और Web के लिए साझा लॉजिक और UI (Compose Multiplatform)।
+- **स्मार्ट सेटअप:** अपने प्रोजेक्ट का नाम, पैकेज आईडी बदलने और आवश्यक KMP लाइब्रेरीज़ को कुछ ही सेकंड में टॉगल करने के लिए एक कस्टम स्क्रिप्ट।
 
 ## शुरुआत कैसे करें
 
-1. अपने खाते में एक रिपॉजिटरी बनाने के लिए "इस टेम्पलेट का उपयोग करें" पर क्लिक करें।
-    ```dsl
-    templateName             : "template",
-    templateAppId            : "template.app.id",
-    templateMaterialThemeName: "TemplateTheme",
-    newTemplateName          : "Project", [यहां अपना प्रोजेक्ट नाम दर्ज करें]
-    newTemplateAppId         : "domain.yourname.app", [यहां अपना प्रोजेक्ट पैकेज नाम दर्ज करें]
-    newMaterialThemeName     : "MyMaterialTheme", [यहां अपने प्रोजेक्ट थीम नाम दर्ज करें]
-    useHiltDependencies      : true,
-    useRoomDependencies      : true,
-    useRetrofitDependencies  : true,
-    usePaparazziDependencies : true,
+1. अपने खाते में एक रिपॉजिटरी बनाने के लिए **"Use this template"** पर क्लिक करें।
+2. `buildscripts/setup.gradle` खोलें और अपने प्रोजेक्ट का विवरण कॉन्फ़िगर करें:
+    ```groovy
+    def renameConfig = [
+        newTemplateName          : "MyAwesomeApp",    // आपका प्रोजेक्ट नाम
+        newTemplateAppId         : "com.example.app", // आपकी पैकेज आईडी
+        newMaterialThemeName     : "AppTheme",        // आपका मटेरियल थीम नाम
+
+        // KMP लाइब्रेरीज़ टॉगल करें
+        useKoin                  : true,
+        useKtor                  : true,
+        useRoomKmp               : true,
+        useComposeMultiplatform  : true,
+    ]
     ```
-2. [setup.gradle](buildscripts/setup.gradle) को समायोजित करके और `./gradlew renameTemplate` चलाकर कस्टमाइज़ करें।
+3. अपने टर्मिनल में सेटअप कमांड चलाएँ:
+    ```bash
+    ./gradlew renameTemplate
+    ```
+4. **Android Studio को पुनरारंभ करें**, Gradle को सिंक करें, और आप बिल्ड के लिए तैयार हैं!
 
 ## क्या शामिल है
 
-[/documentation](/documentation) में तीसरी पक्ष की डिपेंडेंसीज़ और दस्तावेज़ का अन्वेषण करें। कुछ महत्वपूर्ण शामिल हैं:
+साझा लॉजिक, कंपोनेंट्स और दस्तावेज़ों का अन्वेषण करें:
 
-- [केटलिंट](/documentation/StaticAnalysis.md) के लिए कोड स्वरूपिता।
-- [डिटेक्ट](/documentation/StaticAnalysis.md) के लिए कोड स्मेल्स।
-- [गिट हुक्स](/documentation/GitHooks.md) स्थायी विश्लेषण की जाँच के लिए।
-- [GitHub Actions](/documentation/GitHubActions.md) लगातार समृद्धि के लिए।
-- [लीक कैनरी](https://square.github.io/leakcanary/) मेमोरी लीक की पहचान के लिए।
-- [हिल्ट](https://developer.android.com/training/dependency-injection/hilt-android) और [रूम](https://developer.android.com/training/data-storage/room) डिपेंडेंसीज़ (setup.gradle के माध्यम से हटा जा सकता है)।
-- [पापाराज़ी](https://github.com/cashapp/paparazzi) डिपेंडेंसी (setup.gradle के माध्यम से हटा जा सकता है)।
-- [Dokka](/documentation/StaticAnalysis.md) डिपेंडेंसी, जो सभी प्रोजेक्ट और मॉड्यूल को डॉक्यूमेंट करता है।
-- [Essential KMP Tasks](/documentation/EssentialTasks.md) मल्टी-प्लेटफ़ॉर्म विकास के लिए आवश्यक कार्य।
-- [Spotless](https://github.com/diffplug/spotless) डिपेंडेंसी, जो आपके कोड को स्पॉटलेस रखता है।
-- [sortDependencies](https://github.com/square/gradle-dependencies-sorter) डिपेंडेंसी, जो build.gradle फ़ाइल में डिपेंडेंसिज़ को साज़ा करता है।
+- [Essential KMP Tasks](/documentation/EssentialTasks.md) - प्लेटफॉर्म-विशिष्ट कमांड के लिए **यहाँ से शुरू करें**।
+- [Ktlint](/documentation/StaticAnalysis.md) कोड स्वरूपण के लिए।
+- [Detekt](/documentation/StaticAnalysis.md) कोड स्मेल्स के लिए।
+- [Git Hooks](/documentation/GitHooks.md) प्री-कमिट चेक के लिए।
+- [GitHub Actions](/documentation/GitHubActions.md) CI/CD के लिए।
+- [Dokka](/documentation/StaticAnalysis.md) API दस्तावेज़ीकरण के लिए।
 
-## डिपेंडेंसी सेटअप
+## प्रोजेक्ट संरचना
 
-डिपेंडेंसीज़ [/buildscripts](/buildscripts) में संरचित हैं। ऐप मॉड्यूल डिपेंडेंसीज़ को [libs.versions.toml](gradle/libs.versions.toml) में एक Gradle संस्करण सूची का उपयोग करके परिभाषित किया गया है।
-
-## डेंजर चेक्स
-
-PR जाँच के लिए [डेंजर](https://danger.systems) का उपयोग करता है। [Dangerfile](Dangerfile) देखें। GitHub Actions के लिए GitHub सीक्रेट्स में Danger API कुंजी सेट करें।
-
-## टेम्पलेट्स
-
-व्यवस्थित PR विवरण के लिए [पुल रिक्वेस्ट टेम्पलेट](/.github/pull_request_template.md) शामिल है।
+- `:app`: Android-विशिष्ट एप्लिकेशन मॉड्यूल।
+- `:common`: आपके प्रोजेक्ट का हृदय। साझा UI (Compose) और व्यावसायिक लॉजिक शामिल है।
+- `:navigation`: साझा नेविगेशन कॉन्फ़िगरेशन।
+- `:storage`: साझा स्थानीय डेटा हैंडलिंग (DataStore/Room)।
+- `:theme`: साझा Material 3 डिज़ाइन सिस्टम।

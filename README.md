@@ -1,32 +1,35 @@
-# Base Template Android App
+# Base Template KMP App
 
-Kickstart your Android app development with this GitHub template repository. Designed by [Hridoy Chandra Das](https://github.com/ihridoydas), it provides essential tools without imposing code-writing opinions.
+Kickstart your **Kotlin Multiplatform (KMP)** development with this GitHub template repository. Designed by [Hridoy Chandra Das](https://github.com/ihridoydas), it provides a robust starting point for Android, iOS, Desktop, and Web (Wasm) applications.
 
 ## Why This Template?
 
-- **Freedom to Choose:** No opinions on code structure or architecture. Developers decide on their own.
+- **Multiplatform by Default:** Shared logic and UI (Compose Multiplatform) for Android, iOS, Desktop, and Web.
 - **Opinionated Tooling:** Configured dependency management, git hooks, code formatting, and static analysis for enhanced development.
-
-Inspired by [AndroidAppTemplate](https://github.com/AdamMc331/AndroidAppTemplate).
+- **Smart Setup:** A custom script to rename your project, package IDs, and toggle essential KMP libraries in seconds.
 
 ## Getting Started
 
-1. Click "Use this template" to create a repository under your account.
-    ```dsl
-   
-   templateName             : "template",
-   templateAppId            : "template.app.id",
-   templateMaterialThemeName: "TemplateTheme",
-   newTemplateName          : "Project", [Enter your project name here]
-   newTemplateAppId         : "domain.yourname.app", [Enter your project package name here]
-   newMaterialThemeName     : "MyMaterialTheme", [Enter your project theme name here]
-   useHiltDependencies      : true,
-   useRoomDependencies      : true,
-   useRetrofitDependencies  : true,
-   usePaparazziDependencies : true,
-   
-   ```
-2. Customize by adjusting [setup.gradle](buildscripts/setup.gradle) and running `./gradlew renameTemplate`.
+1. Click **"Use this template"** to create a repository under your account.
+2. Open `buildscripts/setup.gradle` and configure your project details:
+    ```groovy
+    def renameConfig = [
+        newTemplateName          : "MyAwesomeApp",    // Your project name
+        newTemplateAppId         : "com.example.app", // Your package ID
+        newMaterialThemeName     : "AppTheme",        // Your Material Theme name
+
+        // Toggle KMP libraries
+        useKoin                  : true,
+        useKtor                  : true,
+        useRoomKmp               : true,
+        useComposeMultiplatform  : true,
+    ]
+    ```
+3. Run the setup command in your terminal:
+    ```bash
+    ./gradlew renameTemplate
+    ```
+4. **Restart Android Studio**, re-sync Gradle, and you are ready to build!
 
 - Japanese [Readme here](https://github.com/ihridoydas/BaseTemplateAndroidApp/blob/develop/README_jp.md) 🇯🇵.
 - Bangla [Readme here](https://github.com/ihridoydas/BaseTemplateAndroidApp/blob/develop/README_bd.md) 🇧🇩.
@@ -34,30 +37,27 @@ Inspired by [AndroidAppTemplate](https://github.com/AdamMc331/AndroidAppTemplate
 
 ## What's Included
 
-Explore third-party dependencies and documentation in [/documentation](/documentation). Notable inclusions:
+Explore shared logic, components, and documentation:
 
+- [Essential KMP Tasks](/documentation/EssentialTasks.md) - **Start here** for platform-specific commands.
 - [Ktlint](/documentation/StaticAnalysis.md) for code formatting.
 - [Detekt](/documentation/StaticAnalysis.md) for code smells.
-- [Git Hooks](/documentation/GitHooks.md) for static analysis checks.
-- [GitHub Actions](/documentation/GitHubActions.md) for continuous integration.
-- [LeakCanary](https://square.github.io/leakcanary/) for detecting memory leaks.
-- [Hilt](https://developer.android.com/training/dependency-injection/hilt-android) and [Room](https://developer.android.com/training/data-storage/room) dependencies (removable via setup.gradle).
-- [Paparazzi](https://github.com/cashapp/paparazzi) dependency (removable via setup.gradle).
-- [Dokka](/documentation/StaticAnalysis.md) dependency, which document all project and module.
-- [Essential KMP Tasks](/documentation/EssentialTasks.md) for multiplatform development.
-- [Spotless](https://github.com/diffplug/spotless) dependency, which is Keep your code spotless.
-- [sortDependencies](https://github.com/square/gradle-dependencies-sorter) dependency, which is Sorts dependencies in build.gradle files.
+- [Git Hooks](/documentation/GitHooks.md) for pre-commit checks.
+- [GitHub Actions](/documentation/GitHubActions.md) for CI/CD.
+- [Dokka](/documentation/StaticAnalysis.md) for API documentation.
+- [Spotless](https://github.com/diffplug/spotless) & [sortDependencies](https://github.com/square/gradle-dependencies-sorter).
 
-## Dependency Setup
+## Project Structure
 
-Dependencies are structured in [/buildscripts](/buildscripts). App module dependencies defined using a Gradle version catalog in [libs.versions.toml](gradle/libs.versions.toml).
+- `:app`: Android-specific application module.
+- `:common`: The heart of your project. Contains shared UI (Compose) and business logic.
+- `:navigation`: Shared navigation configuration.
+- `:storage`: Shared local data handling (DataStore/Room).
+- `:theme`: Shared Material 3 design system.
 
-## Danger Checks
+## CI/CD & Quality
 
-Uses [Danger](https://danger.systems) for PR checks. See [Dangerfile](Dangerfile). Set up a Danger API key in GitHub secrets for GitHub Actions.
-we have a GitHub Actions workflow for Danger checks. In order for that to work properly, you'll need to give Danger permission to comment on your repository.
-
-You can do so by navigating to Repository Settings -> Actions -> General, scroll down to Workflow Permissions and set the permissions to read and write.
+Uses [Danger](https://danger.systems) for PR checks. See [Dangerfile](Dangerfile). Ensure you set up a `DANGER_GITHUB_API_TOKEN` in GitHub Secrets.
 
 ## Templates
 

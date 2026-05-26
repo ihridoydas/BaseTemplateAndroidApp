@@ -1,55 +1,51 @@
-# ベーステンプレート Android アプリ
+# ベーステンプレート KMP アプリ
 
-このGitHubテンプレートリポジトリを使用して、Androidアプリの開発をスタートしましょう。[Hridoy Chandra Das](https://github.com/ihridoydas)によって設計され、コードの記述には意見を押し付けずに、必要なツールを提供します。
+このGitHubテンプレートリポジトリを使用して、**Kotlin Multiplatform (KMP)** 開発をスタートしましょう。[Hridoy Chandra Das](https://github.com/ihridoydas)によって設計され、Android、iOS、デスクトップ、およびWeb (Wasm) アプリケーションのための堅牢な出発点を提供します。
 
 ## なぜこのテンプレート？
 
-- **選択の自由:** コード構造やアーキテクチャに対する意見はありません。開発者が自分で決めます。
+- **デフォルトでマルチプラットフォーム:** Android、iOS、デスクトップ、およびWeb向けの共有ロジックとUI (Compose Multiplatform)。
 - **意見を述べるツール:** 設定済みの依存関係管理、gitフック、コードフォーマッティング、静的解析など、開発を向上させるためのツールが含まれています。
-
-[AndroidAppTemplate](https://github.com/AdamMc331/AndroidAppTemplate)からのインスピレーション。
+- **スマートセットアップ:** プロジェクト名、パッケージIDを変更し、主要なKMPライブラリを数秒で切り替えるためのカスタムスクリプト。
 
 ## スタートガイド
 
-1. "このテンプレートを使用"をクリックして、アカウントにリポジトリを作成します。
-    ```dsl
-    templateName             : "template",
-    templateAppId            : "template.app.id",
-    templateMaterialThemeName: "TemplateTheme",
-    newTemplateName          : "Project", [ここにプロジェクト名を入力]
-    newTemplateAppId         : "domain.yourname.app", [ここにプロジェクトのパッケージ名を入力]
-    newMaterialThemeName     : "MyMaterialTheme", [ここにプロジェクトのテーマ名を入力]
-    useHiltDependencies      : true,
-    useRoomDependencies      : true,
-    useRetrofitDependencies  : true,
-    usePaparazziDependencies : true,
+1. **"このテンプレートを使用"**をクリックして、アカウントにリポジトリを作成します。
+2. `buildscripts/setup.gradle` を開き、プロジェクトの詳細を設定します：
+    ```groovy
+    def renameConfig = [
+        newTemplateName          : "MyAwesomeApp",    // プロジェクト名
+        newTemplateAppId         : "com.example.app", // パッケージID
+        newMaterialThemeName     : "AppTheme",        // Material Theme名
+
+        // KMPライブラリの切り替え
+        useKoin                  : true,
+        useKtor                  : true,
+        useRoomKmp               : true,
+        useComposeMultiplatform  : true,
+    ]
     ```
-2. [setup.gradle](buildscripts/setup.gradle)を調整し、`./gradlew renameTemplate`を実行してカスタマイズします。
+3. ターミナルでセットアップコマンドを実行します：
+    ```bash
+    ./gradlew renameTemplate
+    ```
+4. **Android Studioを再起動**し、Gradleを再同期すれば、ビルドの準備は完了です！
 
 ## 含まれるもの
 
-[/documentation](/documentation)のサードパーティーの依存関係とドキュメンテーションを見てください。注目すべきものは以下です：
+共有ロジック、コンポーネント、およびドキュメントを確認してください：
 
-- コードフォーマット用の[Ktlint](/documentation/StaticAnalysis.md)。
-- コードスメル検出のための[Detekt](/documentation/StaticAnalysis.md)。
-- 静的解析チェックのための[Git Hooks](/documentation/GitHooks.md)。
-- 継続的な統合のための[GitHub Actions](/documentation/GitHubActions.md)。
-- メモリリークの検出のための[LeakCanary](https://square.github.io/leakcanary/)。
-- [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)および[Room](https://developer.android.com/training/data-storage/room)の依存関係（必要に応じてsetup.gradleで削除可能）。
-- [Paparazzi](https://github.com/cashapp/paparazzi)の依存関係（必要に応じてsetup.gradleで削除可能）。
-- [Dokka](/documentation/StaticAnalysis.md) 依存関係、すべてのプロジェクトとモジュールをドキュメント化します。
-- [Essential KMP Tasks](/documentation/EssentialTasks.md) KMP開発に不可欠なタスク。
-- [Spotless](https://github.com/diffplug/spotless) 依存関係、コードを清潔に保ちます。
-- [sortDependencies](https://github.com/square/gradle-dependencies-sorter) 依存関係、build.gradleファイル内の依存関係を整理します。
+- [Essential KMP Tasks](/documentation/EssentialTasks.md) - プラットフォーム固有のコマンドについては、**ここから始めてください**。
+- [Ktlint](/documentation/StaticAnalysis.md) コードフォーマット用。
+- [Detekt](/documentation/StaticAnalysis.md) コードスメル検出用。
+- [Git Hooks](/documentation/GitHooks.md) プリコミットチェック用。
+- [GitHub Actions](/documentation/GitHubActions.md) CI/CD用。
+- [Dokka](/documentation/StaticAnalysis.md) APIドキュメント用。
 
-## 依存関係の設定
+## プロジェクト構造
 
-依存関係は[/buildscripts](/buildscripts)に構造化されています。アプリモジュールの依存関係は、[libs.versions.toml](gradle/libs.versions.toml)にあるGradleバージョンカタログを使用して定義されています。
-
-## Danger チェック
-
-PRチェックに[Danger](https://danger.systems)を使用しています。[Dangerfile](Dangerfile)を確認してください。GitHub Actionsでシームレスに動作させるには、GitHubシークレットにDanger APIキーを設定してください。
-
-## テンプレート
-
-整理されたPRの説明のための[Pull Request Template](/.github/pull_request_template.md)を含みます。
+- `:app`: Android固有のアプリケーションモジュール。
+- `:common`: プロジェクトの心臓部。共有UI (Compose) とビジネスロジックが含まれます。
+- `:navigation`: 共有ナビゲーション設定。
+- `:storage`: 共有ローカルデータ処理 (DataStore/Room)。
+- `:theme`: 共有 Material 3 デザインシステム。
