@@ -29,6 +29,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
+import androidx.xr.runtime.Session
+import androidx.xr.runtime.SessionCreateSuccess
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.get
 import template.common.App
 import template.common.utils.RootUtil
@@ -57,6 +63,28 @@ class MainActivity : AppCompatActivity() {
 //        }
 
         Timber.tag(Tag).d("onCreate")
+
+        if (packageManager.hasSystemFeature("android.software.xr.immersive") ||
+            packageManager.hasSystemFeature("com.google.android.xr.heritage")
+        ) {
+            lifecycleScope.launch {
+                try {
+                    val result = withContext(Dispatchers.IO) {
+                        Session.create(this@MainActivity, coroutineContext, this@MainActivity)
+                    }
+                    if (result is SessionCreateSuccess) {
+                        val xrSession = result.session
+                        Timber.tag(Tag).d("XR Session created successfully")
+                    } else {
+                        Timber.tag(Tag).w("XR Session creation failed or not supported: %s", result)
+                    }
+                } catch (e: Exception) {
+                    Timber.tag(Tag).e(e, "Error during XR Session creation")
+                }
+            }
+        } else {
+            Timber.tag(Tag).d("XR not supported on this device")
+        }
 
         enableEdgeToEdge()
 

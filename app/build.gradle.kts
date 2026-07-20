@@ -133,6 +133,7 @@ dependencies {
     // Network and Local
     implementation(libs.androidx.room.runtime)
     implementation(libs.bundles.androidx.xr)
+    compileOnly(libs.androidx.xr.extensions)
     implementation(libs.compose.material.icons.extended)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)
