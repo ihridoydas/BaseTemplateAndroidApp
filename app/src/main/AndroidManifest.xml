@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature android:name="com.google.android.xr.heritage" android:required="false" />
 
     <application
         android:name=".BaseApp"
@@ -22,6 +23,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="com.google.android.xr.full_space_mode_compatible"
+                android:value="true" />
         </activity>
     </application>
 
