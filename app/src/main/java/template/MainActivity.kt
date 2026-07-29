@@ -109,7 +109,9 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         Timber.tag(Tag).w("XR Session creation failed or not supported: %s", result)
                     }
-                } catch (e: Exception) {
+                } catch (
+                    @Suppress("TooGenericExceptionCaught") e: Exception,
+                ) {
                     Timber.tag(Tag).e(e, "Error during XR Session creation")
                 }
             }
