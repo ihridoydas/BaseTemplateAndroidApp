@@ -133,6 +133,11 @@ androidComponents {
 }
 
 dependencies {
+    //Module
+    implementation(projects.common)
+    implementation(projects.navigation)
+    implementation(projects.storage)
+    implementation(projects.theme)
     // UI
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.android.material)
@@ -165,11 +170,6 @@ dependencies {
     implementation(libs.square.retrofit)
     implementation(libs.square.retrofit.converter.moshi)
     implementation(libs.timber)
-    //Module
-    implementation(projects.common)
-    implementation(projects.navigation)
-    implementation(projects.storage)
-    implementation(projects.theme)
 
     debugImplementation(libs.androidx.ui.test.junit4)
     // Test
@@ -177,6 +177,8 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
     // Others
     debugImplementation(libs.square.leakcanary)
+
+    compileOnly(libs.androidx.xr.extensions)
 
     annotationProcessor(libs.androidx.room.compiler)
     // Hilt

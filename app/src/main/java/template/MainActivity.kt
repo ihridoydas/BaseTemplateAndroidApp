@@ -36,7 +36,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -45,9 +44,15 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.lifecycleScope
+import androidx.xr.runtime.Session
+import androidx.xr.runtime.SessionCreateSuccess
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import template.common.DURATION
 import template.common.VALUES_X
 import template.common.VALUES_Y
@@ -88,6 +93,31 @@ class MainActivity : AppCompatActivity() {
         }
 
         Timber.tag(Tag).d("onCreate")
+
+        // XR Session Initialization Guard
+        if (packageManager.hasSystemFeature("android.software.xr.immersive") ||
+            packageManager.hasSystemFeature("com.google.android.xr.heritage")
+        ) {
+            lifecycleScope.launch {
+                try {
+                    val result = withContext(Dispatchers.IO) {
+                        Session.create(this@MainActivity, coroutineContext, this@MainActivity)
+                    }
+                    if (result is SessionCreateSuccess) {
+                        val xrSession = result.session
+                        Timber.tag(Tag).d("XR Session created successfully")
+                    } else {
+                        Timber.tag(Tag).w("XR Session creation failed or not supported: %s", result)
+                    }
+                } catch (
+                    @Suppress("TooGenericExceptionCaught") e: Exception,
+                ) {
+                    Timber.tag(Tag).e(e, "Error during XR Session creation")
+                }
+            }
+        } else {
+            Timber.tag(Tag).d("XR not supported on this device")
+        }
 
         installSplashScreen().apply {
             setKeepOnScreenCondition {
@@ -189,9 +219,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
 }
