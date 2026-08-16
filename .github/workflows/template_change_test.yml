@@ -17,7 +17,7 @@ jobs:
         useRetrofitDependencies: [true, false]
         usePaparazziDependencies: [true, false]
 
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - uses: actions/checkout@v6
 
